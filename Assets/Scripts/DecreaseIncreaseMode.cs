@@ -1,0 +1,1 @@
+﻿public enum DecreaseIncreaseMode { Increase = 1, Decrease = -1}

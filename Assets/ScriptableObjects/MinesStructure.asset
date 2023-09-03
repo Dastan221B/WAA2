@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c14cdb6211041c419a11ceccab74359, type: 3}
+  m_Name: MinesStructure
+  m_EditorClassIdentifier: 
+  _mineStructures:
+  - {fileID: 3841683969548205214, guid: b1c8f921dfb4a5448b6033f232caabcb, type: 3}
+  - {fileID: 5788346259060763882, guid: 4e5233e12a7583d47a497b0db1767dc9, type: 3}
+  - {fileID: 8300573167770739852, guid: b65ae2ab485cd444996ad89cf4113fd9, type: 3}
+  - {fileID: 6452593484237645170, guid: ec51c5d5584604443b3274cb0be16774, type: 3}
+  - {fileID: 8032405776796368131, guid: 603b4dd3c6cbe7649b91fb99c5edc253, type: 3}
+  - {fileID: 5746777912106774231, guid: 399ffbdff5c82124996efce5748dd7c6, type: 3}
+  - {fileID: 5176889054512702663, guid: abb118431b2dc3c4d9532597823053a6, type: 3}

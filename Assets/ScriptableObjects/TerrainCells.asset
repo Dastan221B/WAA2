@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc769b33e1919148ac4f719c636203a, type: 3}
+  m_Name: TerrainCells
+  m_EditorClassIdentifier: 
+  _riverCell: {fileID: -7481261265284675350, guid: e96f7e40c0aa84a4784c9b7d7251b4bc, type: 3}
+  _grassCell: {fileID: 587842462686068176, guid: 2a2adcaa91299d347b8905ac72282a39, type: 3}
+  _dirtyCell: {fileID: 7586755683622542291, guid: 1dc2f4eb86c2b634f909b725c8611228, type: 3}
+  _greenTreeCell: {fileID: 3420830449757986700, guid: f285721f97b812c45b1af138c0a23cbe, type: 3}
+  _snowCell: {fileID: 6792409678143778100, guid: 7903338f1766faa4ab3ff12e15d7fce8, type: 3}
+  _mountains: {fileID: 8118594147815373786, guid: 6042c0177bcf3004c84ae6c59091ea55, type: 3}
