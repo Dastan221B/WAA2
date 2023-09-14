@@ -36,6 +36,7 @@ namespace Assets.Scripts.MVC.Battle.Views
             _icon.sprite = icon;
             _attackText.text = "Attack: " + dicCreatureDTO.attack;
             _healthText.text = "Health: " + dicCreatureDTO.healthPoints;
+            _deffenceText.text = "Defence: " + dicCreatureDTO.defense;
             //_knowleadge.text = "Knowleadge: " + knowleadge;
             _knowleadge.text = "";
             _nameText.text = dicCreatureDTO.name;

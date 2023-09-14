@@ -33,9 +33,7 @@ public class Heroes : ScriptableObject
     {
         //if (id > _heroes.Count)
         //    return _heroes[0];
-        Debug.Log(id + " id22");
         Hero hero = _heroes.FirstOrDefault(item => item.HeroID == id);
-        Debug.Log(hero.HeroID + " hero22");
         return hero;
     }
 }

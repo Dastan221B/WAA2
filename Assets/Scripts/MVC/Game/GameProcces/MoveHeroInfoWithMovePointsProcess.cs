@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.MVC.Game.Path;
+using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,11 @@ namespace Assets.Scripts.MVC.Game.GameProcces
         private HeroPathMover _heroPathMover;
         private PathFinder _pathFinder;
         private PathDrawer _pathDrawer;
+        private GameTurnView _gameTurnView;
 
-        public MoveHeroInfoWithMovePointsProcess(GameModel gameModel, HeroPathMover heroPathMover , PathFinder pathFinder, PathDrawer pathDrawer)
+        public MoveHeroInfoWithMovePointsProcess(GameTurnView gameTurnView,GameModel gameModel, HeroPathMover heroPathMover , PathFinder pathFinder, PathDrawer pathDrawer)
         {
+            _gameTurnView = gameTurnView;
             _gameModel = gameModel;
             _heroPathMover = heroPathMover;
             _pathFinder = pathFinder;
@@ -33,10 +36,27 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                     _pathDrawer.DrawPath(path);
                     _gameModel.HeroStartMove();
                     _heroPathMover.MoveHeroOnPath(heroModelObject, path);
+                    Cell cell = path[path.Count - 1];
+                    Debug.Log(1);
+                    if(cell.GameMapObjectType == GameMapObjectType.CASTLE)
+                    {
+                        Debug.Log(2);
+                        if (!cell.CheckHero())
+                        {
+                            Debug.Log(3);
+                            if (cell.Castle != null)
+                            {
+                                Debug.Log(4);
+                                _gameModel.RemoveCasle(cell.Castle);
+                            }
+                        }
+                    }
+                    _gameTurnView.UpdateTurnView();
                 }
             }
             else
             {
+                _gameModel.StopHeroMove();
                 Debug.Log(moveHeroInfoWithMovePoints.reason);
             }
         }

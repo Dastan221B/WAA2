@@ -48,7 +48,9 @@ namespace Assets.Scripts.MVC.CastleMVC
 
         private void Update()
         {
-            if (_programState.StatesOfProgram != StatesOfProgram.Castle || CheckToUI() && _tradeController.InTrade)
+            if (_programState.StatesOfProgram != StatesOfProgram.Castle || _tradeController.InTrade)
+                return;
+            if (CheckToUI())
                 return;
             if (Input.GetMouseButtonDown(0))
                 TrySelectBuilding();

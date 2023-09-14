@@ -9,8 +9,6 @@ public class SecondHeroModelObject : HeroModelObject
 
     public override void Idle()
     {
-        Debug.Log("idle 2");
-
         _heroAnimation.CrossFade("idle", 0);
         _hourseAnimation.CrossFade("idle", 0);
     }

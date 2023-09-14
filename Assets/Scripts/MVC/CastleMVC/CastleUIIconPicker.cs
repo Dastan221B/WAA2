@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Interfaces.Game;
+using Assets.Scripts.MVC.CastleMVC.View;
 using Assets.Scripts.MVC.Game.Views.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,13 +14,16 @@ namespace Assets.Scripts.MVC.CastleMVC
         private ProgramState _programState;
         private CastleCommandsSender _castleCommandsSender;
         private GameModel _gameModel;
+        private CastleView _castleView;
 
         private float _clicked = 0;
         private float _clicktime = 0;
         private float _clickdelay = 1f;
+        private string _castleIDSelected;
 
-        public void Init(GameModel gameModel,ProgramState programState , CastleCommandsSender castleCommandsSender)
+        public void Init(CastleView castleView,GameModel gameModel,ProgramState programState , CastleCommandsSender castleCommandsSender)
         {
+            _castleView = castleView;
             _gameModel = gameModel;
             _programState = programState;
             _castleCommandsSender = castleCommandsSender;
@@ -37,10 +41,16 @@ namespace Assets.Scripts.MVC.CastleMVC
 
                 if (_clicked > 1 && Time.time - _clicktime < _clickdelay)
                 {
+                    _castleIDSelected = castleIcon.Castle.MapObjectID;
                     _castleCommandsSender.SendCastleFullInfoRequest(castleIcon.Castle.MapObjectID);
                 }
                 else if (_clicked > 2 || Time.time - _clicktime > 1) _clicked = 0;
             }
+        }
+
+        public void CallOpenCasle()
+        {
+            _castleCommandsSender.SendCastleFullInfoRequest(_castleIDSelected);
         }
 
         public bool TryPickCaslteIcon(out CastleIcon castleIcon)

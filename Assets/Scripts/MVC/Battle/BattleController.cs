@@ -52,8 +52,6 @@ public class BattleController : MonoBehaviour
         if (!_loadScreen.IsLoaded)
             _hexagonFieldSelecter.TrySelectCreature();
 
-        //Debug.Log("_battleModel.IsCreatureInAction " + _battleModel.IsCreatureInAction);
-
         if (CheckToUI() || _programState.StatesOfProgram != StatesOfProgram.Battle || _battleModel.IsCreatureInAction || _loadScreen.IsLoaded)
             return;
         BattleGameProcess();
@@ -90,6 +88,9 @@ public class BattleController : MonoBehaviour
                 attackType = battleCreature.DicCreatureDTO.attackType;
 
                 if (!_hexagonFieldSelecter.SelectedHexagon.IsAvalableToMove && _hexagonFieldSelecter.SelectedHexagon.BattleCreature == null)
+                    return;
+
+                if (!_hexagonFieldSelecter.SelectedHexagon.IsAvalableToMove)
                     return;
 
                 if (_hexagonFieldSelecter.SelectedHexagon.BattleCreature != null)

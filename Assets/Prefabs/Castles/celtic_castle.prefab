@@ -48,8 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _castleIcon: {fileID: 21300000, guid: 6c606e497e48bf342bccceec97508358, type: 3}
-  _cube: {fileID: 9128022634801398498}
-  _color: {fileID: 11400000, guid: 6fd951a3224fef5449272b4858837074, type: 2}
+  _cube: {fileID: 1397027488560753353}
   <CastleInfo>k__BackingField:
     <heroInCastle>k__BackingField:
       level: 0

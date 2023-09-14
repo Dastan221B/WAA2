@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.MVC.Game;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,9 +11,11 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         private BattleModel _battleModel;
         private LoadScreen _loadScreen;
         private GameModel _gameModel;
+        private GameTimer _gameTimer;
 
-        public EndGameProcess(BattleModel battleModel, LoadScreen loadScreen, GameModel gameModel)
+        public EndGameProcess(GameTimer gameTimer,BattleModel battleModel, LoadScreen loadScreen, GameModel gameModel)
         {
+            _gameTimer = gameTimer;
             _gameModel = gameModel;
             _loadScreen = loadScreen;
             _battleModel = battleModel;
@@ -22,7 +25,12 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         {
             OnGameStarted?.Invoke();
             _battleModel.ClearBattleScene();
-            _loadScreen.OpenLoadBar(StatesOfProgram.Game);
+            _loadScreen.OpenLoadBar(StatesOfProgram.Game, () => {
+                if (_gameModel.IsCurrentTurn)
+                    _gameTimer.ContinueTimer();
+                else
+                    _gameTimer.StopTimer();
+            });
             SceneManager.UnloadSceneAsync("Battle");
             _gameModel.EnterInGameFromBattleScene();
         }

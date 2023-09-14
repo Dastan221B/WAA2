@@ -1,3 +1,4 @@
+using Assets.Scripts.GameResources;
 using Assets.Scripts.MVC.Game;
 using Assets.Scripts.MVC.Game.Path;
 using System.Collections;
@@ -11,8 +12,11 @@ public class FlaggedMineInfoProcess : MonoBehaviour
     private GameModel _gameModel;
     private HeroPathMover _heroPathMover;
     private PathFinder _pathFinder;
-    public FlaggedMineInfoProcess(GameAndBattleCommandsSender gameAndBattleCommandsSender, GameModel gameModel, HeroPathMover heroPathMover, PathFinder pathFinder)
+    private SystemColors _systemColors;
+
+    public FlaggedMineInfoProcess(SystemColors systemColors,GameAndBattleCommandsSender gameAndBattleCommandsSender, GameModel gameModel, HeroPathMover heroPathMover, PathFinder pathFinder)
     {
+        _systemColors = systemColors;
         _gameAndBattleCommandsSender = gameAndBattleCommandsSender;
         _gameModel = gameModel;
         _heroPathMover = heroPathMover;
@@ -20,21 +24,17 @@ public class FlaggedMineInfoProcess : MonoBehaviour
     }
     public void FlaggedMineInfoHandler(MessageInput messageInput)
     {
-        FlaggedMineInfo flaggedMineInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<FlaggedMineInfo>(messageInput.body);
-        _currentFlaggedMineInfo = flaggedMineInfo;
-        if (_gameModel.TryGetHeroModelObject(flaggedMineInfo.heroId, out HeroModelObject heroModelObject))
+        FlaggedMineInfo flaggedMineResult = Newtonsoft.Json.JsonConvert.DeserializeObject<FlaggedMineInfo>(messageInput.body);
+        _currentFlaggedMineInfo = flaggedMineResult;
+        if (_gameModel.TryGetHeroModelObject(flaggedMineResult.heroId, out HeroModelObject heroModelObject))
         {
-
-            var path = _pathFinder.ConvertPositionToCellPath(flaggedMineInfo.movementPath);
+            var path = _pathFinder.ConvertPositionToCellPath(flaggedMineResult.movementPath);
             _gameModel.HeroStartMove();
             _heroPathMover.MoveHeroOnPath(heroModelObject, path);
-            if (_gameModel.TryGetMine(flaggedMineInfo.mineObjectId, out MineStructure mineStructure))
+
+            if (_gameModel.TryGetMineStructure(flaggedMineResult.mineObjectId, out MineStructure mineStructure))
             {
-                if (_gameModel.TryGetPlayerByHeroID(heroModelObject.MapObjectID, out Player minePlayer))
-                {
-                    Debug.Log("MinePlayer" + minePlayer.Ordinal);
-                    mineStructure.SetCubeColor(minePlayer.Ordinal);
-                }
+                mineStructure.SetColor(_systemColors.GetColorByOrdinal(heroModelObject.Ordinal));
             }
         }
     }

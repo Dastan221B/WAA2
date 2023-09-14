@@ -36,6 +36,7 @@ namespace Assets.Scripts.MVC.Game
         }
         public void SendMoveHeroRequestWithInteractable(Vector2Int position, string interactiveMapObjectId, GameMapObjectType gameMapObjectType)
         {
+            _gameModel.HeroStartMove();
             MoveHeroRequestWithInteractive request = new MoveHeroRequestWithInteractive(
                                  _gameModel.GameSessionID, _gameModel.SelectedHero.MapObjectID, position.x,
                                  position.y, interactiveMapObjectId, gameMapObjectType.ToString());
@@ -44,6 +45,7 @@ namespace Assets.Scripts.MVC.Game
 
         public void SendMoveHeroRequest(Vector2Int position)
         {
+            _gameModel.HeroStartMove();
             MoveHeroRequest request = new MoveHeroRequest(_gameModel.GameSessionID,
                              _gameModel.SelectedHero.MapObjectID, position.x, position.y);
             _gameMessageSender.SendMessage(OutputGameHeaders.MOVE_HERO_REQUEST, Newtonsoft.Json.JsonConvert.SerializeObject(request));

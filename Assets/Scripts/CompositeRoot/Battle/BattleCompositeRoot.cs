@@ -29,7 +29,7 @@ public class BattleCompositeRoot : CompositeRoot
     [SerializeField] private HexagonGenerator _hexagonGenerator;
     [SerializeField] private CreatureSpawner _creatureSpawner;
     [SerializeField] private GameCompositeRoot _gameCompositeRoot;
-
+    [SerializeField] private GameTimer _gameTimer;
     [Header("Preafabs")]
     [SerializeField] private Hexagon _hexagonPrefab;
     [SerializeField] private ModelCreatures _modelCreatures;
@@ -45,11 +45,11 @@ public class BattleCompositeRoot : CompositeRoot
     public override void Composite()
     {
         _battleModel.Init(_modelCreatures, _commonData, _hexagonGenerator);
-        _endGameProcess = new EndGameProcess(_battleModel, _loadScreen, _gameCompositeRoot.GameModel);
+        _endGameProcess = new EndGameProcess(_gameTimer,_battleModel, _loadScreen, _gameCompositeRoot.GameModel);
         _resultPanel.Init( _battleModel ,_endGameProcess, _resultPanelCreatureItemPrefab, _modelCreatures);
         _hexagonGenerator.Init(_hexagonPrefab, _hexagonFramePrefab);
         _creatureSpawner.Init(_commonData, _modelCreatures, _battleModel, _resultPanel);
-        _battleInitalProcess.Init(_battleModel, _hexagonGenerator, _creatureSpawner, _heroModelObjects);
+        _battleInitalProcess.Init(_gameCompositeRoot.GameModel,_battleModel, _hexagonGenerator, _creatureSpawner, _heroModelObjects);
         _creaturePathMover.Init(_battleModel, 3);
         _battleWaitActivatedProcess = new BattleWaitActivatedProcess(_battleModel);
         _battleBlockActivetedProcess = new BattleBlockActivetedProcess(_battleModel);

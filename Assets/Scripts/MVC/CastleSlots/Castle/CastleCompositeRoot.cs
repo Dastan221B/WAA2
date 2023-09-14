@@ -5,6 +5,7 @@ using Assets.Scripts.MVC.CastleMVC.Buildinngs;
 using Assets.Scripts.MVC.CastleMVC.CastleProcess;
 using Assets.Scripts.MVC.CastleMVC.View;
 using Assets.Scripts.MVC.CastleSlots;
+using Assets.Scripts.MVC.Game.Views;
 using Assets.Scripts.MVC.HeroPanel;
 using Assets.Scripts.MVC.TradeMVC;
 using System.Collections;
@@ -13,6 +14,7 @@ using UnityEngine;
 
 public class CastleCompositeRoot : CompositeRoot
 {
+    [SerializeField] private GameTurnView _turnView;
     [SerializeField] private TradeController _tradeController;
     [SerializeField] private SlotsModel _slotsModel;
     [SerializeField] private HeroPanelView _heroPanel;
@@ -59,14 +61,14 @@ public class CastleCompositeRoot : CompositeRoot
         _heroEnterInCastleResultProcess = new HeroEnterInCastleResultProcess(_castleCommandsSender, _gameCompositeRoot.MoveHeroInfoWithMovePointsProcess);
         _slotsView.Init(_slotsModel, _modelCreatures);
         _slotsController.Init(_gameCompositeRoot.TradeStartedResultProcess,_gameCompositeRoot.GameAndBattleCommands,_castleCommandsSender,_modelCreatures,_commonData,_programState, _slotPicker, _slotsModel, _heroes, _castleModel);
-        _openCastleProcess = new OpenCastleProcess(_gameCompositeRoot.GameTimer,_commonData,_programState,_slotsModel, _castleView,_gameCompositeRoot.GameModel, _castleModel, _castleBuildingsView);
+        _leaveCastleProcess = new LeaveCastleProcess(_heroPanel, _programState, _gameCompositeRoot.GameModel, _castleView);
+        _openCastleProcess = new OpenCastleProcess(_turnView,_leaveCastleProcess, _gameCompositeRoot.GameTimer,_commonData,_programState,_slotsModel, _castleView,_gameCompositeRoot.GameModel, _castleModel, _castleBuildingsView);
         _addBuildingToCastleProcess = new AddBuildingToCastleProcess(_commonData,_castleModel);
         _hireCreatureProcess = new HireCreatureProcess(_slotsModel);
-        _leaveCastleProcess = new LeaveCastleProcess(_heroPanel,_programState, _gameCompositeRoot.GameModel, _castleView);
-        _castleView.Init(_castleController,_gameCompositeRoot.GameModel,_heroes,_buildingsListWindow,_castleCommandsSender, _castleModel, _slotsModel);
+        _castleView.Init(_leaveCastleProcess, _castleController,_gameCompositeRoot.GameModel,_heroes,_buildingsListWindow,_castleCommandsSender, _castleModel, _slotsModel);
         _resourcesView.Init(_resourcesDataService);
         _gameCompositeRoot.GameController.Init(_castleCommandsSender, _castleModel);
-        _castleUIIconPicker.Init(_gameCompositeRoot.GameModel,_programState, _castleCommandsSender);
+        _castleUIIconPicker.Init(_castleView,_gameCompositeRoot.GameModel,_programState, _castleCommandsSender);
         _hireCreatureBuildingWindow.Init(_programState, _castleCommandsSender, _castleModel, _modelCreatures, _slotsModel);
         _gameBattleProcessResponseHandler.Init(_openCastleProcess, _addBuildingToCastleProcess, _hireCreatureProcess, _heroEnterInCastleResultProcess, _leaveCastleProcess, _slotsModel);
         _slotsModel.OnUpdatedCastleArmy += _slotsView.UpdateCastleCreaturesSlots;

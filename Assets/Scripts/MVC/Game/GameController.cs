@@ -133,7 +133,9 @@ public class GameController : MonoBehaviour
                         _gameModel.SetFightedCreatureSettings(cell.CreatureModelObject, cell);
                     }
                     if (cell.GameMapObjectType == GameMapObjectType.HERO)
-                        _gameModel.StartAttack();
+                    {
+                        _gameModel.StartAttackOnHero();
+                    }
                     if (cell.CheckHero())
                     {
                         _gameModel.StartAttack();
@@ -147,10 +149,9 @@ public class GameController : MonoBehaviour
                     }
                 }else if(cell.ParentObjectId != "")
                 {
-                    Debug.Log("cell.Castle " + cell.Castle);
                     if (cell.GameMapObjectType == GameMapObjectType.CASTLE && cell.Castle != null)
                     {
-                        Debug.Log("Move 1");
+                        Debug.Log("Attaked castle");
                         _gameCommandsSender.SendMoveHeroRequestWithInteractable
                              (new Vector2Int((int)cell.Castle.GateCell.transform.position.x,
                              (int)cell.Castle.GateCell.transform.position.z),
@@ -163,7 +164,6 @@ public class GameController : MonoBehaviour
                     }
                     else if (cell.GameMapObjectType == GameMapObjectType.MINE && cell.MineStructure != null)
                     {
-                        Debug.Log("Move 2");
                         _gameCommandsSender.SendMoveHeroRequestWithInteractable
                              (new Vector2Int((int)cell.MineStructure.GateCell.transform.position.x,
                              (int)cell.MineStructure.GateCell.transform.position.z),

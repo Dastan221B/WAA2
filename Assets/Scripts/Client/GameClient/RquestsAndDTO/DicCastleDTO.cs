@@ -14,7 +14,6 @@ public class DicCastleDTO
             return _buildingSet;
         } set {
             _buildingSet = value;
-            Debug.Log(_buildingSet.Count);
         }
     }
     public List<int> heroSet { get; set; }

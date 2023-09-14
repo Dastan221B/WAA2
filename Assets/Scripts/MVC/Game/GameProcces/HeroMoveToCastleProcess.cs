@@ -23,13 +23,17 @@ namespace Assets.Scripts.MVC.Game.GameProcces
             MoveHeroToCaslteResult moveHeroToCaslteResult = Newtonsoft.Json.JsonConvert.DeserializeObject<MoveHeroToCaslteResult>(message.body);
             if (_gameModel.TryGetHeroModelObject(moveHeroToCaslteResult.heroId, out HeroModelObject heroModelObject))
             {
-                heroModelObject.gameObject.SetActive(false);
-                _slotsModel.ResetGarissonCreature();
-                _slotsModel.AddCreaturesToCastleSlot(moveHeroToCaslteResult.heroInCastle.army);
-                heroModelObject.HeroObjectFullInfo.army = moveHeroToCaslteResult.heroInCastle.army;
-                heroModelObject.EnterInCastle();
-                _gameModel.ReplaceToLastPlaceInTurn(heroModelObject);
-                _turnView.ResetDisplayHeroes();
+                Debug.Log("heroModelObject " + heroModelObject);
+                if(heroModelObject != null)
+                {
+                    heroModelObject.gameObject.SetActive(false);
+                    _slotsModel.ResetGarissonCreature();
+                    _slotsModel.AddCreaturesToCastleSlot(moveHeroToCaslteResult.heroInCastle.army);
+                    heroModelObject.HeroObjectFullInfo.army = moveHeroToCaslteResult.heroInCastle.army;
+                    heroModelObject.EnterInCastle();
+                    _gameModel.ReplaceToLastPlaceInTurn(heroModelObject);
+                    _turnView.ResetDisplayHeroes();
+                }
             }
         }
 

@@ -33,6 +33,7 @@ public class DicCreatureDTO
             attack = attack,
             healthPoints = healthPoints,
             speed = speed,
+            defense = defense,
             mapObjectId = mapObjectId,
             battleFieldObjectId = battleFieldObjectId ,
             castleId = castleId,

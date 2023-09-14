@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.MVC.CastleSlots;
+﻿using Assets.Scripts.MVC.CastleMVC.CastleProcess;
+using Assets.Scripts.MVC.CastleSlots;
+using Assets.Scripts.MVC.Game;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,11 +27,14 @@ namespace Assets.Scripts.MVC.CastleMVC.View
         private HeroSlot _heroCasstleSlot;
         private Heroes _heroes;
         private CastleController _castleController;
+        private GameCastleObjectsChangeService _gameCastleObjectsChangeService;
+        private LeaveCastleProcess _leaveCastleProcess;
 
         public bool OpenUI { get; private set; }
 
-        public void Init(CastleController castleController,GameModel gameModel ,Heroes heroes,BuildingsListWindow buildingsListWindow,CastleCommandsSender castleCommandsSender, CastleModel castleModel, SlotsModel slotsModel)
+        public void Init(LeaveCastleProcess leaveCastleProcess, CastleController castleController,GameModel gameModel ,Heroes heroes,BuildingsListWindow buildingsListWindow,CastleCommandsSender castleCommandsSender, CastleModel castleModel, SlotsModel slotsModel)
         {
+            _leaveCastleProcess = leaveCastleProcess;
             _castleController = castleController;
             _gameModel = gameModel;
             _heroes = heroes;
@@ -39,8 +44,9 @@ namespace Assets.Scripts.MVC.CastleMVC.View
             _slotsModel = slotsModel;
         }
 
-        public void Init(CanHireCreatureSlots canHireCreatureSlots, HeroSlot garrisonSlot, HeroSlot castleSlot, StrategyCamera strategyCamera, Button exitButton, Button openCouncilButton, GameObject castle, Transform terrainObjectsParent, GameObject buildings, GameObject playerPanel, TMP_Text castleName)
+        public void Init(GameCastleObjectsChangeService gameCastleObjectsChangeService,CanHireCreatureSlots canHireCreatureSlots, HeroSlot garrisonSlot, HeroSlot castleSlot, StrategyCamera strategyCamera, Button exitButton, Button openCouncilButton, GameObject castle, Transform terrainObjectsParent, GameObject buildings, GameObject playerPanel, TMP_Text castleName)
         {
+            _gameCastleObjectsChangeService = gameCastleObjectsChangeService;
             _canHireCreatureSlots = canHireCreatureSlots;
             _heroCasstleSlot = castleSlot;
             _heroGarrisonSlot = garrisonSlot;
@@ -111,9 +117,18 @@ namespace Assets.Scripts.MVC.CastleMVC.View
 
         public void ExitFromCastle()
         {
-            var garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
-            _castleCommandsSender.SendLeaveCastleRequest(_castleModel.CurrentCastleID, _castleModel.GarrisonID,
-                new List<ArmySlotInfo>(_slotsModel.CastleArmy).ExcludeNull(), garrison);
+            if (_gameModel.IsCurrentTurn)
+            {
+                var garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
+                _castleCommandsSender.SendLeaveCastleRequest(_castleModel.CurrentCastleID, _castleModel.GarrisonID,
+                    new List<ArmySlotInfo>(_slotsModel.CastleArmy).ExcludeNull(), garrison);
+            }
+            else
+            {
+                _gameCastleObjectsChangeService.EnterGame();
+                Close();
+                _leaveCastleProcess.ExitCasle();
+            }
         }
 
     }

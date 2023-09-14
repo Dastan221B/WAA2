@@ -5,8 +5,7 @@ using UnityEngine;
 public class Castle : GameMapObject
 {
     [SerializeField] private Sprite _castleIcon;
-    [SerializeField] private GameObject _cube;
-    [SerializeField] private SystemColors _color;
+    [SerializeField] private MeshRenderer _cube;
     public int DicCastleID { get; private set; }
     public string ObjectID => MapObjectID;
     public Sprite CastleIcon => _castleIcon;
@@ -15,6 +14,16 @@ public class Castle : GameMapObject
     [field: SerializeField] public CastleObjectFullInfo CastleInfo { get; private set; }
     public int Width { get; private set; }
     public int Height { get; private set; }
+    public Color ColorCastle { get; private set; }
+    public string HeroModelObjectMapID { get; private set; }
+    public int Oridinal { get; private set; }
+
+
+    public void SetSettings(string heroModelObjectMapID, int ordinal)
+    {
+        HeroModelObjectMapID = heroModelObjectMapID;
+        Oridinal = ordinal;
+    }
 
     public void SetCastleObjectFullInfo(CastleObjectFullInfo castleObjectFullInfo)
     {
@@ -47,8 +56,11 @@ public class Castle : GameMapObject
         //if (castleID < 0)
         //    castleID = 0;
         DicCastleID = castleID;
-    }public void SetColorCube(int ordinal)
+    }
+    
+    public void SetupColorCube(Color color)
     {
-        _cube.GetComponent<MeshRenderer>().material.color = _color.GetColorByOrdinal(ordinal);
+        ColorCastle = color;
+        _cube.material.color = ColorCastle;
     }
 }

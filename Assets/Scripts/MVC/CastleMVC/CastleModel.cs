@@ -128,6 +128,8 @@ namespace Assets.Scripts.MVC.CastleMVC
 
         public void DisplayBuildgins(CastleObjectFullInfo fullInfo, DicCastleDTO castleInfo)
         {
+            foreach (var item in _buildings)
+                item.gameObject.SetActive(true);
             var activeBuildingsInCastle = _buildings.Select(b => b.Id).Intersect(fullInfo.buildings);
             
             activeBuildingsInCastle

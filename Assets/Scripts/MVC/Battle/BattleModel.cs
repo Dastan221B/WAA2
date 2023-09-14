@@ -243,6 +243,7 @@ namespace Assets.Scripts.MVC.Battle
 
         public void EndGame(Action endGameAction)
         {
+            IsInited = false;
             _isEndedGame = true;
             _endGame = endGameAction;
             Invoke(nameof(CallEndGame), 7f);

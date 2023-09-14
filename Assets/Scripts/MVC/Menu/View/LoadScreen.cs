@@ -44,7 +44,7 @@ public class LoadScreen : MonoBehaviour
         _enterText.text = "";
         _loadScreen.SetActive(false);
         _programState.SetStatesOfProgram(_statesOfProgram);
-        //_actionBeforeLoadig?.Invoke();
+        _actionBeforeLoadig?.Invoke();
     }
 
     private IEnumerator Loading()

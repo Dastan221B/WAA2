@@ -14,7 +14,6 @@ namespace Assets.Scripts.MVC.CastleSlots
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("111");
                 PointerEventData eventData = new PointerEventData(EventSystem.current);
                 eventData.position = Input.mousePosition;
                 List<RaycastResult> raysastResults = new List<RaycastResult>();
@@ -23,7 +22,6 @@ namespace Assets.Scripts.MVC.CastleSlots
                 {
                     if (item.gameObject.TryGetComponent(out slot))
                     {
-                        Debug.Log("121");
                         return true;
                     }
                 }

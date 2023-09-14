@@ -22,7 +22,6 @@ public class TerrainLoader
         int currentX = 0;
         int currentY = 0;
         _gameModel.SetMapSize(size);
-        Debug.Log("terrainCells " + terrainCells.Length + " " + terrainCells[0].Length);
         foreach (TerrainCell[] cellArr in terrainCells)
         {
             foreach (TerrainCell cell in cellArr)

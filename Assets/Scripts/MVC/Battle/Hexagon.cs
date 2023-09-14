@@ -67,12 +67,12 @@ namespace Assets.Scripts.MVC.Battle
             }
             else
             {
-                if (IsAvalableToMove)
+                if (IsAvalableToMove && _meshRenderer != null)
                 {
                     _meshRenderer.enabled = true;
                     _meshRenderer.material.color = _greyColor;
                 }
-                else
+                else if (_meshRenderer != null)
                 {
                     _meshRenderer.enabled = false;
                 }
@@ -130,8 +130,11 @@ namespace Assets.Scripts.MVC.Battle
 
         public void PaintToGreen()
         {
-            _meshRenderer.enabled = true;
-            _meshRenderer.material.color = _greenColor;
+            if(_meshRenderer != null)
+            {
+                _meshRenderer.enabled = true;
+                _meshRenderer.material.color = _greenColor;
+            }
         }
 
         public void PaintHexagonInCreatureSide()

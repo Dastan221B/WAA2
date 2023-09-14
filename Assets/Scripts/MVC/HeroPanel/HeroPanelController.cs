@@ -15,6 +15,7 @@ namespace Assets.Scripts.MVC.HeroPanel
         private ModelCreatures _modelCreatures;
         private HeroPanelView _heroPanelView;
         private Camera _mainCamera;
+        private Camera _mapCamera;
         private List<HeroModelObjectIcon> _heroModelObjectIcons;
 
         private float _clicked = 0;
@@ -33,8 +34,9 @@ namespace Assets.Scripts.MVC.HeroPanel
             _heroPanelView = heroPanelView;
         }
 
-        public void Init(List<HeroModelObjectIcon> heroModelObjectIcons, CreatureInfoWindow creatureStatsInfoWindow , Camera camera)
+        public void Init(Camera mapCamera,List<HeroModelObjectIcon> heroModelObjectIcons, CreatureInfoWindow creatureStatsInfoWindow , Camera camera)
         {
+            _mapCamera = mapCamera;
             _heroModelObjectIcons = heroModelObjectIcons;
             _mainCamera = camera;
             _creatureStatsInfoWindow = creatureStatsInfoWindow;
@@ -83,6 +85,7 @@ namespace Assets.Scripts.MVC.HeroPanel
                     _mainCamera.transform.position = new Vector3(heroModelObjectIcon.HeroModelObject.transform.position.x,
                                           _mainCamera.transform.position.y,
                                           heroModelObjectIcon.HeroModelObject.transform.position.z - 5);
+                    _mapCamera.transform.position = new Vector3(heroModelObjectIcon.HeroModelObject.transform.position.x, 8.9f, heroModelObjectIcon.HeroModelObject.transform.position.z);
                 }
 
                 _mainCamera.GetComponent<StrategyCamera>().enabled = true;

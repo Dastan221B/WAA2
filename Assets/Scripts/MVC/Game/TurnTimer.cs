@@ -50,6 +50,11 @@ namespace Assets.Scripts.MVC.Game
             _timerText.text = $"{minutes} : {seconds}";
         }
 
+        public void SetText(string text)
+        {
+            _timerText.text = text;
+        }
+
         public void StartTimer(int time, bool isNegativeTimerMode = false)
         {
             _isNegativeTimerMode = isNegativeTimerMode;
@@ -74,6 +79,7 @@ namespace Assets.Scripts.MVC.Game
             TimerTime = 0;
             if (_timerCoroutine != null)
                 StopCoroutine(_timerCoroutine);
+            SetText("Time is over");
         }
 
         public void ResetTimer(int time)
@@ -89,7 +95,7 @@ namespace Assets.Scripts.MVC.Game
             {
                 if (TimerTime <= 0 && !_isNegativeTimerMode)
                 {
-
+                    SetText("Time is over");
                     break;
                 }
                 TimerTime--;

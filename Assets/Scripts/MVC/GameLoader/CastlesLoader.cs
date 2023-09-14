@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.GameResources;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ public class CastlesLoader
 {
     private Castles _castles;
     private GameModel _gameModel;
+    private SystemColors _systemColors;
 
-    public CastlesLoader(Castles castles, GameModel gameModel)
+    public CastlesLoader(Castles castles, GameModel gameModel, SystemColors systemColors)
     {
+        _systemColors = systemColors;
         _castles = castles;
         _gameModel = gameModel;
     }
@@ -30,8 +33,9 @@ public class CastlesLoader
             castleObject.SetSize(castle.Value.width, castle.Value.height);
             castleObject.SetDicCastleID(castle.Value.DicCastleId);
             castleObject.SetMapObjectID(castle.Key);
+            castleObject.SetupColorCube(_systemColors.GetColorByOrdinal(castle.Value.castleOwner.ordinal));
+            castleObject.SetSettings(castle.Value.castleOwner.id, castle.Value.castleOwner.ordinal);
             castlesObjects.Add(castleObject);
-            castleObject.SetColorCube(castle.Value.castleOwner.ordinal);
             
         }
         return castlesObjects;

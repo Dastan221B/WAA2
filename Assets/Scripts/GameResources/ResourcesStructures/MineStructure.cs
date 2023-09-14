@@ -23,7 +23,6 @@ public class MineStructure : GameMapObject
 
     private void Start()
     {
-        Debug.Log(DicMineID + " DicMineID");
         _meshRenderer.material.color = _minesCube.GetColorById(DicMineID - 1);
     }
 
@@ -43,14 +42,11 @@ public class MineStructure : GameMapObject
         GateCell = cell;
     }
 
-    public void SetCastleID()
+    public void SetColor(Color color)
     {
+        _meshRenderer.material.color = color;
+    }
 
-    }
-    public void SetCubeColor(int ordinal)
-    {
-        _meshRenderer.material.color = _color.GetColorByOrdinal(ordinal);
-    }
     public void SetDicMineID(int MineID)
     {
         //if (castleID < 0)

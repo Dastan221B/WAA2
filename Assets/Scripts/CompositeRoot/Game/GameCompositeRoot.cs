@@ -98,14 +98,15 @@ public class GameCompositeRoot : CompositeRoot
         _tradeModel = new TradeModel(_mapCreatures);
         _newDayStartedInfoProcess = new NewDayStartedInfoProcess(_gameModel);
         _gameCommandsSender = new GameAndBattleCommandsSender(_gameMessageSender, _gameModel);
-        _moveHeroInfoWithMovePointsProcess = new MoveHeroInfoWithMovePointsProcess(_gameModel, _heroPathMover, _pathFinder, _pathDrawer);
-        _flaggedMineResultProcess = new FlaggedMineResultProcess(_gameCommandsSender, _gameModel, _heroPathMover, _pathFinder, _pathDrawer);
+        _moveHeroInfoWithMovePointsProcess = new MoveHeroInfoWithMovePointsProcess(_gameTurnView,_gameModel, _heroPathMover, _pathFinder, _pathDrawer);
+        _flaggedMineResultProcess = new FlaggedMineResultProcess(_systemColors,_gameCommandsSender, _gameModel, _heroPathMover, _pathFinder, _pathDrawer);
+        _flaggedMineInfoProcess = new FlaggedMineInfoProcess(_systemColors, _gameCommandsSender, _gameModel, _heroPathMover, _pathFinder);
         _submitTradeResultProcess = new SubmitTradeResultProcess(_slotsModel, _castleView,GameModel, _tradeController);
         _tradeStartedResultProcess = new TradeStartedResultProcess(_gameModel,_moveHeroInfoWithMovePointsProcess, _tradeController);
         _gameProcessResponseHandler.Init(_gameTurnView,_newDayStartedInfoProcess,_heroPathMover, GameAndBattleCommands,_gameController,_submitTradeResultProcess,_tradeStartedResultProcess, _resourcesDataService,_gameLoadedData, _gameModel,_moveHeroInfoWithMovePointsProcess, _flaggedMineInfoProcess, _flaggedMineResultProcess ,_loadScreen, _gameTimer, _battleTurnTimer);
         _terrainLoader = new TerrainLoader(_terrainCells, _gameModel);
         _resourcesLoader = new ResourcesLoader(_resourcesSturctures, _gameModel);
-        _castlesLoader = new CastlesLoader(_castles, _gameModel);
+        _castlesLoader = new CastlesLoader(_castles, _gameModel, _systemColors);
         _minesLoader = new MinesLoader(_minesStructure, _gameModel);
         _heroModelObjectLoader = new HeroModelObjectLoader(_heroModelObjects, _heroes, _gameModel);
         _creaturesLoader = new CreaturesLoader(_mapCreatures, _gameModel);
@@ -122,7 +123,7 @@ public class GameCompositeRoot : CompositeRoot
         _heroPanelController.Init(_heroPanelView, _mapCreatures, _commonData, _programState, _heroPanelSelector, _heroPanelModel);
         _heroPanelView.Init(_heroPanelController,_heroPanelModel, _mapCreatures);
         _gameButtonsView.Init(_gameModel);
-        _gameModel.Init(_tradeController,_gameTurnView,_gameCommandsSender);
+        _gameModel.Init(_systemColors,_tradeController,_gameTurnView,_gameCommandsSender);
         _gameDateView.Init(_gameModel);
 
         _gameProcessResponseHandler.OnBattleStarted += _programState.BattleStartHandler;

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.GameResources;
-using Assets.Scripts.MVC.HeroPanel;
+﻿using Assets.Scripts.MVC.HeroPanel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +7,13 @@ using UnityEngine;
 public class HeroModelObject : GameMapObject
 {
     [SerializeField] private GameObject _selectPlatform;
-    [SerializeField] private SystemColors _color;
     public long DicHeroId { get; private set; }
     public int Attack { get; private set; }
     public int Defence { get; private set; }
     public int Knowledge { get; private set; }
     public int Power { get; private set; }
     public int Level { get; private set; }
+    public int Ordinal { get; private set; }
     public int MovePointsLeft { get; private set; }
     public Cell LastCellStayed { get; private set; }
     public HeroObjectFullInfo HeroObjectFullInfo { get; private set; }
@@ -27,7 +26,7 @@ public class HeroModelObject : GameMapObject
     public Hero Hero { get; private set; }
 
     public IReadOnlyList<ArmySlotInfo> ArmySlotInfos => _armySlotInfos;
-    
+
     public void Init(HeroObject heroObject , Hero hero)
     {
         DicHeroId = heroObject.DicHeroId;
@@ -52,6 +51,11 @@ public class HeroModelObject : GameMapObject
         _armySlotInfos = heroObject.army;
         OnInitedMovePoints?.Invoke(heroObject.movePoints);
         SetMovePointsLeft(heroObject.movePoints);
+    }
+
+    public void SetOrdinal(int ordinal)
+    {
+        Ordinal = ordinal;
     }
 
     public void SetArmySlots(List<ArmySlotInfo> armySlotInfos)
@@ -90,7 +94,6 @@ public class HeroModelObject : GameMapObject
 
     public void SetMovePointsLeft(int movePoints)
     {
-        Debug.Log("MovePointsLeft " + MovePointsLeft);
         if (movePoints < 0)
             movePoints = 0;
         MovePointsLeft = movePoints;
@@ -99,7 +102,6 @@ public class HeroModelObject : GameMapObject
 
     public virtual void Move()
     {
-        Debug.Log("Move 1");
 
     }
 

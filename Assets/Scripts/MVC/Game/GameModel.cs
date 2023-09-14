@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.GameResources.MapCreatures;
+﻿using Assets.Scripts.GameResources;
+using Assets.Scripts.GameResources.MapCreatures;
 using Assets.Scripts.MVC.Game;
 using Assets.Scripts.MVC.Game.Views;
 using Assets.Scripts.MVC.Ground;
@@ -44,11 +45,12 @@ public class GameModel : IGameDataHandler
     private Cell _cellHasFightedCreature;
     private GameTurnView _gameTurnView;
     private TradeController _tradeController;
-    
-
+    private SystemColors _systemColors;
+    public GameMapObject CreatureModelObject => _creatureModelObject;
     public Castle AttackedCastle { get; private set; }
     public bool IsLasFightWin { get; private set; }
     public bool IsAttacked { get; private set; }
+    public bool IsAttackedOnHero { get; private set; }
 
     public int DaysCounter { get; private set; }
     public int WeeksCounter { get; private set; }
@@ -102,12 +104,12 @@ public class GameModel : IGameDataHandler
         MapSize = mapSize;
     }
 
-    public void Init(TradeController tradeController,GameTurnView gameTurnView, GameAndBattleCommandsSender gameAndBattleCommandsSender)
+    public void Init(SystemColors systemColors,TradeController tradeController,GameTurnView gameTurnView, GameAndBattleCommandsSender gameAndBattleCommandsSender)
     {
+        _systemColors = systemColors;
         _tradeController = tradeController;
         _gameTurnView = gameTurnView;
         _gameAndBattleCommandsSender = gameAndBattleCommandsSender;
-
     }
 
     public void SetHeroInFight(HeroModelObject self)
@@ -123,6 +125,16 @@ public class GameModel : IGameDataHandler
     public void ResetHeroInFight()
     {
         HeroSelf = null;
+    }
+
+    public void StartAttackOnHero()
+    {
+        IsAttackedOnHero = true;
+    }
+
+    public void ExitFromFightHero()
+    {
+        IsAttackedOnHero = false;
     }
 
     public void StartAttack()
@@ -190,7 +202,7 @@ public class GameModel : IGameDataHandler
             //_cells[castle.GatePosition.X - 1, (castle.GatePosition.Y + 1) * -1].SetParentObjectId(castle.MapObjectID);
             //_cells[castle.GatePosition.X - 1, castle.GatePosition.Y * -1].SetParentObjectId(castle.MapObjectID);
             castle.SetCellPlace(cell);
-            
+
         }
         foreach (var hero in _heroModelObjects)
         {
@@ -200,20 +212,10 @@ public class GameModel : IGameDataHandler
             cell.SetInteractiveMapObjectId(hero.MapObjectID);
             cell.SetBaseInteractiveMapObjectId(hero.MapObjectID);
             hero.SetCellPlace(cell);
-        }
-        //if (_heroModelObjects.Count > 0 && _heroModelObjects[0] != null)
-        //{
-        //    SetSelectedHero(_heroModelObjects[0]);
-        //    //_gameTurnView.SelectHeroObject(SelectedHero);
-        //}
-        foreach (var creature in _mapCreatures)
-        {
-            var position = creature.transform.position.ToVector2IntInHeroPosition();
-            TryGetCellByPosition(new Vector2Int(position.x, position.y * -1), out Cell cell);
-            cell.SetInteractiveMapObjectId(creature.MapObjectID);
-            cell.SetModelObject(creature);
-            cell.SetBaseInteractiveMapObjectId(creature.MapObjectID);
-            creature.SetCellPlace(cell);
+            if(TryGetCastleByHeroID(hero.MapObjectID, out Castle castle))
+            {
+                hero.SetOrdinal(castle.Oridinal);
+            }
         }
         foreach (var resource in _resourcesSturctures)
         {
@@ -249,6 +251,15 @@ public class GameModel : IGameDataHandler
             mine.SetGateCell(cellGate);
             mine.SetGatePosition(new Vector2Int(mine.GatePosition.x + 1, (mine.GatePosition.y - 1)));
             mine.SetCellPlace(cell);
+        }
+        foreach (var creature in _mapCreatures)
+        {
+            var position = creature.transform.position.ToVector2IntInHeroPosition();
+            TryGetCellByPosition(new Vector2Int(position.x, position.y * -1), out Cell cell);
+            cell.SetInteractiveMapObjectId(creature.MapObjectID);
+            cell.SetModelObject(creature);
+            cell.SetBaseInteractiveMapObjectId(creature.MapObjectID);
+            creature.SetCellPlace(cell);
         }
     }
 
@@ -294,8 +305,11 @@ public class GameModel : IGameDataHandler
         if (_creatureModelObject is CreatureModelObject creature)
             _mapCreatures.Remove(creature);
         if (_creatureModelObject != null && _creatureModelObject.gameObject != null)
+        {
             MonoBehaviour.Destroy(_creatureModelObject.gameObject);
-        if(_cellHasFightedCreature != null)
+            _creatureModelObject = null;
+        }
+        if (_cellHasFightedCreature != null)
             _cellHasFightedCreature.ResetInteractiveMapObject();
 
         if(HeroSelf != null && HeroSelf.InCastle)
@@ -326,10 +340,7 @@ public class GameModel : IGameDataHandler
             if(AttackedCastle != null)
             {
                 _castlesTurn.Add(AttackedCastle);
-                if(TryGetPlayerByHeroID(HeroSelf.MapObjectID, out Player player))
-                {
-                    AttackedCastle.SetColorCube(player.Ordinal);
-                }
+                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroSelf.Ordinal));
                 AttackedCastle = null;
             }
             HeroOpponent.CellPlace.ResetInteractiveMapObject();
@@ -343,12 +354,32 @@ public class GameModel : IGameDataHandler
         
         ResetHeroInFight();
         ExitFromFight();
+        ExitFromFightHero();
         OnEnterInGameFromBattleScene?.Invoke();
+    }
+
+    public void RemoveCasle(Castle castle)
+    {
+        _castlesTurn.Remove(castle);
+    }
+
+    public void TryCaptureCastle()
+    {
+        if (AttackedCastle != null && !_castlesTurn.Contains(AttackedCastle))
+        {
+            _castlesTurn.Add(AttackedCastle);
+            AttackedCastle = null;
+        }
     }
 
     public void SetGameSessionID(string sessionID)
     {
         GameSessionID = sessionID;
+    }
+
+    public void StopHeroMove()
+    {
+        IsHeroMove = false;
     }
 
     public void HeroEndedMove(HeroModelObject heroModelObject)
@@ -392,10 +423,12 @@ public class GameModel : IGameDataHandler
             }
 
             foreach (var castle in turnNotificationInfo.castlesInfo.Values)
+            {
                 if (TryGetCastleByID(castle.mapObjectId, out Castle castleObject))
                 {
                     _castlesTurn.Add(castleObject);
                 }
+            }
             IsCurrentTurn = true;
             OnUpdatedTurn?.Invoke();
             OnEnteredInTurn?.Invoke(player);
@@ -425,8 +458,7 @@ public class GameModel : IGameDataHandler
 
     public void PlayerStartTurn()
     {
-        OnStatedTurn?.Invoke();
-        
+        OnStatedTurn?.Invoke();     
     }
 
     public void SetCells(Cell[,] cells, Cell[,] cellsInInversionSpace)
@@ -455,8 +487,6 @@ public class GameModel : IGameDataHandler
         _heroModelObjects = heroModelObjects;
     }
 
-
-
     public void SetMapCreatures(List<CreatureModelObject> mapCreatures)
     {
         _mapCreatures = mapCreatures;
@@ -483,6 +513,14 @@ public class GameModel : IGameDataHandler
     public bool TryGetCastleByID(string id, out Castle castle)
     {
         castle = _castles.FirstOrDefault(item => item.MapObjectID == id);
+        if (castle != null)
+            return true;
+        return false;
+    }
+
+    public bool TryGetCastleByHeroID(string id, out Castle castle)
+    {
+        castle = _castles.FirstOrDefault(item => item.HeroModelObjectMapID == id);
         if (castle != null)
             return true;
         return false;
@@ -518,6 +556,16 @@ public class GameModel : IGameDataHandler
         return false;
 
     }
+
+    public bool TryGetMineStructure(string id, out MineStructure mine)
+    {
+        mine = _mineSturctures.FirstOrDefault(item => item.MapObjectID == id);
+        if (mine != null)
+            return true;
+        return false;
+
+    }
+
     public bool TryGetHeroModelObjectForCoursor(string id, out HeroModelObject heroModelObject)
     {
 

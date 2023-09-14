@@ -46,7 +46,7 @@ namespace Assets.Scripts.MVC.Battle.BattleLoader
                     if(_commonData.TryGetDicCreatureDTOByID((int)creature.Value.dicCreatureId, out DicCreatureDTO dicCreatureDTO))
                     {
                         DicCreatureDTO dicCreatureDTOClone = dicCreatureDTO.Clone();
-                        creatureFullObject.Init(creature.Value, dicCreatureDTOClone, (int)creature.Key, creatureSide, quaternion , (int)creature.Value.dicCreatureId);
+                        creatureFullObject.Init(_battleModel,creature.Value, dicCreatureDTOClone, (int)creature.Key, creatureSide, quaternion , (int)creature.Value.dicCreatureId);
                     }
                     hexagon.SetCreature(creatureFullObject);
                     battleCreatures.Add(creatureFullObject);

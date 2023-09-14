@@ -29,8 +29,10 @@ namespace Assets.Scripts.MVC.Battle
             Hexagon hexagon;
             Vector3 targetPosition = Vector3.zero;
             if (_battleModel.TryGetHexagonByCoordinates(path[path.Count - 1].x, path[path.Count - 1].y, out hexagon))
+            {
                 hexagon.PaintToTargetMovePoint();
-
+                hexagon.SetCreature(creature);
+            }
             if (_battleModel.TryGetHexagonByCoordinates(path[i].x, path[i].y, out hexagon))
                 targetPosition = hexagon.transform.position + new Vector3(0, 0.152f, 0);
             creature.EnterInMoveState();

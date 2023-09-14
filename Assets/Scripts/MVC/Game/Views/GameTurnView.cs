@@ -61,7 +61,6 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public void ResetDisplayHeroes()
         {
-            Debug.Log("_gameModel.HeroModelObjectsTurn " + _gameModel.HeroModelObjectsTurn);
             for (int i = 0; i < _heroModelObjectIcons.Count; i++)
                 _heroModelObjectIcons[i].SetBaseIcon(_baseImage);
 
@@ -83,6 +82,12 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public void UpdateTurnView()
         {
+            for (int i = 0; i < _castleIcons.Count; i++)
+                    _castleIcons[i].SetBaseIcon(_baseImage);
+
+            for (int i = 0; i < _castleIconsInCastle.Count; i++)
+                _castleIconsInCastle[i].SetBaseIcon(_baseImage);
+
             for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
                 if (i < _heroModelObjectIcons.Count)
                     _heroModelObjectIcons[i].SetHeroModelObject(_gameModel.HeroModelObjectsTurn[i]);
@@ -91,6 +96,7 @@ namespace Assets.Scripts.MVC.Game.Views
                 if (i < _castleIcons.Count)
                     _castleIcons[i].SetCastle(_gameModel.CastlesTurn[i]);
 
+            Debug.Log("_gameModel.CastlesTurn " + _gameModel.CastlesTurn.Count);
             for (int i = 0; i < _gameModel.CastlesTurn.Count; i++)
                 if (i < _castleIconsInCastle.Count)
                     _castleIconsInCastle[i].SetCastle(_gameModel.CastlesTurn[i]);
@@ -115,12 +121,12 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public void ExitFromTurn()
         {
-            for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
-                _heroModelObjectIcons[i].SetBaseIcon(_baseImage);
-            for (int i = 0; i < _gameModel.CastlesTurn.Count; i++)
-                _castleIcons[i].SetBaseIcon(_baseImage);
-            for (int i = 0; i < _gameModel.CastlesTurn.Count; i++)
-                _castleIconsInCastle[i].SetBaseIcon(_baseImage);
+            //for (int i = 0; i < _battleModel.HeroModelObjectsTurn.Count; i++)
+            //    _heroModelObjectIcons[i].SetBaseIcon(_baseImage);
+            //for (int i = 0; i < _battleModel.CastlesTurn.Count; i++)
+            //    _castleIcons[i].SetBaseIcon(_baseImage);
+            //for (int i = 0; i < _battleModel.CastlesTurn.Count; i++)
+            //    _castleIconsInCastle[i].SetBaseIcon(_baseImage);
         }
 
         public void EnterInBattleSceneHandler()

@@ -98,13 +98,13 @@ public class GameSceneLoaderTrigger : MonoBehaviour
         SlotsController slotsController = FindObjectOfType<SlotsController>();
         CastleController castleController = FindObjectOfType<CastleController>();
         TradeView tradeView = FindObjectOfType<TradeView>();
-        FindObjectOfType<HeroPanelController>().Init(_heroModelObjectIcons,_creatureInfoWindow, _strategyCamera.GetComponent<Camera>());
+        FindObjectOfType<HeroPanelController>().Init( _mapCamera,_heroModelObjectIcons,_creatureInfoWindow, _strategyCamera.GetComponent<Camera>());
         //FindObjectOfType<CoursorService>().SetCamera(_camera);
         FindObjectOfType<HeroPathMover>().Init(_strategyCamera.GetComponent<Camera>(), _mapCamera);
         FindObjectOfType<GameButtonsView>().Init(_surrenderButton);
         tradeView.Init(_requesterHeroCreaturesInventory, _recieverHeroCreaturesInventory, _tradePanel, _sumbitButton);
         castleController.SetBuildings(_buildings);
-        castleView.Init(_canHireCreatureSlots, _heroGarrisonSlot, _heroCasstleSlot,_strategyCamera,_castleExitButton, _councilButton, _castle, _terrainObjectsParent, _buildingsObjects, _playerPanel, _castleName);
+        castleView.Init(_gameCastleObjectsChangeService,_canHireCreatureSlots, _heroGarrisonSlot, _heroCasstleSlot,_strategyCamera,_castleExitButton, _councilButton, _castle, _terrainObjectsParent, _buildingsObjects, _playerPanel, _castleName);
         slotsController.SetCreatureStatsInfoWindow(_creatureStatsInfoWindow);
         buildingBuyWindow.Init(_buildingBuyWindowUIPack);
         buildingsListWindow.Init(_buildingsListWindowUIPack);

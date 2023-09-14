@@ -264,7 +264,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                     battleInitialInfo.movePointsLeft, () => {
                         _battleTurnTimer.StartTimer(battleInitialInfo.turnSeconds, false);
                         SceneManager.LoadSceneAsync("Battle" , LoadSceneMode.Additive);
-                        _loadScreen.OpenLoadBar(StatesOfProgram.Battle, () => { OnBattleStarted?.Invoke(); });
+                        _loadScreen.OpenLoadBar(StatesOfProgram.Battle);
                         _gameModel.EnterInBattleScene();
                         _battleModel.EnterInBattle();
                         _gameTimer.PauseTimer();
@@ -304,10 +304,6 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                 {
                     BattleResultInfo battleResultInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BattleResultInfo>(messageInput.body);
                     _resultPanel.OpenPanel(battleResultInfo.isWin);
-                    if(_gameModel.IsCurrentTurn)
-                        _gameTimer.ContinueTimer();
-                    else
-                        _gameTimer.StopTimer();
                     _gameModel.SetLastFightResult(battleResultInfo.isWin);
                 });
 

@@ -35,10 +35,13 @@ namespace Assets.Scripts.GameResources.MapCreatures
         public CreatureSide CreatureSide { get; private set; }
         private Quaternion _lookDirection;
         [field: SerializeField] public bool IsBlock { get; private set; }
+        private BattleModel _battleModel;
+        public bool IsInModeState { get; private set; }
 
-        public void Init(CreatureStackObjectFullInfo creatureStackObjectFullInfo,DicCreatureDTO dicCreatureDTO,
+        public void Init(BattleModel battleModel,CreatureStackObjectFullInfo creatureStackObjectFullInfo,DicCreatureDTO dicCreatureDTO,
             int creatureID, CreatureSide creatureSide, Quaternion lookDirection, int spriteID)
         {
+            _battleModel = battleModel;
             Health = dicCreatureDTO.healthPoints;
             SpriteID = spriteID;
             _lookDirection = lookDirection;
@@ -76,12 +79,14 @@ namespace Assets.Scripts.GameResources.MapCreatures
         {
             IsBlock = false;
             transform.localRotation = _lookDirection;
+            IsInModeState = false;
             _animator.CrossFade(_idle, 0.5f);
             OnActionEnded?.Invoke(this);
         }
 
         public virtual void EnterInMoveState()
         {
+            IsInModeState = true;
             _animator.CrossFade(_run, 0);
         }
 
@@ -101,6 +106,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         private IEnumerator HitCoroutineState()
         {
+            IsInModeState = false;
             _animator.CrossFade(_hit, 0);
             yield return new WaitForSeconds(0.4f);
             EnterInIdleState();
@@ -108,12 +114,14 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         public virtual void EnterInHitState()
         {
-            StartCoroutine(HitCoroutineState());
+            if (!IsInModeState)
+                StartCoroutine(HitCoroutineState());
         }
 
         private IEnumerator LooseAnimation()
         {
             OnStartCreatureDeath?.Invoke(this);
+            IsInModeState = false;
             _animator.CrossFade(_loose, 0);
             yield return new WaitForSeconds(_deathAnimationClip.length);
             _animationCoroutine = StartCoroutine(DeathAnimation());
@@ -161,11 +169,13 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         public void EnterInBlockByTrigger()
         {
+            IsInModeState = false;
             _animator.CrossFade(_hit, 0);
         }
 
         public void EnterInAttackByTrigger()
         {
+            IsInModeState = false;
             _animator.CrossFade(_atack,0);
         }
 

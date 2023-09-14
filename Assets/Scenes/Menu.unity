@@ -13742,6 +13742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e26c5d4550ad4f4787cc4f0f7c6d51c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _turnView: {fileID: 186831897}
   _tradeController: {fileID: 1402701236}
   _slotsModel: {fileID: 367003395}
   _heroPanel: {fileID: 1009569575}
@@ -22715,6 +22716,7 @@ MonoBehaviour:
   _hexagonGenerator: {fileID: 321093629}
   _creatureSpawner: {fileID: 121528880}
   _gameCompositeRoot: {fileID: 1014737778}
+  _gameTimer: {fileID: 1043123433}
   _hexagonPrefab: {fileID: 7068124004167746199, guid: c6ab7b4491fe9294e862e15d2e1efe4d, type: 3}
   _modelCreatures: {fileID: 11400000, guid: a23d44e157377e344a11ae1082337dc3, type: 2}
 --- !u!1 &1741386987

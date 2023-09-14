@@ -113,8 +113,8 @@ namespace Assets.Scripts.MVC.CastleSlots
                 }
                 else 
                 {
-                    _castleArmy[indexInQueue] = armySlotInfo;
-                } 
+                _castleArmy[indexInQueue] = armySlotInfo;
+            }
             }
             OnUpdatedCastleArmy?.Invoke();
         }
@@ -148,8 +148,8 @@ namespace Assets.Scripts.MVC.CastleSlots
                 }
                 else
                 {
-                    _garrisonArmy[indexInQueue] = armySlotInfo;
-                }
+                _garrisonArmy[indexInQueue] = armySlotInfo;
+            }
             }
             OnUpdatedGarrisonArmy?.Invoke();
         }

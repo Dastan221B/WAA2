@@ -14,10 +14,12 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         private HexagonGenerator _hexagonGenerator;
         private CreatureSpawner _creatureSpawner;
         private BattleInitialInfo _battleInitialInfo;
+        private GameModel _gameModel;
 
-        public void Init (BattleModel battleModel , HexagonGenerator hexagonGenerator,
+        public void Init (GameModel gameModel,BattleModel battleModel , HexagonGenerator hexagonGenerator,
             CreatureSpawner creatureSpawner, HeroModelObjects heroModelObjects)
         {
+            _gameModel = gameModel;
             _battleModel = battleModel;
             _hexagonGenerator = hexagonGenerator;
             _creatureSpawner = creatureSpawner;
@@ -43,8 +45,11 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             _battleModel.InitBattleCreatures(_creatureSpawner.CreateBattleCreatures(_battleInitialInfo.mapObjects));
             var selfHero = _heroModelObjects.GetHeroModelObjectByID(_battleInitialInfo.assaulter.dicHeroId);
             _battleModel.SetSelfHeroObject(Instantiate(selfHero, _selfPlayerPosition.position, selfHero.transform.rotation));
-            var enemyHero = _heroModelObjects.GetHeroModelObjectByID(_battleInitialInfo.defender.dicHeroId);
-            _battleModel.SetEnemyHeroObject(Instantiate(enemyHero, _enemyPlayerPosition.position, enemyHero.transform.rotation)); 
+            if (_battleInitialInfo.defender.dicHeroId > 0)
+            {
+                var enemyHero = _heroModelObjects.GetHeroModelObjectByID(_battleInitialInfo.defender.dicHeroId);
+                _battleModel.SetEnemyHeroObject(Instantiate(enemyHero, _enemyPlayerPosition.position, enemyHero.transform.rotation));
+            }
             //OnBattleInited?.Invoke();
         }
     }

@@ -28,7 +28,6 @@ public class CreaturesLoader
                 mapCreature.SetDicCreatureID(creature.Value.DicCreatureId, creature.Value.Amount);
                 mapCreature.SetMapObjectID(creature.Key);
                 mapCreatures.Add(mapCreature);
-                Debug.Log("transform" + mapCreature.transform.localScale.x + " " + mapCreature.transform.localScale.y + " " + mapCreature.transform.localScale.z);
             }
             else
             {
@@ -38,8 +37,6 @@ public class CreaturesLoader
                 mapCreature.SetDicCreatureID(creature.Value.DicCreatureId, creature.Value.Amount);
                 mapCreature.SetMapObjectID(creature.Key);
                 mapCreatures.Add(mapCreature);
-                Debug.Log("transform" + mapCreature.transform.localScale.x + " " + mapCreature.transform.localScale.y + " " + mapCreature.transform.localScale.z);
-
             }
         }
 

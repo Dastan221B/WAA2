@@ -23,7 +23,6 @@ public class HeroModelObjectLoader : MonoBehaviour
         {
             HeroModelObject heroModelObject = MonoBehaviour.Instantiate(_heroModelObjects.GetHeroModelObjectByID((int)hero.Value.DicHeroId),
                 new Vector3(hero.Value.coordinates.x, 0.8f, hero.Value.coordinates.y), Quaternion.identity, _gameModel.TerrainObjectsParent);
-            Debug.Log("PositionHero " + hero.Value.coordinates.x + " " + hero.Value.coordinates.y);
             heroModelObject.Init(hero.Value, _heroes.GetHeroByID((int)hero.Value.DicHeroId));
             heroModelObject.SetMapObjectID(hero.Key);
             heroModelObjects.Add(heroModelObject);

@@ -1,6 +1,7 @@
 using Assets.Scripts.MVC.CastleMVC.View;
 using Assets.Scripts.MVC.CastleSlots;
 using Assets.Scripts.MVC.Game;
+using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,13 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
         private ProgramState _programState;
         private CommonData _commonData;
         private GameTimer _timer;
+        private LeaveCastleProcess _leaveCastleProcess;
+        private GameTurnView _turnView;
 
-        public OpenCastleProcess(GameTimer gameTimer,CommonData commonData, ProgramState programState, SlotsModel slotsModel, CastleView castleView, GameModel gameModel, CastleModel castleModel, CastleBuildingsView castleBuildingsView)
+        public OpenCastleProcess(GameTurnView gameTurnView,LeaveCastleProcess leaveCastleProcess,GameTimer gameTimer,CommonData commonData, ProgramState programState, SlotsModel slotsModel, CastleView castleView, GameModel gameModel, CastleModel castleModel, CastleBuildingsView castleBuildingsView)
         {
+            _turnView = gameTurnView;
+            _leaveCastleProcess = leaveCastleProcess;
             _timer = gameTimer;
             _commonData = commonData;
             _programState = programState;
@@ -32,6 +37,7 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
 
         public void TryOpenCastle(MessageInput message)
         {
+            _leaveCastleProcess.ExitCasle();
             GetCastleResult castleInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<GetCastleResult>(message.body);
             CastleObjectFullInfo castleFullInfo = castleInfo.castleDTO;
             if (_gameModel.TryGetCastle(castleFullInfo.mapObjectId, out Castle castle))
@@ -53,6 +59,8 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
                     _castleModel.DisplayBuildgins(castleFullInfo, cloneCastleDTO);
                     _castleView.HandleHeroInGarrison(castleFullInfo);
                     _castleView.Open();
+                    _gameModel.TryCaptureCastle();
+                    _turnView.UpdateTurnView();
                 }
             }
         }

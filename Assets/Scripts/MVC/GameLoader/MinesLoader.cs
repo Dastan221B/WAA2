@@ -20,7 +20,6 @@ public class MinesLoader
 
         foreach (var mine in mines)
         {
-            Debug.Log(mine.Value.DicResourceId + " mine.Value.DicMineId");
             int mineGatePositionX = mine.Value.coordinates.x + MINE_COORDINATES_OFFSET;
             int mineGatePositionY = mine.Value.coordinates.y - MINE_COORDINATES_OFFSET;
             var minePrefab = _minesStructure.GetMineSturctureByID(mine.Value.DicResourceId);

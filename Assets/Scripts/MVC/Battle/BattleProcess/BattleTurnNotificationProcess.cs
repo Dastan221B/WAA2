@@ -17,7 +17,6 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             BattleTurnNotificationInfo battleTurnNotificationInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BattleTurnNotificationInfo>(messageInput.body);
             _battleModel.SetCreatureStackBattleObjectFullInfo(battleTurnNotificationInfo.activeCreatureStack);
             _battleModel.InitHexagonsForCreature();
-            Debug.Log("Turn notify");
         }
     }
 }
