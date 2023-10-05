@@ -29,19 +29,19 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                 _tradeController.ExitFromTradePanel();
                 if (_gameModel.TryGetHeroModelObject(submitTradeResult.requesterHeroObjectId,out HeroModelObject heroModelObject1))
                 {
-                    heroModelObject1.SetArmySlots(submitTradeResult.receiverArmy);
+                    heroModelObject1.SetArmySlots(submitTradeResult.requesterArmy);
                     Debug.Log("_castleView.OpenUI " + _castleView.OpenUI);
                     if (_castleView.OpenUI)
                     {
-                        _slotModel.AddCreaturesToGarrisonSlot(submitTradeResult.receiverArmy);
+                        _slotModel.AddCreaturesToGarrisonSlot(submitTradeResult.requesterArmy);
                     }
                 }
                 if (_gameModel.TryGetHeroModelObject(submitTradeResult.receiverHeroObjectId, out HeroModelObject heroModelObject2))
                 {
-                    heroModelObject2.SetArmySlots(submitTradeResult.requesterArmy);
+                    heroModelObject2.SetArmySlots(submitTradeResult.receiverArmy);
                     if (_castleView.OpenUI)
                     {
-                        _slotModel.AddCreaturesToCastleSlot(submitTradeResult.requesterArmy);
+                        _slotModel.AddCreaturesToCastleSlot(submitTradeResult.receiverArmy);
                     }
                 }
             }

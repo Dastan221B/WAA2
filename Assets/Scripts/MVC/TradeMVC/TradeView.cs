@@ -40,8 +40,12 @@ namespace Assets.Scripts.MVC.TradeMVC
 
         private void Sumbit()
         {
-            _gameAndBattleCommandsSender.SendSumbitTrade(_tradeModel.TradeRequesterId, _tradeModel.TradeReceiverId, 
-                _requesterHeroCreaturesInventory.GetArmySlots(), _recieverHeroCreaturesInventory.GetArmySlots());
+            if (_recieverHeroCreaturesInventory.TradeCreatureCount != 0 && _requesterHeroCreaturesInventory.TradeCreatureCount != 0)
+            {
+                Debug.Log("dsadsadsa");
+                _gameAndBattleCommandsSender.SendSumbitTrade(_tradeModel.TradeRequesterId, _tradeModel.TradeReceiverId,
+                    _requesterHeroCreaturesInventory.GetArmySlots(), _recieverHeroCreaturesInventory.GetArmySlots());
+            }
         }
 
         private void OpenPanel()

@@ -23,7 +23,7 @@ public class MineStructure : GameMapObject
 
     private void Start()
     {
-        _meshRenderer.material.color = _minesCube.GetColorById(DicMineID - 1);
+        _meshRenderer.material.color = Color.gray;
     }
 
     public void SetSize(int width, int height)
