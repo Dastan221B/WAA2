@@ -89,14 +89,17 @@ namespace Assets.Scripts.MVC.Game.Views
                 _castleIconsInCastle[i].SetBaseIcon(_baseImage);
 
             for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
+            {
                 if (i < _heroModelObjectIcons.Count)
-                    _heroModelObjectIcons[i].SetHeroModelObject(_gameModel.HeroModelObjectsTurn[i]);
-
+                {
+                    if(!_gameModel.HeroModelObjectsTurn[i].InCastle)
+                        _heroModelObjectIcons[i].SetHeroModelObject(_gameModel.HeroModelObjectsTurn[i]);
+                }
+            }
             for (int i = 0; i < _gameModel.CastlesTurn.Count; i++)
                 if (i < _castleIcons.Count)
                     _castleIcons[i].SetCastle(_gameModel.CastlesTurn[i]);
 
-            Debug.Log("_gameModel.CastlesTurn " + _gameModel.CastlesTurn.Count);
             for (int i = 0; i < _gameModel.CastlesTurn.Count; i++)
                 if (i < _castleIconsInCastle.Count)
                     _castleIconsInCastle[i].SetCastle(_gameModel.CastlesTurn[i]);
@@ -114,7 +117,6 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public void EnteredInTurn(Player player)
         {
-            Debug.Log("Plyer entered in turn " + player.Ordinal);
             _turnInfoPanel.OpenForSelf(_systemColors.GetColorByOrdinal(player.Ordinal) ,player.UserInfo.UserName);
             
         }

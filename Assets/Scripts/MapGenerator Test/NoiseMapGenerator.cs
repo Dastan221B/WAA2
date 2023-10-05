@@ -65,7 +65,6 @@ public class NoiseMapGenerator : MonoBehaviour
                 // —охран€ем точку дл€ карты высот
                 // »з-за наложени€ октав есть веро€тность выхода за границы диапазона [0,1]
                 noiseMap[y , x] = Mathf.Clamp01(noiseHeight) / heightFactor;
-                Debug.Log(noiseMap[y, x]);
             }
         }
 

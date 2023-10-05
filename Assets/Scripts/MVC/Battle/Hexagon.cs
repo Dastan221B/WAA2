@@ -33,7 +33,6 @@ namespace Assets.Scripts.MVC.Battle
         {
             if(battleCreature == null)
             {
-                Debug.Log("Battle creature null " + BattleFieldCoordinates.x + "  " + BattleFieldCoordinates.y);
                 _stayedCreatureID = 0;
                 _battleCreature = null;
                 return;

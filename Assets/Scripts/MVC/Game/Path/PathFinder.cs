@@ -63,6 +63,9 @@ namespace Assets.Scripts.MVC.Game.Path
                 new Vector2Int(4,1)
             };
 
+            if (_gameModel.MapSize != new Vector2Int(10, 10))
+                blockPosition.Clear();
+
             bool end_interactive = false;
             foreach (var castle in castles)
             {

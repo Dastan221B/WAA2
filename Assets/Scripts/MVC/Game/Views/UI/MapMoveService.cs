@@ -48,7 +48,6 @@ public class MapMoveService : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     {
 
         _buttonState = true;
-        Debug.Log("_mapCameraDirection " +_mapCameraDirection);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -59,7 +58,6 @@ public class MapMoveService : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         if (_buttonState == true)
         {
             MoveCamera();
-            Debug.Log("_buttonState " + _buttonState);
         }
     }
     private float MapBorders(int mapSize)

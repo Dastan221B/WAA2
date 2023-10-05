@@ -39,7 +39,6 @@ namespace Assets.Scripts.GameResources
             {
                 if(resources.TryGetValue((int)item, out Resource resource))
                 {
-                    Debug.Log((ResourceTypes)_resources[item] + " + " + resource.Amount);
                     _resources[item] = resource.Amount;
                 }
             }

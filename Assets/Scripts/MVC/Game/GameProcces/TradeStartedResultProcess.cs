@@ -21,9 +21,7 @@ namespace Assets.Scripts.MVC.Game.GameProcces
         public void TradeStartedResultHandler(MessageInput message)
         {
             _currentTradeStartedResult = Newtonsoft.Json.JsonConvert.DeserializeObject<TradeStartedResult>(message.body);
-            Debug.Log(_currentTradeStartedResult.requesterHeroInfo.mapObjectId);
-            Debug.Log(_currentTradeStartedResult.receiverHeroInfo.mapObjectId);
-            Debug.Log("Request trade " + _currentTradeStartedResult.requesterHeroInfo.mapObjectId + " " + _currentTradeStartedResult.receiverHeroInfo.mapObjectId);
+     
             _moveHeroInfoWithMovePointsProcess.MoveHeroAndAndActionBeforeEndingMove(_currentTradeStartedResult.movementPath,
                 _currentTradeStartedResult.heroId, _currentTradeStartedResult.movePointsLeft, () => EnterInTrade());
         }
@@ -35,15 +33,12 @@ namespace Assets.Scripts.MVC.Game.GameProcces
 
             if(_gameModel.TryGetHeroModelObject(_currentTradeStartedResult.requesterHeroInfo.mapObjectId, out HeroModelObject heroModelObject1))
             {
-                Debug.Log(_currentTradeStartedResult.requesterHeroInfo.dicHeroId);
-                Debug.Log(heroModelObject1.Hero.HeroID);
                 requestIcon = heroModelObject1.Hero.Icon;
             }
 
             if (_gameModel.TryGetHeroModelObject(_currentTradeStartedResult.receiverHeroInfo.mapObjectId, out HeroModelObject heroModelObject2))
             {
-                Debug.Log(_currentTradeStartedResult.receiverHeroInfo.dicHeroId);
-                Debug.Log(heroModelObject2.Hero.HeroID);
+
                 receiverIcon = heroModelObject2.Hero.Icon;
             }
             _tradeController.EnterInTradeAndSetPariticipants(_currentTradeStartedResult.requesterHeroInfo, _currentTradeStartedResult.receiverHeroInfo, requestIcon, receiverIcon);

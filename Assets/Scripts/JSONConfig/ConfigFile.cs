@@ -20,7 +20,6 @@ namespace Assets.Scripts.JSONConfig
 #endif
             var json = File.ReadAllText(path);
             Config = JsonConvert.DeserializeObject<JSonConfigFile>(json);
-            UnityEngine.Debug.Log(Config.IP);
         }
 
         private void CreateConfigFile()

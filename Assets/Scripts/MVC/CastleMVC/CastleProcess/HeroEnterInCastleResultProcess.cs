@@ -20,7 +20,6 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
             HeroEnteredCastleResult heroEnteredCastle = Newtonsoft.Json.JsonConvert.DeserializeObject<HeroEnteredCastleResult>(message.body);
             _moveHeroInfoWithMovePointsProcess.MoveHeroAndAndActionBeforeEndingMove(heroEnteredCastle.movementPath, heroEnteredCastle.heroId, heroEnteredCastle.movePointsLeft,
                 () => _castleCommandsSender.SendCastleInfoRequest(heroEnteredCastle.castleId));
-            Debug.Log("heroEnteredCastle.castleId " + heroEnteredCastle.castleId + " heroEnteredCastle.heroId " + heroEnteredCastle.heroId);
         }
     }
 }

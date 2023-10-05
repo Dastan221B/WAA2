@@ -112,7 +112,8 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
-        if (!_gameModel.IsCurrentTurn || _loadScreen.IsLoaded) return;
+        if (!_gameModel.IsCurrentTurn || _loadScreen.IsLoaded) 
+            return;
         UIEvents();
         if (!_gameModel.IsHeroMove && Input.GetMouseButtonDown(0) && _cellPicker.TryPickCell(out Cell cell) && !CheckToUI() && !FindAnyObjectByType<GameSceneLoaderTrigger>().TradePanel.activeSelf)
         {
@@ -122,6 +123,11 @@ public class GameController : MonoBehaviour
                     _gameCommandsSender.SendMoveHeroRequest(new Vector2Int((int)cell.transform.position.x, (int)cell.transform.position.z));
                 else if (cell.InteractiveMapObjectId != "")
                 {
+                    if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
+                    {
+                        if (_gameModel.SelectedHero.InCastle)
+                            return;
+                    }
                     _gameCommandsSender.SendMoveHeroRequestWithInteractable
                         (new Vector2Int((int)cell.transform.position.x,
                         (int)cell.transform.position.z),
@@ -151,7 +157,8 @@ public class GameController : MonoBehaviour
                 {
                     if (cell.GameMapObjectType == GameMapObjectType.CASTLE && cell.Castle != null)
                     {
-                        Debug.Log("Attaked castle");
+                        if (_gameModel.SelectedHero.LastCellStayed.Castle != null)
+                            return;
                         _gameCommandsSender.SendMoveHeroRequestWithInteractable
                              (new Vector2Int((int)cell.Castle.GateCell.transform.position.x,
                              (int)cell.Castle.GateCell.transform.position.z),

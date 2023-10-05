@@ -30,7 +30,6 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                 if (_gameModel.TryGetHeroModelObject(submitTradeResult.requesterHeroObjectId,out HeroModelObject heroModelObject1))
                 {
                     heroModelObject1.SetArmySlots(submitTradeResult.receiverArmy);
-                    Debug.Log("_castleView.OpenUI " + _castleView.OpenUI);
                     if (_castleView.OpenUI)
                     {
                         _slotModel.AddCreaturesToGarrisonSlot(submitTradeResult.receiverArmy);

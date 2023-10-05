@@ -29,13 +29,11 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             if(_battleModel.TryGetCreatureByID(battleMoveAndHitResultInfo.activeCreatureStackBattleObjectId, out _attakerBattleCreature))
             {
                 BattleFieldCoordinates coords = battleMoveAndHitResultInfo.targetCreatureStack.battleFieldCoordinates;
-                Debug.Log("Coords " + coords.x + " " + coords.y);
                 if (_battleModel.TryGetHexagonByCoordinates(coords.x, coords.y, out Hexagon hexagon))
                 {
                     _targetToAttackBattleCreature = hexagon.BattleCreature;
                     _isKilledCreature = battleMoveAndHitResultInfo.hitLog.creatureKilled == 1;
                     _amount = battleMoveAndHitResultInfo.targetCreatureStack.amount;
-                    Debug.Log("_isKilledCreature " + _isKilledCreature);
                     _attakDamage = battleMoveAndHitResultInfo.targetCreatureStack.currentHealthPoint;
                     _attakerBattleCreature.SetHealthPoints(battleMoveAndHitResultInfo.attackerCreatureStack.currentHealthPoint);
                     _creaturePathMover.OnEndedMove += HitCreature;

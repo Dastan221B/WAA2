@@ -13,7 +13,6 @@ public class DebugerSingleton : MonoBehaviour
 
     public void DebugText(object text)
     {
-        Debug.Log(text.ToString());
     }
 
 }

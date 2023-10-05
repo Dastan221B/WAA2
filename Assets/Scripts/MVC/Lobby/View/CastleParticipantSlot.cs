@@ -31,8 +31,6 @@ public class CastleParticipantSlot : MonoBehaviour
 
     public void SelectedNewCastle()
     {
-        Debug.Log("Changed");
-        //Debug.Log("Value " + value);
         if(_castleDropdown.value == 0)
             _participantIcon.sprite = _randomSprite;
         _broadcastChangedPlayerCastleRequest.BroadcastChangePlayerCastleRequest(_participantSlot.SessionID, GetCastleID(), _participantSlot.Ordinal);

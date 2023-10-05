@@ -8,7 +8,6 @@ public class CreateNewLobbyProcess
         CreateNewLobbySessionResult createNewLobbySessionsResult = Newtonsoft.Json.JsonConvert.DeserializeObject<CreateNewLobbySessionResult>(messageInput.body);
         if (createNewLobbySessionsResult.result)
         { 
-            Debug.Log("reateNewLobbySessionsResult.MaxPlayerCount " + createNewLobbySessionsResult.MaxPlayerCount);
 
             string creatorName = "";
 
@@ -26,7 +25,6 @@ public class CreateNewLobbyProcess
                 createNewLobbySessionsResult.TemplateId, createNewLobbySessionsResult.SizeId, createNewLobbySessionsResult.IsAIAllowed,
                 createNewLobbySessionsResult.Status, createNewLobbySessionsResult.Participants);
             lobbySession = newSession;
-            Debug.Log("createNewLobbySessionsResult.Participants[0] " + createNewLobbySessionsResult.Participants[0].DicCastleId + " " + createNewLobbySessionsResult.Participants[0].DicHeroId);
             return true;
             
         }

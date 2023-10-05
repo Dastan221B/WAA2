@@ -23,7 +23,6 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                 _timer.TimerTime = pickResourceInfo.turnSeconds;
                 resourceSturcture.CellPlace.ResetInteractiveMapObject();
                 MonoBehaviour.Destroy(resourceSturcture.gameObject);
-                Debug.Log("pickResourceInfo.resourceId " + pickResourceInfo.resourceId);
             }
         }
     }

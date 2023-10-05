@@ -33,6 +33,9 @@ namespace Assets.Scripts.MVC.CastleMVC
         public IReadOnlyList<Building> Buildings => _buildings;
         private List<DicCreaturePack> _dicCreaturePackcs = new List<DicCreaturePack>();
 
+        public int LevelLastHiredCreature { get; private set; }
+        public int AmountHiredCreature { get; private set; }
+
         public CastleModel(CastleView castleView,CommonData commonData, GameModel gameModel , SlotsController slotsController, Heroes heroes)
         {
             _castleView = castleView;
@@ -41,6 +44,12 @@ namespace Assets.Scripts.MVC.CastleMVC
             _slotsController = slotsController;
             _heroes = heroes;
             _slotsController = slotsController;
+        }
+
+        public void SetBuyCreature(int amount , int level)
+        {
+            LevelLastHiredCreature = level;
+            AmountHiredCreature = amount;
         }
 
         public void InitActiveCreatures()
@@ -186,6 +195,14 @@ namespace Assets.Scripts.MVC.CastleMVC
             //{
             //    _buildings[14].gameObject.SetActive(true);
             //}
+        }
+
+        public void DecreaseCreatureAvailable(int creatureLevel , int count)
+        {
+            if(CurrentCastleFullOjbectInfo.purchasableCreatureInfoMap.TryGetValue(creatureLevel, out PurchaseableCreatureInfo creaturesAmount))
+            {
+                creaturesAmount.amount -= count;
+            }
         }
 
         public void InitBuildingsIDS()

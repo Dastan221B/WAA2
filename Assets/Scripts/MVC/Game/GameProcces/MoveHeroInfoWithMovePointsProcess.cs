@@ -37,16 +37,12 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                     _gameModel.HeroStartMove();
                     _heroPathMover.MoveHeroOnPath(heroModelObject, path);
                     Cell cell = path[path.Count - 1];
-                    Debug.Log(1);
                     if(cell.GameMapObjectType == GameMapObjectType.CASTLE)
                     {
-                        Debug.Log(2);
                         if (!cell.CheckHero())
                         {
-                            Debug.Log(3);
                             if (cell.Castle != null)
                             {
-                                Debug.Log(4);
                                 _gameModel.RemoveCasle(cell.Castle);
                             }
                         }
@@ -57,7 +53,6 @@ namespace Assets.Scripts.MVC.Game.GameProcces
             else
             {
                 _gameModel.StopHeroMove();
-                Debug.Log(moveHeroInfoWithMovePoints.reason);
             }
         }
 

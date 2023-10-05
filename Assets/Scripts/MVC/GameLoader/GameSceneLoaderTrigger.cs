@@ -100,6 +100,7 @@ public class GameSceneLoaderTrigger : MonoBehaviour
         TradeView tradeView = FindObjectOfType<TradeView>();
         FindObjectOfType<HeroPanelController>().Init( _mapCamera,_heroModelObjectIcons,_creatureInfoWindow, _strategyCamera.GetComponent<Camera>());
         //FindObjectOfType<CoursorService>().SetCamera(_camera);
+        FindObjectOfType<CastleUIIconPicker>().Init(_strategyCamera.GetComponent<Camera>(), _mapCamera);
         FindObjectOfType<HeroPathMover>().Init(_strategyCamera.GetComponent<Camera>(), _mapCamera);
         FindObjectOfType<GameButtonsView>().Init(_surrenderButton);
         tradeView.Init(_requesterHeroCreaturesInventory, _recieverHeroCreaturesInventory, _tradePanel, _sumbitButton);

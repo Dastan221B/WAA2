@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Interfaces.Game;
 using Assets.Scripts.MVC.CastleMVC.View;
 using Assets.Scripts.MVC.Game.Views.UI;
+using Assets.Scripts.MVC.HeroPanel;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,19 @@ namespace Assets.Scripts.MVC.CastleMVC
         private CastleCommandsSender _castleCommandsSender;
         private GameModel _gameModel;
         private CastleView _castleView;
+        private Camera _camera;
+        private Camera _mapCamera;
 
         private float _clicked = 0;
         private float _clicktime = 0;
         private float _clickdelay = 1f;
         private string _castleIDSelected;
+
+        public void Init(Camera camera, Camera mapCamera)
+        {
+            _mapCamera = mapCamera;
+            _camera = camera;
+        }
 
         public void Init(CastleView castleView,GameModel gameModel,ProgramState programState , CastleCommandsSender castleCommandsSender)
         {
@@ -35,6 +44,13 @@ namespace Assets.Scripts.MVC.CastleMVC
 
             if (Input.GetMouseButtonDown(0) && TryPickCaslteIcon(out CastleIcon castleIcon))
             {
+                _camera.GetComponent<StrategyCamera>().enabled = false;
+                _camera.transform.position = new Vector3(castleIcon.Castle.transform.position.x,
+                                          _camera.transform.position.y,
+                                          castleIcon.Castle.transform.position.z - 5);
+                _mapCamera.transform.position = new Vector3(castleIcon.Castle.transform.position.x, 8.9f, castleIcon.Castle.transform.position.z);
+                _camera.GetComponent<StrategyCamera>().enabled = true;
+
                 castleIcon.SelectCastle();
                 _clicked++;
                 if (_clicked == 1) _clicktime = Time.time;

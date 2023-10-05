@@ -99,7 +99,7 @@ namespace Assets.Scripts.MVC.CastleMVC.View
             }
             _currentCreatureDTO = _dicCreatures[0];
             _creaturesNameText.text = _currentCreatureDTO.name;
-            _selectedCreaturesAmount = 1;
+            _selectedCreaturesAmount = 0;
             _currentHireCreatureIcon = _hireCreatureIcons[0];
             SetupPriceForCurrentCreature();
             SetupCreaturesMaxCount();
@@ -135,6 +135,8 @@ namespace Assets.Scripts.MVC.CastleMVC.View
         {
             _castleCommandsSender.SendHireCastleCreatureRequest(_castleModel.CurrentCastleID, (int)_currentCreatureDTO.id, _selectedCreaturesAmount,
                 new List<ArmySlotInfo>(_slotsModel.CastleArmy).ExcludeNull(), new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull());
+            _castleModel.SetBuyCreature(_selectedCreaturesAmount, _currentCreatureDTO.level);
+            
             Close();
         }
 
@@ -164,21 +166,26 @@ namespace Assets.Scripts.MVC.CastleMVC.View
             //_creaturesCountSlider.value = _creaturesCountSlider.maxValue * koef;
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             _totalPriceText.text = (_selectedCreaturesAmount * _priceForCreature).ToString();
-            _availableCreaturesAmountText.text = (_creaturesMaxCount - _selectedCreaturesAmount).ToString();
+            int available = (_creaturesMaxCount - _selectedCreaturesAmount);
+            if(available < 0)
+                available = 0;
+            _availableCreaturesAmountText.text = available.ToString();
             _selectedCreaturesCountText.text = _selectedCreaturesAmount.ToString();
             if (_slotsModel.TryGetArmyInSlots((int)_currentCreatureDTO.id, out ArmySlotInfo armySlotInfo))
                 _haveCreaturesInInvetory.text = armySlotInfo.amount.ToString();
         }
 
 
-        private void SetupCreaturesMaxCount()
+        public void SetupCreaturesMaxCount()
         {
             if (_castleModel.CurrentCastleFullOjbectInfo.purchasableCreatureInfoMap.TryGetValue(_currentCreatureDTO.level, out PurchaseableCreatureInfo creaturesAmount))
             {
                 _creaturesMaxCount = creaturesAmount;
+                if (_creaturesMaxCount < 0)
+                    _creaturesMaxCount = 0;
             }
         }
 

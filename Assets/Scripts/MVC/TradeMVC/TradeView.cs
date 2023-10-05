@@ -56,7 +56,6 @@ namespace Assets.Scripts.MVC.TradeMVC
 
         public void DisplayArmySlots()
         {
-            Debug.Log(_requesterHeroCreaturesInventory);
             foreach(var item in _tradeModel.TradeRequesterArmy)
             {
                 _requesterHeroCreaturesInventory.SetCreatureSlots(_modelCreatures.GetIconById((int)item.dicCreatureId - 1), item);

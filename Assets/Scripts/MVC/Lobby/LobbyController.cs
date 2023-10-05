@@ -116,7 +116,6 @@ public class LobbyController : ITryConnectToLobbySession , IParticipantPanelDepe
 
     public void BroadcastChangePlayerCastleRequest(string sessionId, int castleId, int ordinal)
     {
-        Debug.Log("BroadCasted");
         SetPlayerCastleRequest request = new SetPlayerCastleRequest(sessionId, castleId, ordinal);
         _lobbyMessageSender.MessageSender(OutputLobbyHeaders.SET_PLAYER_CASTLE_REQUEST, Newtonsoft.Json.JsonConvert.SerializeObject(request));
     }
@@ -196,7 +195,7 @@ public class LobbyController : ITryConnectToLobbySession , IParticipantPanelDepe
                 if (_enterInLobbySession.TryGetEnteredLobbySession(messageInput, out SessionParticipant sessionParticipant, out EnterLobbySessionResult enterLobbySessionResult))
                     _lobbyModel.EnterSession(enterLobbySessionResult.sessionId, sessionParticipant);
                 else          
-                    _infoMessagePanel.DisplayMessage("Something went wrong :(");
+                    _infoMessagePanel.DisplayMessage(enterLobbySessionResult.reason);
                 _isCanConnect = true;
                 break;
             case InputLobbyHeaders.CLOSE_LOBBY_SESSION_INFO:

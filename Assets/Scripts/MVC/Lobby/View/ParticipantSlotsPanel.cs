@@ -118,13 +118,11 @@ public class ParticipantSlotsPanel : MonoBehaviour, IChoosebaleHeroForParticipan
 
     public void UpdateFeeMap(int ordinalTargetChangedFee , DecreaseIncreaseMode decreaseIncreaseMode = DecreaseIncreaseMode.Increase)
     {
-        Debug.Log("Feeupdate");
         int fee;      
         Dictionary<int, int> participants = new Dictionary<int, int>();
         foreach (var item in _participantSlots)
         {
 
-            Debug.Log("FeeupdateCheck");
             if (item.Ordinal == ordinalTargetChangedFee)
                 fee = item.FEE + (100 * (int)decreaseIncreaseMode);
             else
@@ -137,13 +135,11 @@ public class ParticipantSlotsPanel : MonoBehaviour, IChoosebaleHeroForParticipan
     public void UpdateFeeMap(int ordinalTargetChangedFee , int feeNew)
     {
 
-        Debug.Log("Feeupdate123");
         int fee;
         Dictionary<int, int> participants = new Dictionary<int, int>();
         foreach (var item in _participantSlots)
         {
 
-            Debug.Log("Feeupdate222");
             if (item.Ordinal == ordinalTargetChangedFee)
                 fee = feeNew;
             else
@@ -254,7 +250,6 @@ public class ParticipantSlotsPanel : MonoBehaviour, IChoosebaleHeroForParticipan
 
         foreach (var item in dicHeroDTOs)
         {
-            Debug.Log("Hero id " + item.id);
             Hero hero = _heroes.GetHeroByIDOrNull(item.id);
             if (!ids.Contains(hero))
                 list.Add(_heroes.GetHeroByID(item.id));

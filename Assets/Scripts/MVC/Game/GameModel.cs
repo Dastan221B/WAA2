@@ -367,6 +367,7 @@ public class GameModel : IGameDataHandler
     {
         if (AttackedCastle != null && !_castlesTurn.Contains(AttackedCastle))
         {
+            AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(SelectedHero.Ordinal));
             _castlesTurn.Add(AttackedCastle);
             AttackedCastle = null;
         }
@@ -421,7 +422,7 @@ public class GameModel : IGameDataHandler
                     _heroModelObjectsTurn.Add(heroModelObject);
                 }
             }
-
+            _heroModelObjectsTurn.OrderBy(item => item.transform.position.y);
             foreach (var castle in turnNotificationInfo.castlesInfo.Values)
             {
                 if (TryGetCastleByID(castle.mapObjectId, out Castle castleObject))

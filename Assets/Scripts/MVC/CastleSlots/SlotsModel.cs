@@ -62,11 +62,11 @@ namespace Assets.Scripts.MVC.CastleSlots
                     }
                 }
             }
-            for (int i = 0; i < armySlotInfos.Count; i++)
-            {
-                Debug.Log(armySlotInfos[i].stackSlot);
-                _castleArmy[i] = armySlotInfos[i];
-            }
+            _castleArmy = armySlotInfos.ToArray();
+            //for (int i = 0; i < armySlotInfos.Count; i++)
+            //{
+            //    _castleArmy[i] = armySlotInfos[i];
+            //}
             OnUpdatedCastleArmy?.Invoke();
         }
 

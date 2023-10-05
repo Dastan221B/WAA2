@@ -20,13 +20,11 @@ public class ArrowScript : MonoBehaviour, IPointerDownHandler
     {
 		this.transform.localScale = new Vector3(1, 1, 1);
 		arrowState = ArrowState.Off;
-		Debug.Log("Changed");
 	}
 
     public void OnPointerDown(PointerEventData eventData)
 	{
 
-		Debug.Log("is work");
 		if(arrowState == ArrowState.Off)
         {
 			this.transform.localScale = new Vector3(-1, 1, 1);

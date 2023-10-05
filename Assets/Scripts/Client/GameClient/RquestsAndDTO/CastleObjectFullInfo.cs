@@ -39,7 +39,6 @@ public class CastleObjectFullInfo
 
     public void SetBuildingCouncil(Building building)
     {
-        UnityEngine.Debug.Log(building);
         BuildingCouncil = building;
     }
 

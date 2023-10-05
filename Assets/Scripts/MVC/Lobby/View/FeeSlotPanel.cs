@@ -31,7 +31,6 @@ public class FeeSlotPanel : MonoBehaviour
     {
         string valueWithoutFEE = value.Replace("FEE:", "");
         _feeTextField.text = valueWithoutFEE;
-        Debug.Log(valueWithoutFEE);
         _onChangeFeeCoroutine = StartCoroutine(TimeToChangeFEE(valueWithoutFEE));
         if (_onChangeFeeCoroutine != null)
             StopCoroutine(_onChangeFeeCoroutine);

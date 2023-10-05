@@ -16,10 +16,7 @@ public class ResourcesMapResponseProcess : MonoBehaviour
     public void InitData(MessageInput message, bool isLoadedGame)
     {
         ResourcesMapResponse resourcesInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<ResourcesMapResponse>(message.body);
-        foreach(var item in resourcesInfo.resources)
-        {
-            Debug.Log("Resource " + item.Value + " " + item.Key);
-        }    
+
         _gameLoadedData.AddToData(resourcesInfo.resources, typeof(ResourcesData));
         _resourcesDataService.SetResources(resourcesInfo.resources);
 

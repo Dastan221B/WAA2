@@ -218,10 +218,8 @@ namespace Assets.Scripts.GameResources.MapCreatures
             transform.LookAt(creatureToKill.transform);
             HandleAttack(creatureToKill);
             yield return new WaitForSeconds(_attackAnimationClip.length);
-            Debug.Log("isKilled " + isKilled);
             creatureToKill.SetHealthPoints(attakDamage);
-            Debug.Log("creatureToKill.DicCreatureDTO.healthPoints " + creatureToKill.DicCreatureDTO.healthPoints);
-            if (creatureToKill.DicCreatureDTO.healthPoints <= 0 && Amount == 0)
+            if (isKilled)
                 creatureToKill.Loose();
             else
                 EnterInIdleState();

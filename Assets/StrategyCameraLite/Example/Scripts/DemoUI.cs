@@ -21,13 +21,11 @@ public class DemoUI : MonoBehaviour
     {
         if(StrategyCamera == null)
 		{
-            Debug.LogWarning("Demo UI needs to have the strategy camera configured!");
             enabled = false;
 		}
 
         if (SettingsPanelRoot == null)
         {
-            Debug.LogWarning("Demo UI needs to have the settings panel root configured!");
             enabled = false;
         }
 

@@ -24,7 +24,6 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             }
             else
             {
-                Debug.Log(battleMoveResultInfo.reason);
             }
         }
     }

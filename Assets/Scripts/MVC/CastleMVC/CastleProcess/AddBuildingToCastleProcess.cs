@@ -37,7 +37,6 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
                     _castleModel.CurrentCastleFullOjbectInfo.buildings.Add(addCastleBuildingResult.buildingId);
                     //_castleModel.CurrentDicCastleDTO.buildingSet = addCastleBuildingResult.buildings;
                     _castleModel.CurrentDicCastleDTO.buildingSet.Add(addCastleBuildingResult.buildingId);
-                    Debug.Log(addCastleBuildingResult.buildingId + "addCastleBuildingResult.buildingId");
                     _castleModel.CurrentCastleFullOjbectInfo.purchasableCreatureInfoMap = addCastleBuildingResult.purchasableCreatureInfoMap;
                     building.Open();
                     _castleModel.InitActiveCreatures();

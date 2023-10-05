@@ -36,7 +36,6 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         {
             _battleInitialInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BattleInitialInfo>(messageInput.body);
             battleInitialInfo = _battleInitialInfo;
-            Debug.Log(_battleInitialInfo.assaulter.mapObjectId + " assaulter " + _battleInitialInfo.defender.mapObjectId + " defender ");
         }
 
         public void LoadBattleObjects()

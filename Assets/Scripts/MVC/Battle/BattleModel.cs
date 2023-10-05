@@ -30,6 +30,7 @@ namespace Assets.Scripts.MVC.Battle
         public bool _endedGameInProcess;
         public bool IsCreatureInAction { get; private set; }
         public bool IsInited { get; private set; }
+        public bool InitedHexagonsForCreature { get; private set; }
         public IEnumerable<CreatureModelObject> DeathCreatures => _deathCreatures;
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjectsSelf => _battleCreatures.Where(item => item.CreatureSide == CreatureSide.Self).ToList();
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjects => _battleCreatures;
@@ -65,7 +66,8 @@ namespace Assets.Scripts.MVC.Battle
 
         public void ResetHexagons()
         {
-            foreach(var item in _hexagons)
+            InitedHexagonsForCreature = false;
+            foreach (var item in _hexagons)
             {
                 item.DisableToMove();
                 item.Unselect();
@@ -127,6 +129,7 @@ namespace Assets.Scripts.MVC.Battle
 
             if (TryGetHexagonByCoordinates(_creatureStackBattleObjectFullInfo.battleFieldCoordinates.x, _creatureStackBattleObjectFullInfo.battleFieldCoordinates.y, out Hexagon hexagon2))
                 hexagon2.PaintToGreen();
+            InitedHexagonsForCreature = true;
         }
 
         public void SetBattleSceneObjectsParent(Transform transform)
@@ -183,11 +186,9 @@ namespace Assets.Scripts.MVC.Battle
             if (battleCreatures.Count <= 0)
                 throw new Exception("Battles creatures list is empty");
             _battleCreatures = battleCreatures;
-            Debug.Log("_battleCreatures " + _battleCreatures.Count);
             List<CreatureModelObject> creatures = new List<CreatureModelObject>();
             foreach (var item in _battleCreatures)
             {
-                Debug.Log(item.DicCreatureDTO.name + " " + item.DicCreatureDTO.attackType);
                 item.OnActionEnded += CreatureExitFromAction;
                 item.OnCreatureDeath += HandleCreatureDeath;
                 item.OnStartCreatureDeath += AddCreatureToDeath;
@@ -271,7 +272,6 @@ namespace Assets.Scripts.MVC.Battle
 
         public void AddCreatureToDeath(CreatureModelObject battleCreature)
         {
-            Debug.Log("Added to death");
             battleCreature.OnStartCreatureDeath -= AddCreatureToDeath;
             _deathCreatures.Add(battleCreature);
         }

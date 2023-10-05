@@ -13,7 +13,6 @@ public class HeroStats : MonoBehaviour
 
     public void SetStatsForHero(int attack,  int defence, int power, int knowledge, string name)
     {
-        Debug.Log("TradeWork");
         _name.text = name;
         _attack.text = attack.ToString();
         _defence.text = defence.ToString();

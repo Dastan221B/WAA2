@@ -212,7 +212,6 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
             case InputGameHeaders.CURRENT_TURN_PLAYER_INFO:
                 if (!_isLoadedGame)
                 {
-                    Debug.Log("Doesn't Loaded");
                     _currentTurnPlayerInfoProcessMessageInput = messageInput;
                 }
                 //else
@@ -262,12 +261,12 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                 _moveHeroInfoWithMovePointsProcess.MoveHeroAndAndActionBeforeEndingMove(battleInitialInfo.movementPath,
                     battleInitialInfo.heroId,
                     battleInitialInfo.movePointsLeft, () => {
-                        _battleTurnTimer.StartTimer(battleInitialInfo.turnSeconds, false);
+                        _gameTimer.PauseTimer();
                         SceneManager.LoadSceneAsync("Battle" , LoadSceneMode.Additive);
                         _loadScreen.OpenLoadBar(StatesOfProgram.Battle);
                         _gameModel.EnterInBattleScene();
                         _battleModel.EnterInBattle();
-                        _gameTimer.PauseTimer();
+                        _battleTurnTimer.StartTimer(battleInitialInfo.turnSeconds, false);
                     });
                 if (_gameModel.IsAttacked)
                 {

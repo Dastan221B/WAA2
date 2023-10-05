@@ -64,7 +64,7 @@ public class CastleCompositeRoot : CompositeRoot
         _leaveCastleProcess = new LeaveCastleProcess(_heroPanel, _programState, _gameCompositeRoot.GameModel, _castleView);
         _openCastleProcess = new OpenCastleProcess(_turnView,_leaveCastleProcess, _gameCompositeRoot.GameTimer,_commonData,_programState,_slotsModel, _castleView,_gameCompositeRoot.GameModel, _castleModel, _castleBuildingsView);
         _addBuildingToCastleProcess = new AddBuildingToCastleProcess(_commonData,_castleModel);
-        _hireCreatureProcess = new HireCreatureProcess(_slotsModel);
+        _hireCreatureProcess = new HireCreatureProcess(_hireCreatureBuildingWindow, _slotsModel, _castleModel, _commonData);
         _castleView.Init(_leaveCastleProcess, _castleController,_gameCompositeRoot.GameModel,_heroes,_buildingsListWindow,_castleCommandsSender, _castleModel, _slotsModel);
         _resourcesView.Init(_resourcesDataService);
         _gameCompositeRoot.GameController.Init(_castleCommandsSender, _castleModel);

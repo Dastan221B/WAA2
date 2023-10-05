@@ -60,6 +60,8 @@ namespace Assets.Scripts.MVC.Game
             _isNegativeTimerMode = isNegativeTimerMode;
             LastStartedTimerValue = time;
             TimerTime = time;
+            if (_timerCoroutine != null)
+                StopCoroutine(_timerCoroutine);
             _timerCoroutine = StartCoroutine(Timer());
         }
 
