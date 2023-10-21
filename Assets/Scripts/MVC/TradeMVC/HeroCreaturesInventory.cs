@@ -9,6 +9,7 @@ namespace Assets.Scripts.MVC.TradeMVC
     {
         [SerializeField] private Image _image;
         [SerializeField] private List<TradeCreatureSlot> _tradeCreatureSlots;
+        public int TradeCreatureCount => _tradeCreatureSlots.Count;
         private int _lastFilledSlotIndex = 0;
 
         public void SetCreatureSlots(Sprite icon , ArmySlotInfo armySlotInfo)

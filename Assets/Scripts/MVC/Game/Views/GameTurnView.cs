@@ -23,14 +23,16 @@ namespace Assets.Scripts.MVC.Game.Views
         private SystemColors _systemColors;
         private HeroPanelController _heroPanelController;
         private GameController _gameController;
+        private HeroPanelView _heroPanelView;
 
         private ISendStartTurnRequest _sendStartTurnRequest;
         private GameModel _gameModel;
 
-        public void Init(GameController gameController,HeroPanelController heroPanelController,GameModel gameModel,
+        public void Init(HeroPanelView heroPanelView,GameController gameController,HeroPanelController heroPanelController,GameModel gameModel,
             SystemColors systemColors,
             ISendStartTurnRequest sendStartTurnRequest)
         {
+            _heroPanelView = heroPanelView;
             _gameController = gameController;
             _heroPanelController = heroPanelController;
             _sendStartTurnRequest = sendStartTurnRequest;
@@ -104,19 +106,36 @@ namespace Assets.Scripts.MVC.Game.Views
                 if (i < _castleIconsInCastle.Count)
                     _castleIconsInCastle[i].SetCastle(_gameModel.CastlesTurn[i]);
 
-            for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
-            {
-                if (i < _heroModelObjectIcons.Count && !_gameModel.HeroModelObjectsTurn[i].InCastle)
-                {
-                    _heroPanelController.SelectPlayer(_heroModelObjectIcons[i]);
-                    _gameController.SelectHero(_gameModel.HeroModelObjectsTurn[i]);
-                    break;
-                }
-            }
+            //_gameModel.SetSelectedHero(_gameModel.HeroModelObjectsTurn[0]);
+            if(TryGetHeroModelObject(_gameModel.SelectedHero.MapObjectID, out HeroModelObjectIcon heroModelObject))
+                _heroPanelController.SelectPlayer(heroModelObject);
+
+            _gameController.SelectHero(_gameModel.SelectedHero);
+
+            //for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
+            //{
+            //    if (i < _heroModelObjectIcons.Count && !_gameModel.HeroModelObjectsTurn[i].InCastle)
+            //    {
+            //        _heroPanelController.SelectPlayer(_heroModelObjectIcons[i]);
+            //        _gameController.SelectHero(_gameModel.HeroModelObjectsTurn[i]);
+            //        break;
+            //    }
+            //}
+        }
+
+        public bool TryGetHeroModelObject(string id, out HeroModelObjectIcon heroModelObject)
+        {
+
+            heroModelObject = _heroModelObjectIcons.FirstOrDefault(item => item.HeroModelObject.MapObjectID == id);
+            if (heroModelObject != null)
+                return true;
+            return false;
+
         }
 
         public void EnteredInTurn(Player player)
         {
+            Debug.Log("Plyer entered in turn " + player.Ordinal);
             _turnInfoPanel.OpenForSelf(_systemColors.GetColorByOrdinal(player.Ordinal) ,player.UserInfo.UserName);
             
         }

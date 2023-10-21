@@ -101,7 +101,7 @@ public class GameCompositeRoot : CompositeRoot
         _moveHeroInfoWithMovePointsProcess = new MoveHeroInfoWithMovePointsProcess(_gameTurnView,_gameModel, _heroPathMover, _pathFinder, _pathDrawer);
         _flaggedMineResultProcess = new FlaggedMineResultProcess(_systemColors,_gameCommandsSender, _gameModel, _heroPathMover, _pathFinder, _pathDrawer);
         _flaggedMineInfoProcess = new FlaggedMineInfoProcess(_systemColors, _gameCommandsSender, _gameModel, _heroPathMover, _pathFinder);
-        _submitTradeResultProcess = new SubmitTradeResultProcess(_slotsModel, _castleView,GameModel, _tradeController);
+        _submitTradeResultProcess = new SubmitTradeResultProcess(_heroPanelView,_slotsModel, _castleView,GameModel, _tradeController);
         _tradeStartedResultProcess = new TradeStartedResultProcess(_gameModel,_moveHeroInfoWithMovePointsProcess, _tradeController);
         _gameProcessResponseHandler.Init(_gameTurnView,_newDayStartedInfoProcess,_heroPathMover, GameAndBattleCommands,_gameController,_submitTradeResultProcess,_tradeStartedResultProcess, _resourcesDataService,_gameLoadedData, _gameModel,_moveHeroInfoWithMovePointsProcess, _flaggedMineInfoProcess, _flaggedMineResultProcess ,_loadScreen, _gameTimer, _battleTurnTimer);
         _terrainLoader = new TerrainLoader(_terrainCells, _gameModel);
@@ -117,7 +117,7 @@ public class GameCompositeRoot : CompositeRoot
         _tradeView.Init(_mapCreatures,_tradeModel, _gameCommandsSender);
         _tradeController.Init(_tradeModel);
         _groundController.Init(_groundModel, GameModel);
-        _gameTurnView.Init(_gameController,_heroPanelController,_gameModel, _systemColors, _gameCommandsSender);
+        _gameTurnView.Init( _heroPanelView,_gameController,_heroPanelController,_gameModel, _systemColors, _gameCommandsSender);
         _heroPicker.Init(_programState);
         _gameController.Init(_gameLoaderController,_loadScreen,_gameModel,_gameProcessResponseHandler, _cellPicker, _heroPicker, _pathFinder, _pathDrawer, _lobbyCompositeRoot.LobbyModel, _gameCommandsSender, _groundController);
         _heroPanelController.Init(_heroPanelView, _mapCreatures, _commonData, _programState, _heroPanelSelector, _heroPanelModel);

@@ -65,6 +65,7 @@ namespace Assets.Scripts.MVC.HeroPanel
 
         public void SelectPlayer(HeroModelObjectIcon heroModelObjectIcon)
         {
+            Debug.Log("Setted hero for start " + heroModelObjectIcon.HeroModelObject.ArmySlotInfos.Count);
             foreach (var item in _heroModelObjectIcons)
                 if (item.HeroModelObject != null)
                     item.OffFrame();

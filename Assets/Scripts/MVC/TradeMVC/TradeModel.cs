@@ -18,7 +18,8 @@ namespace Assets.Scripts.MVC.TradeMVC
 
         public event Action OnSettedTradeParticipants;
         public event Action OnSumbitTrade;
-
+        public int TradeRequesterArmyCount => _tradeRequesterArmy.Count;
+        public int TradeReceiverArmyCount => _tradeReceiverArmy.Count;
         public IEnumerable<ArmySlotInfo> TradeRequesterArmy => _tradeRequesterArmy;
         public IEnumerable<ArmySlotInfo> TradeReceiverArmy => _tradeReceiverArmy;
 
@@ -48,7 +49,8 @@ namespace Assets.Scripts.MVC.TradeMVC
 
         public void SumbitTrade()
         {
-            OnSumbitTrade?.Invoke();
+            if(TradeReceiverArmyCount > 0 && TradeRequesterArmyCount > 0)
+                OnSumbitTrade?.Invoke();
         }
 
         public void SetTradeParticipants(HeroObjectFullInfo requesterHero , HeroObjectFullInfo receiverHero , Sprite requestIcon , Sprite receiverIcon, HeroStats requesterHeroStats, HeroStats receiverHeroStats )

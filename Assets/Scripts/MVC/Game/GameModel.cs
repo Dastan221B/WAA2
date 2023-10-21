@@ -422,7 +422,7 @@ public class GameModel : IGameDataHandler
                     _heroModelObjectsTurn.Add(heroModelObject);
                 }
             }
-            _heroModelObjectsTurn.OrderBy(item => item.transform.position.y);
+            _heroModelObjectsTurn.OrderBy(item => item.transform.position.z);
             foreach (var castle in turnNotificationInfo.castlesInfo.Values)
             {
                 if (TryGetCastleByID(castle.mapObjectId, out Castle castleObject))
@@ -430,6 +430,7 @@ public class GameModel : IGameDataHandler
                     _castlesTurn.Add(castleObject);
                 }
             }
+            SetSelectedHero(_heroModelObjectsTurn[0]);
             IsCurrentTurn = true;
             OnUpdatedTurn?.Invoke();
             OnEnteredInTurn?.Invoke(player);

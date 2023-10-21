@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.MVC.CastleSlots;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -87,7 +88,7 @@ namespace Assets.Scripts.MVC.TradeMVC
                                 {
                                     count++;
                                 }
-                                if (army == tradeCreatureSlot.ArmySlotInfo && count <= 1)
+                                if (army == tradeCreatureSlot.ArmySlotInfo && count < 1)
                                 {
                                     return false;
                                 }

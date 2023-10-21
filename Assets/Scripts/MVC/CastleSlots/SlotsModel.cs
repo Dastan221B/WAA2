@@ -24,20 +24,20 @@ namespace Assets.Scripts.MVC.CastleSlots
         public void AddCreaturesToGarrisonSlot(List<ArmySlotInfo> armySlotInfos)
         {
             _garrisonArmy = new ArmySlotInfo[7];
-            
+
             if (armySlotInfos != null)
             {
-                for (int i = 0; i < armySlotInfos.Count; i++)
-                {
-                    for (int j = i + 1; j < armySlotInfos.Count; j++)
-                    {
-                        if (armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
-                        {
-                            armySlotInfos[i].amount += armySlotInfos[j].amount;
-                            armySlotInfos.RemoveAt(j);
-                        }
-                    }
-                }
+                //for (int i = 0; i < armySlotInfos.Count; i++)
+                //{
+                //    for (int j = i + 1; j < armySlotInfos.Count; j++)
+                //    {
+                //        if (armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
+                //        {
+                //            armySlotInfos[i].amount += armySlotInfos[j].amount;
+                //            armySlotInfos.RemoveAt(j);
+                //        }
+                //    }
+                //}
                 for (int i = 0; i < armySlotInfos.Count; i++)
                 {
                     _garrisonArmy[i] = armySlotInfos[i];
@@ -49,13 +49,13 @@ namespace Assets.Scripts.MVC.CastleSlots
 
         public void AddCreaturesToCastleSlot(List<ArmySlotInfo> armySlotInfos)
         {
-            
+
             _castleArmy = new ArmySlotInfo[7];
-            for(int i = 0; i < armySlotInfos.Count; i++)
+            for (int i = 0; i < armySlotInfos.Count; i++)
             {
-                for(int j = i + 1; j < armySlotInfos.Count; j++)
+                for (int j = i + 1; j < armySlotInfos.Count; j++)
                 {
-                    if(armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
+                    if (armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
                     {
                         armySlotInfos[i].amount += armySlotInfos[j].amount;
                         armySlotInfos.RemoveAt(j);
@@ -83,7 +83,7 @@ namespace Assets.Scripts.MVC.CastleSlots
         }
 
 
-        public void TrySetArmySlotInCastleSlotIcon(ArmySlotInfo armySlotInfo, int indexInQueue , int previousIndex, SlotTypes previousSlotTypes)
+        public void TrySetArmySlotInCastleSlotIcon(ArmySlotInfo armySlotInfo, int indexInQueue, int previousIndex, SlotTypes previousSlotTypes)
         {
             if (indexInQueue > 7)
                 return;
@@ -111,10 +111,10 @@ namespace Assets.Scripts.MVC.CastleSlots
                 {
                     curArmySlot.amount += armySlotInfo.amount;
                 }
-                else 
+                else
                 {
-                _castleArmy[indexInQueue] = armySlotInfo;
-            }
+                    _castleArmy[indexInQueue] = armySlotInfo;
+                }
             }
             OnUpdatedCastleArmy?.Invoke();
         }
@@ -148,24 +148,24 @@ namespace Assets.Scripts.MVC.CastleSlots
                 }
                 else
                 {
-                _garrisonArmy[indexInQueue] = armySlotInfo;
+                    _garrisonArmy[indexInQueue] = armySlotInfo;
+                }
+                OnUpdatedGarrisonArmy?.Invoke();
             }
-            }
-            OnUpdatedGarrisonArmy?.Invoke();
         }
 
-        public bool TryGetArmyInSlots(int dicID, out ArmySlotInfo armySlotInfo)
-        {
-            foreach(var item in _castleArmy)
+            public bool TryGetArmyInSlots(int dicID, out ArmySlotInfo armySlotInfo)
             {
-                if(item != null && item.dicCreatureId == dicID)
+                foreach (var item in _castleArmy)
                 {
-                    armySlotInfo = item;
-                    return true;
+                    if (item != null && item.dicCreatureId == dicID)
+                    {
+                        armySlotInfo = item;
+                        return true;
+                    }
                 }
+                armySlotInfo = null;
+                return false;
             }
-            armySlotInfo = null;
-            return false;
         }
-    }
 }

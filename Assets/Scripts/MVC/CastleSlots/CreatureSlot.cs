@@ -32,6 +32,18 @@ namespace Assets.Scripts.MVC.CastleSlots
 
         public void ResetSlot()
         {
+            Debug.Log("reseted");
+            _icon.color = new Color(0, 0, 0, 0);
+            if (_count != null)
+                _count.text = "";
+            ArmySlotInfo = null;
+        }
+
+        public void ResetSlotEmpty()
+        {
+            if (ArmySlotInfo != null)
+                return;
+            Debug.Log("reseted");
             _icon.color = new Color(0, 0, 0, 0);
             if (_count != null)
                 _count.text = "";
