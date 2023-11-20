@@ -37,6 +37,7 @@ public class LobbyModel : IUserDTO , ISessionParticipants , ISessionID
 
     public void AddSession(LobbySession lobbySession)
     {
+        Debug.Log("CreateLobby");
         if (lobbySession == null)
             throw new Exception("Lobby Session is null");
 
@@ -79,6 +80,7 @@ public class LobbyModel : IUserDTO , ISessionParticipants , ISessionID
 
     public void UpdateLobbySessions(List<LobbySession> lobbySessions)
     {
+        Debug.Log(lobbySessions.Count);
         _lobbySessions = lobbySessions;
         OnUpdatedLobbySessions?.Invoke();
     }

@@ -133,6 +133,7 @@ namespace Assets.Scripts.MVC.CastleMVC.View
 
         public void Hire()
         {
+            Debug.Log("_selectedCreaturesAmount " + _selectedCreaturesAmount);
             _castleCommandsSender.SendHireCastleCreatureRequest(_castleModel.CurrentCastleID, (int)_currentCreatureDTO.id, _selectedCreaturesAmount,
                 new List<ArmySlotInfo>(_slotsModel.CastleArmy).ExcludeNull(), new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull());
             _castleModel.SetBuyCreature(_selectedCreaturesAmount, _currentCreatureDTO.level);

@@ -65,8 +65,9 @@ namespace Assets.Scripts.MVC.HeroPanel
                     Debug.Log(2);
                     if (armySlotInfos[i] != null)
                     {
+                        Debug.Log("armySlotsInfoCheck " + armySlotInfos[i].stackSlot);
                         Debug.Log(3);
-                        _creatureSlots[i].SetCreatureInSlot(_modelCreatures.GetIconById((int)armySlotInfos[i].dicCreatureId - 1), armySlotInfos[i]);
+                        _creatureSlots[armySlotInfos[i].stackSlot].SetCreatureInSlot(_modelCreatures.GetIconById((int)armySlotInfos[i].dicCreatureId - 1), armySlotInfos[i]);
                     }
                 }
             }

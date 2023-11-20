@@ -43,7 +43,7 @@ namespace Assets.Scripts.MVC.Battle
                     }
                     else
                     {
-                        x = i * HEXAGON_DELTA_X + HEXAGON_DELTA_X / 2;
+                        x = i * HEXAGON_DELTA_X - HEXAGON_DELTA_X / 2;
                     }
                     Hexagon newHexagon = Instantiate(_hexagonPrefab, new Vector3(x + HEXAGON_START_X,0, -j * HEXAGON_DELTA_Y + HEXAGON_START_Y), _hexagonPrefab.transform.rotation);
                     

@@ -22,6 +22,7 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
 
         public void HireCreature(MessageInput message)
         {
+            Debug.Log(message.body + " Hire Creature message");
             HireCastleCreatureResult hireCastleCreatureResult = Newtonsoft.Json.JsonConvert.DeserializeObject<HireCastleCreatureResult>(message.body);
             _castleModel.DecreaseCreatureAvailable(_castleModel.LevelLastHiredCreature, _castleModel.AmountHiredCreature);
             _slotsModel.AddCreaturesToCastleSlot(hireCastleCreatureResult.creatureMap);

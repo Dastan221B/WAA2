@@ -98,18 +98,21 @@ namespace Assets.Scripts.MVC.Battle
             DicCreatureDTO creatureDTO = dicCreatureDTO;
             BattleFieldCoordinates creatureCoordinates = _creatureStackBattleObjectFullInfo.battleFieldCoordinates;
 
+            Debug.Log(creatureDTO.id + "speed" + creatureDTO.name + " " + creatureDTO.speed);
+
             var rightBorder = new BattleFieldCoordinates(creatureCoordinates.x + creatureDTO.speed, creatureCoordinates.y);
             var leftBorder = new BattleFieldCoordinates(creatureCoordinates.x - creatureDTO.speed, creatureCoordinates.y);
             var topBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y + creatureDTO.speed);
             var bottomBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y - creatureDTO.speed);
 
+            Debug.Log(creatureDTO.name + " left " + leftBorder.x + " right " + rightBorder.x + " top " + topBorder.y + " bottom " + bottomBorder.y);
             for (int x = 0; x < HexagonGenerator.HEXAGON_WIDTH; x++)
             {
                 for (int y = 0; y < HexagonGenerator.HEXAGON_LENGTH; y++)
                 {
-                    if (x > leftBorder.x + 1 && x < rightBorder.x - 1)
+                    if (x >= leftBorder.x + 1 && x <= rightBorder.x - 1)
                     {
-                        if (y > bottomBorder.y + 1 && y < topBorder.y - 1)
+                        if (y >= bottomBorder.y + 1 && y <= topBorder.y - 1)
                         {
                             if (new BattleFieldCoordinates(x, y) != creatureCoordinates)
                             {

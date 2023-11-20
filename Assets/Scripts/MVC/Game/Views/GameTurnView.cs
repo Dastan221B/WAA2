@@ -8,11 +8,13 @@ using UnityEngine.UI;
 using Assets.Scripts.GameResources;
 using System.Linq;
 using Assets.Scripts.MVC.HeroPanel;
+using System;
 
 namespace Assets.Scripts.MVC.Game.Views
 {
     public class GameTurnView : MonoBehaviour
     {
+        public event Action NewTurn;
         private GameObject _canvasGameObject;
         private Sprite _baseImage;
         private Button _startTurnButton;
@@ -107,8 +109,12 @@ namespace Assets.Scripts.MVC.Game.Views
                     _castleIconsInCastle[i].SetCastle(_gameModel.CastlesTurn[i]);
 
             //_gameModel.SetSelectedHero(_gameModel.HeroModelObjectsTurn[0]);
-            if(TryGetHeroModelObject(_gameModel.SelectedHero.MapObjectID, out HeroModelObjectIcon heroModelObject))
+            if (TryGetHeroModelObject(_gameModel.SelectedHero.MapObjectID, out HeroModelObjectIcon heroModelObject))
+            {
                 _heroPanelController.SelectPlayer(heroModelObject);
+                Debug.Log("Robit");
+            }
+
 
             _gameController.SelectHero(_gameModel.SelectedHero);
 
@@ -125,19 +131,25 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public bool TryGetHeroModelObject(string id, out HeroModelObjectIcon heroModelObject)
         {
-
-            heroModelObject = _heroModelObjectIcons.FirstOrDefault(item => item.HeroModelObject.MapObjectID == id);
-            if (heroModelObject != null)
+            bool check = _heroModelObjectIcons.All(p => p.HeroModelObject.MapObjectID == id);
+            if (check)
+            {
+                heroModelObject = _heroModelObjectIcons.FirstOrDefault(item => item.HeroModelObject.MapObjectID == id);
                 return true;
-            return false;
-
+            }
+            else
+            {
+                heroModelObject= null;
+                return false;
+            }
         }
 
         public void EnteredInTurn(Player player)
         {
             Debug.Log("Plyer entered in turn " + player.Ordinal);
             _turnInfoPanel.OpenForSelf(_systemColors.GetColorByOrdinal(player.Ordinal) ,player.UserInfo.UserName);
-            
+            _gameModel.TurnCount++;
+            NewTurn?.Invoke();
         }
 
         public void ExitFromTurn()
@@ -176,6 +188,9 @@ namespace Assets.Scripts.MVC.Game.Views
         {
             _turnInfoPanel.Close();
         }
-
+        public void SetHeroBar(HeroModelObject heroModelObject, Sprite icon)
+        {
+            _heroPanelView.SetGameBarHero(heroModelObject, icon);
+        }
     }
 }

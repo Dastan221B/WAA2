@@ -36,6 +36,7 @@ namespace Assets.Scripts.MVC.Game
         }
         public void SendMoveHeroRequestWithInteractable(Vector2Int position, string interactiveMapObjectId, GameMapObjectType gameMapObjectType)
         {
+            
             _gameModel.HeroStartMove();
             MoveHeroRequestWithInteractive request = new MoveHeroRequestWithInteractive(
                                  _gameModel.GameSessionID, _gameModel.SelectedHero.MapObjectID, position.x,

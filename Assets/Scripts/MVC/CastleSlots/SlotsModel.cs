@@ -40,7 +40,7 @@ namespace Assets.Scripts.MVC.CastleSlots
                 //}
                 for (int i = 0; i < armySlotInfos.Count; i++)
                 {
-                    _garrisonArmy[i] = armySlotInfos[i];
+                    _garrisonArmy[i] = armySlotInfos.FirstOrDefault(p => p.stackSlot == i); ;
                 }
             }
             OnUpdatedGarrisonArmy?.Invoke();
@@ -51,22 +51,22 @@ namespace Assets.Scripts.MVC.CastleSlots
         {
 
             _castleArmy = new ArmySlotInfo[7];
-            for (int i = 0; i < armySlotInfos.Count; i++)
-            {
-                for (int j = i + 1; j < armySlotInfos.Count; j++)
-                {
-                    if (armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
-                    {
-                        armySlotInfos[i].amount += armySlotInfos[j].amount;
-                        armySlotInfos.RemoveAt(j);
-                    }
-                }
-            }
-            _castleArmy = armySlotInfos.ToArray();
             //for (int i = 0; i < armySlotInfos.Count; i++)
             //{
-            //    _castleArmy[i] = armySlotInfos[i];
+            //    for (int j = i + 1; j < armySlotInfos.Count; j++)
+            //    {
+            //        if (armySlotInfos[i].dicCreatureId == armySlotInfos[j].dicCreatureId)
+            //        {
+            //            armySlotInfos[i].amount += armySlotInfos[j].amount;
+            //            armySlotInfos.RemoveAt(j);
+            //        }
+            //    }
             //}
+            _castleArmy = armySlotInfos.ToArray();
+            for (int i = 0; i < armySlotInfos.Count; i++)
+            {
+                _castleArmy[i] = armySlotInfos.FirstOrDefault(p => p.stackSlot == i);
+            }
             OnUpdatedCastleArmy?.Invoke();
         }
 
@@ -94,27 +94,27 @@ namespace Assets.Scripts.MVC.CastleSlots
                     _castleArmy[previousIndex] = null;
                 else
                     _garrisonArmy[previousIndex] = null;
-                bool isHave = false;
-                ArmySlotInfo curArmySlot = null;
-                foreach (var slot in _castleArmy)
-                {
-                    if (slot != null)
-                    {
-                        if (slot.dicCreatureId == armySlotInfo.dicCreatureId)
-                        {
-                            curArmySlot = slot;
-                            isHave = true;
-                        }
-                    }
-                }
-                if (isHave)
-                {
-                    curArmySlot.amount += armySlotInfo.amount;
-                }
-                else
-                {
-                    _castleArmy[indexInQueue] = armySlotInfo;
-                }
+                //bool isHave = false;
+                //ArmySlotInfo curArmySlot = null;
+                //foreach (var slot in _castleArmy)
+                //{
+                //    if (slot != null)
+                //    {
+                //        if (slot.dicCreatureId == armySlotInfo.dicCreatureId)
+                //        {
+                //            curArmySlot = slot;
+                //            isHave = true;
+                //        }
+                //    }
+                //}
+                //if (isHave)
+                //{
+                //    curArmySlot.amount += armySlotInfo.amount;
+                //}
+                //else
+                //{
+                _castleArmy[indexInQueue] = armySlotInfo;
+                //}
             }
             OnUpdatedCastleArmy?.Invoke();
         }
@@ -129,27 +129,26 @@ namespace Assets.Scripts.MVC.CastleSlots
                     _garrisonArmy[previousIndex] = null;
                 else
                     _castleArmy[previousIndex] = null;
-                bool isHave = false;
-                ArmySlotInfo curArmySlot = null;
-                foreach (var slot in _garrisonArmy)
-                {
-                    if (slot != null)
-                    {
-                        if (slot.dicCreatureId == armySlotInfo.dicCreatureId)
-                        {
-                            curArmySlot = slot;
-                            isHave = true;
-                        }
-                    }
-                }
-                if (isHave)
-                {
-                    curArmySlot.amount += armySlotInfo.amount;
-                }
-                else
-                {
-                    _garrisonArmy[indexInQueue] = armySlotInfo;
-                }
+                //bool isHave = false;
+                //ArmySlotInfo curArmySlot = null;
+                //foreach (var slot in _garrisonArmy)
+                //{
+                //    if (slot != null)
+                //    {
+                //        if (slot.dicCreatureId == armySlotInfo.dicCreatureId)
+                //        {
+                //            curArmySlot = slot;
+                //            isHave = true;
+                //        }
+                //    }
+                //}
+                //if (isHave)
+                //{
+                //    curArmySlot.amount += armySlotInfo.amount;
+                //}
+               
+                _garrisonArmy[indexInQueue] = armySlotInfo;
+                
                 OnUpdatedGarrisonArmy?.Invoke();
             }
         }

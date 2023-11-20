@@ -44,12 +44,12 @@ namespace Assets.Scripts.MVC.CastleMVC
 
             if (Input.GetMouseButtonDown(0) && TryPickCaslteIcon(out CastleIcon castleIcon))
             {
-                _camera.GetComponent<StrategyCamera>().enabled = false;
-                _camera.transform.position = new Vector3(castleIcon.Castle.transform.position.x,
-                                          _camera.transform.position.y,
-                                          castleIcon.Castle.transform.position.z - 5);
-                _mapCamera.transform.position = new Vector3(castleIcon.Castle.transform.position.x, 8.9f, castleIcon.Castle.transform.position.z);
-                _camera.GetComponent<StrategyCamera>().enabled = true;
+                //_camera.GetComponent<StrategyCamera>().enabled = false;
+                //_camera.transform.position = new Vector3(castleIcon.Castle.transform.position.x,
+                //                          _camera.transform.position.y,
+                //                          castleIcon.Castle.transform.position.z - 5);
+                //_mapCamera.transform.position = new Vector3(castleIcon.Castle.transform.position.x, 8.9f, castleIcon.Castle.transform.position.z);
+                //_camera.GetComponent<StrategyCamera>().enabled = true;
 
                 castleIcon.SelectCastle();
                 _clicked++;

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +11,9 @@ namespace Assets.Scripts.MVC.TradeMVC
     {
         [SerializeField] private Image _image;
         [SerializeField] private List<TradeCreatureSlot> _tradeCreatureSlots;
-        public int TradeCreatureCount => _tradeCreatureSlots.Count;
+
+        public IReadOnlyList<TradeCreatureSlot> TradeCreatureSlots => _tradeCreatureSlots;
+        public int TradeCreatureCount => _tradeCreatureSlots.Count(p => p.ArmySlotInfo != null);
         private int _lastFilledSlotIndex = 0;
 
         public void SetCreatureSlots(Sprite icon , ArmySlotInfo armySlotInfo)

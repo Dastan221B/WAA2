@@ -43,13 +43,35 @@ namespace Assets.Scripts.MVC.TradeMVC
             {
                 if(TryPickSlot(out TradeCreatureSlot tradeCreatureSlot))
                 {
-                    if(_lastPickSlot != null)
+                    Debug.Log("_lastPickSlot" + _lastPickSlot);
+                    if (FindObjectOfType<TradeView>().RecieverHeroCreaturesInventory.TradeCreatureSlots.Contains(tradeCreatureSlot) && _lastPickSlot == null)
+                    {
+                        Debug.Log("YesIsWork 1 " + FindObjectOfType<TradeView>().RecieverHeroArmySlotsCount);
+                        if (FindObjectOfType<TradeView>().RecieverHeroArmySlotsCount < 2)
+                        {
+                            return;
+                        }
+                    }
+                    else if (FindObjectOfType<TradeView>().RequesterHeroCreaturesInventory.TradeCreatureSlots.Contains(tradeCreatureSlot) && _lastPickSlot == null)
+                    {
+                        Debug.Log("YesIsWork 2 " + FindObjectOfType<TradeView>().RequesterHeroArmySlotsCount);
+                        if (FindObjectOfType<TradeView>().RequesterHeroArmySlotsCount < 2)
+                        {
+                            return;
+                        }
+                    }
+                    if (_lastPickSlot != null)
                     {
                         _lastPickSlot.GetComponent<Image>().color = Color.white;
+                        _lastPickSlot = null;
+                    }
+                    else
+                    {
+                        Debug.Log("WorkBlyat");
+                        _lastPickSlot = tradeCreatureSlot;
+                        tradeCreatureSlot.GetComponent<Image>().color = Color.red;
                     }
                     _tradeModel.PickTradeCreatureSlot(tradeCreatureSlot);
-                    _lastPickSlot = tradeCreatureSlot;
-                    tradeCreatureSlot.GetComponent<Image>().color = Color.red;
                 }
             }
         }
@@ -67,6 +89,22 @@ namespace Assets.Scripts.MVC.TradeMVC
                 {
                     if (item.gameObject.TryGetComponent(out tradeCreatureSlot))
                     {
+                        bool lastCreature = false;
+                        //if (FindObjectOfType<TradeView>().RecieverHeroCreaturesInventory.TradeCreatureSlots.Contains(tradeCreatureSlot) && _lastPickSlot == null)
+                        //{
+                        //    Debug.Log("YesIsWork 1 " + FindObjectOfType<TradeView>().RecieverHeroArmySlotsCount);
+                        //    if(FindObjectOfType<TradeView>().RecieverHeroArmySlotsCount < 2) 
+                        //    {
+                        //    return false;
+                        //    }
+                        //} else if (FindObjectOfType<TradeView>().RequesterHeroCreaturesInventory.TradeCreatureSlots.Contains(tradeCreatureSlot) && _lastPickSlot == null)
+                        //{
+                        //    Debug.Log("YesIsWork 2 " + FindObjectOfType<TradeView>().RequesterHeroArmySlotsCount);
+                        //    if (FindObjectOfType<TradeView>().RequesterHeroArmySlotsCount < 2)
+                        //    {
+                        //        return false;
+                        //    }
+                        //}
                         if (_lastPickSlot == null)
                         {
                             int count = 0;
@@ -76,7 +114,7 @@ namespace Assets.Scripts.MVC.TradeMVC
                                 {
                                     count++;
                                 }
-                                if (army == tradeCreatureSlot.ArmySlotInfo && count <= 1)
+                                if (army == tradeCreatureSlot.ArmySlotInfo && count < 1)
                                 {
                                     return false;
                                 }

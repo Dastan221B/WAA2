@@ -34,6 +34,7 @@ namespace Assets.Scripts.MVC.TradeMVC
 
         public void PickTradeCreatureSlot(TradeCreatureSlot tradeCreatureSlot)
         {
+            Debug.Log("PickTradeCreatureSlot");
             if(_currentTradeCreatureSlot == null && tradeCreatureSlot.ArmySlotInfo != null)
             {
                 _currentTradeCreatureSlot = tradeCreatureSlot;

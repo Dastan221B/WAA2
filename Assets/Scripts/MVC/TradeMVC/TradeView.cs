@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.MVC.Game;
+using Newtonsoft.Json.Linq;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,10 @@ namespace Assets.Scripts.MVC.TradeMVC
         private ModelCreatures _modelCreatures;
         private HeroCreaturesInventory _requesterHeroCreaturesInventory;
         private HeroCreaturesInventory _recieverHeroCreaturesInventory;
-
+        public HeroCreaturesInventory RequesterHeroCreaturesInventory => _requesterHeroCreaturesInventory;
+        public HeroCreaturesInventory RecieverHeroCreaturesInventory => _recieverHeroCreaturesInventory;
+        public int RequesterHeroArmySlotsCount => _requesterHeroCreaturesInventory.TradeCreatureCount;
+        public int RecieverHeroArmySlotsCount => _recieverHeroCreaturesInventory.TradeCreatureCount;
         private GameAndBattleCommandsSender _gameAndBattleCommandsSender;
 
         public void Init(HeroCreaturesInventory requester , HeroCreaturesInventory reciever, GameObject panel, Button sumbitButton)

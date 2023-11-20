@@ -127,7 +127,13 @@ public class GameController : MonoBehaviour
                     {
                         if (_gameModel.SelectedHero.InCastle)
                             return;
+                        if (cell.X == _gameModel.SelectedHero.LastCellStayed.X && cell.Y == _gameModel.SelectedHero.LastCellStayed.Y)
+                            return;
+                        if (cell.X == _gameModel.PreviousHero.LastCellStayed.X && cell.Y == _gameModel.PreviousHero.LastCellStayed.Y)
+                            return;
                     }
+
+                    Debug.Log("Working is here");
                     _gameCommandsSender.SendMoveHeroRequestWithInteractable
                         (new Vector2Int((int)cell.transform.position.x,
                         (int)cell.transform.position.z),
@@ -157,6 +163,15 @@ public class GameController : MonoBehaviour
                 {
                     if (cell.GameMapObjectType == GameMapObjectType.CASTLE && cell.Castle != null)
                     {
+                        Debug.Log("Working is here");
+                        Vector2Int cellVector = new Vector2Int((int)cell.X, (int)cell.Y);
+                        Vector2Int heroVector = new Vector2Int((int)_gameModel.SelectedHero.CellPlace.X, (int)_gameModel.SelectedHero.CellPlace.Y);
+                        Debug.Log(cellVector.ToString() + " " + heroVector.ToString());
+                        if (Vector2Int.Distance(heroVector, cellVector) <= 1)
+                        {
+                            Debug.Log("Working is here");
+                            return;
+                        }
                         if (_gameModel.SelectedHero.LastCellStayed.Castle != null)
                             return;
                         _gameCommandsSender.SendMoveHeroRequestWithInteractable

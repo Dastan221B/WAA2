@@ -15,7 +15,9 @@ public class CastleObjectFullInfo
     [field: SerializeField] public HeroObjectFullInfo heroInCastle { get; set; }
     [field: SerializeField] public HeroObjectFullInfo heroInGarrison { get; set; }
     public Building BuildingCouncil { get; private set; }
-    
+
+    public bool BuildingPurchased;
+
     public List<ArmySlotInfo> CreaturesInCastle
     {
         get

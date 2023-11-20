@@ -35,6 +35,8 @@ namespace Assets.Scripts.MVC.CastleMVC
 
         public int LevelLastHiredCreature { get; private set; }
         public int AmountHiredCreature { get; private set; }
+        public bool TurnUpdated = true;
+
 
         public CastleModel(CastleView castleView,CommonData commonData, GameModel gameModel , SlotsController slotsController, Heroes heroes)
         {
@@ -232,7 +234,6 @@ namespace Assets.Scripts.MVC.CastleMVC
                 return true;
             return false;
         }
-
 
     }
 }

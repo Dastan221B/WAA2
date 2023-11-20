@@ -30,6 +30,7 @@ public class GameModel : IGameDataHandler
 
     private GameAndBattleCommandsSender _gameAndBattleCommandsSender;
     public HeroModelObject SelectedHero { get; private set; }
+    public HeroModelObject PreviousHero { get; private set; }
     public HeroModelObject HeroSelf { get; private set; }
     public HeroModelObject HeroOpponent { get; private set; }
 
@@ -89,6 +90,8 @@ public class GameModel : IGameDataHandler
     public IReadOnlyList<Castle> Castles => _castles;
     public Cell[,] Cells => _cells;
 
+    public int TurnCount = 0;
+
     public GameModel(GroundModel groundModel)
     {
         _groundModel = groundModel;
@@ -97,6 +100,10 @@ public class GameModel : IGameDataHandler
     public void SetLastFightResult(bool result)
     {
         IsLasFightWin = result;
+        if (!IsLasFightWin)
+        {
+            SelectedHero = PreviousHero;
+        }
     }
 
     public void SetMapSize(Vector2Int mapSize)
@@ -498,10 +505,13 @@ public class GameModel : IGameDataHandler
     public void SetSelectedHero(HeroModelObject heroModelObject)
     {
         if (SelectedHero != null)
+        {
+            PreviousHero = SelectedHero;
             SelectedHero.UnselectHero();
-        SelectedHero = heroModelObject;   
+        }
+        SelectedHero = heroModelObject; 
         SelectedHero.SelectHero();
-        
+        _gameTurnView.SetHeroBar(SelectedHero, SelectedHero.Hero.Icon);
     }
 
     public bool TryGetPlayerByCastleID(int id, out Castle castle)
@@ -548,7 +558,13 @@ public class GameModel : IGameDataHandler
         cell = null;
         return false;
     }
-
+    public void UpdateTurnBuildingBuy()
+    {
+        foreach(var castle in _castles)
+        {
+            castle.CastleInfo.BuildingPurchased = true;
+        }
+    }
     public bool TryGetHeroModelObject(string id, out HeroModelObject heroModelObject)
     {
 
