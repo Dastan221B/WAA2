@@ -79,6 +79,7 @@ public class GameCompositeRoot : CompositeRoot
     private NewDayStartedInfoProcess _newDayStartedInfoProcess;
     private FlaggedMineResultProcess _flaggedMineResultProcess;
     private FlaggedMineInfoProcess _flaggedMineInfoProcess;
+    public BattleTimer BattleTimer => _battleTurnTimer;
 
     public GameController GameController => _gameController;
     public GameTimer GameTimer => _gameTimer;
@@ -98,12 +99,12 @@ public class GameCompositeRoot : CompositeRoot
         _tradeModel = new TradeModel(_mapCreatures);
         _newDayStartedInfoProcess = new NewDayStartedInfoProcess(_gameModel);
         _gameCommandsSender = new GameAndBattleCommandsSender(_gameMessageSender, _gameModel);
-        _moveHeroInfoWithMovePointsProcess = new MoveHeroInfoWithMovePointsProcess(_gameTurnView,_gameModel, _heroPathMover, _pathFinder, _pathDrawer);
+        _moveHeroInfoWithMovePointsProcess = new MoveHeroInfoWithMovePointsProcess(_systemColors,_gameTurnView,_gameModel, _heroPathMover, _pathFinder, _pathDrawer);
         _flaggedMineResultProcess = new FlaggedMineResultProcess(_systemColors,_gameCommandsSender, _gameModel, _heroPathMover, _pathFinder, _pathDrawer);
         _flaggedMineInfoProcess = new FlaggedMineInfoProcess(_systemColors, _gameCommandsSender, _gameModel, _heroPathMover, _pathFinder);
         _submitTradeResultProcess = new SubmitTradeResultProcess(_heroPanelView,_slotsModel, _castleView,GameModel, _tradeController);
         _tradeStartedResultProcess = new TradeStartedResultProcess(_gameModel,_moveHeroInfoWithMovePointsProcess, _tradeController);
-        _gameProcessResponseHandler.Init(_gameTurnView,_newDayStartedInfoProcess,_heroPathMover, GameAndBattleCommands,_gameController,_submitTradeResultProcess,_tradeStartedResultProcess, _resourcesDataService,_gameLoadedData, _gameModel,_moveHeroInfoWithMovePointsProcess, _flaggedMineInfoProcess, _flaggedMineResultProcess ,_loadScreen, _gameTimer, _battleTurnTimer);
+        _gameProcessResponseHandler.Init(_pathFinder,_gameTurnView,_newDayStartedInfoProcess,_heroPathMover, GameAndBattleCommands,_gameController,_submitTradeResultProcess,_tradeStartedResultProcess, _resourcesDataService,_gameLoadedData, _gameModel,_moveHeroInfoWithMovePointsProcess, _flaggedMineInfoProcess, _flaggedMineResultProcess ,_loadScreen, _gameTimer, _battleTurnTimer);
         _terrainLoader = new TerrainLoader(_terrainCells, _gameModel);
         _resourcesLoader = new ResourcesLoader(_resourcesSturctures, _gameModel);
         _castlesLoader = new CastlesLoader(_castles, _gameModel, _systemColors);

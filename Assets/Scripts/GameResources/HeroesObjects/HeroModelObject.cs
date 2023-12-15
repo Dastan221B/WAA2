@@ -25,6 +25,7 @@ public class HeroModelObject : GameMapObject
     public bool HeroInTurn { get; set; }
     public Hero Hero { get; private set; }
 
+
     public IReadOnlyList<ArmySlotInfo> ArmySlotInfos => _armySlotInfos;
 
     public void Init(HeroObject heroObject , Hero hero)

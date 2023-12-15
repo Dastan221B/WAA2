@@ -28,7 +28,7 @@ namespace Assets.Scripts.MVC.CastleMVC.View
             _panel = buildingsListWindowUIPack.Panel;
             _buildingSlots = buildingsListWindowUIPack.BuildingSlots;
             foreach (var item in _buildingSlots)
-                item.Init(_buildingBuyWindow);
+                item.Init(_buildingBuyWindow, _commonData, _buildings, this);
 
             _close.onClick.AddListener(() => Close());
 
@@ -56,6 +56,28 @@ namespace Assets.Scripts.MVC.CastleMVC.View
         {
             _panel.SetActive(true);
             _programState.CastleUIWindowsStartHandler();
+
+
+            //var buildings = _castleModel.CurrentDicCastleDTO.buildingSet.GroupBy(bId => _commonData.BuildingDictianory[bId].level);
+            //var buildingsEnumerator = buildings.GetEnumerator();
+
+            //for (int i = 0; i < _buildingSlots.Length; i++)
+            //{
+            //    if (buildingsEnumerator.MoveNext())
+            //    {
+            //        _buildingSlots[i].gameObject.SetActive(true);
+            //        _buildingSlots[i].BuildingIds = buildingsEnumerator.Current;
+            //        _buildingSlots[i].UpdateView(
+            //            _castleModel.CurrentCastleFullOjbectInfo.buildings.
+            //            Where(bId => _commonData.BuildingDictianory[bId].level ==
+            //            buildingsEnumerator.Current.Key));
+            //    }
+            //    else
+            //    {
+            //        _buildingSlots[i].gameObject.SetActive(false);
+            //    }
+            //}
+
             var buildings = _castleModel.CurrentDicCastleDTO.buildingSet.GroupBy(bId => _commonData.BuildingDictianory[bId].level);
             var buildingsEnumerator = buildings.GetEnumerator();
             for (int i = 0; i < _buildingSlots.Length; i++)
@@ -89,7 +111,7 @@ namespace Assets.Scripts.MVC.CastleMVC.View
 
                     bool haveResourcesToAddBuilding = CanAddBuilding(building.dependencySet, building.price);
 
-                    _buildingSlots[i].UpdateView(_buildings.GetSpriteByID(currentLevelBuildingId - 1), building,haveResourcesToAddBuilding, currentLevelBuildingId, erectedAllBuildingsOfThisLevel, isBuilded);
+                    _buildingSlots[i].UpdateView(_buildings.GetSpriteByID(currentLevelBuildingId - 1), building, haveResourcesToAddBuilding, currentLevelBuildingId, erectedAllBuildingsOfThisLevel, isBuilded);
                 }
                 else
                 {

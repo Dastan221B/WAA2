@@ -64,11 +64,11 @@ namespace Assets.Scripts.MVC.Battle.Views
         {
             if (isWin)
             {
-                _resultText.text = "You win!";
+                _resultText.text = "VICTORY";
             }
             else
             {
-                _resultText.text = "You loose!";
+                _resultText.text = "DEFEAT";
             }
 
             foreach (var creature in _battleModel.DeathCreatures)

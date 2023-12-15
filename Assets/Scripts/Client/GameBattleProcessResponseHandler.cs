@@ -9,6 +9,8 @@ using Assets.Scripts.MVC.Game.GameProcces;
 using Assets.Scripts.MVC.Game.Path;
 using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
+using System.Drawing;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,6 +62,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
     private HeroMoveToGarissonProcess _heroMoveToGarissonProcess;
     private NewDayStartedInfoProcess _newDayStartedInfoProcess;
     private GameTurnView _gameTurnView;
+    private PathFinder _pathFinder;
 
     public bool IsStartedGameFlag
     {
@@ -72,7 +75,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
     }
     private bool _isLoadedGame;
 
-    public void Init(GameTurnView gameTurnView,NewDayStartedInfoProcess newDayStartedInfoProcess,
+    public void Init(PathFinder pathFinder,GameTurnView gameTurnView,NewDayStartedInfoProcess newDayStartedInfoProcess,
         HeroPathMover heroPathMover , GameAndBattleCommandsSender gameAndBattleCommandsSender,
         GameController gameController,SubmitTradeResultProcess submitTradeResultProcess,
         TradeStartedResultProcess tradeStartedResultProcess,ResourcesDataService resourcesDataService, 
@@ -80,6 +83,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
         MoveHeroInfoWithMovePointsProcess moveHeroInfoWithMovePointsProcess, FlaggedMineInfoProcess flaggedMineInfoProcess, FlaggedMineResultProcess flaggedMineResultProcess, LoadScreen loadScreen, 
         GameTimer gameTimer, BattleTimer battleTimer)
     {
+        _pathFinder = pathFinder;
         _gameTurnView = gameTurnView;
         _newDayStartedInfoProcess = newDayStartedInfoProcess;
         _gameController = gameController;
@@ -277,10 +281,24 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                 }
                 else
                 {
-                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject))
+                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId, out HeroModelObject heroModelObject))
                         _gameModel.SetHeroInFight(heroModelObject);
-                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId, out HeroModelObject heroModelObject1))
+                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
                         _gameModel.SetHeroOpponent(heroModelObject1);
+
+                    var path = _pathFinder.ConvertPositionToCellPath(battleInitialInfo.movementPath);
+
+                    Cell cell = path[path.Count - 1];
+                    if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
+                    {
+                        if (!cell.CheckHero())
+                        {
+                            if (cell.Castle != null)
+                            {
+                                _gameModel.SetSelfAttackedCastle(cell.Castle);
+                            }
+                        }
+                    }
                 }
                 break;
             case InputGameHeaders.BATTLE_TURN_NOTIFICATION_INFO:

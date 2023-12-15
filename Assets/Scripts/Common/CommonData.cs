@@ -15,10 +15,10 @@ public class CommonData : MonoBehaviour
     private Dictionary<long, DicCreatureDTO> _creaturesDictianory = new Dictionary<long, DicCreatureDTO>();
     private Dictionary<long, DicHeroDTO> _heroesDictianory = new Dictionary<long, DicHeroDTO>();
 
-    public IReadOnlyDictionary<long, DicBuildingDTO> BuildingDictianory => _buildingsDictianory;
-    public IReadOnlyDictionary<long, DicCreatureDTO> CreaturesDictianory => _creaturesDictianory;
-    public IReadOnlyDictionary<long, DicCastleDTO> CastleDictianory => _castleDictianory;
-    public IReadOnlyDictionary<long, DicHeroDTO> HeroesDictianory => _heroesDictianory;
+    public Dictionary<long, DicBuildingDTO> BuildingDictianory => _buildingsDictianory;
+    public Dictionary<long, DicCreatureDTO> CreaturesDictianory => _creaturesDictianory;
+    public Dictionary<long, DicCastleDTO> CastleDictianory => _castleDictianory;
+    public Dictionary<long, DicHeroDTO> HeroesDictianory => _heroesDictianory;
 
     public void SetDicCreatureDTOList(List<DicCreatureDTO> dicCreatureDTOs)
     {

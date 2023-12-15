@@ -14,15 +14,18 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         private bool _isKilledCreature;
         private int _attakDamage;
         private int _amount;
+        private BattleTimer _battleTimer;
 
-        public BattleHitResultInfoProcess(BattleModel battleModel)
+        public BattleHitResultInfoProcess(BattleModel battleModel, BattleTimer battleTimer)
         {
             _battleModel = battleModel;
+            _battleTimer = battleTimer;
         }
 
         public void InitHit(MessageInput message)
         {
             BattleHitResultInfo battleMoveResultInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BattleHitResultInfo>(message.body);
+            _battleTimer.TimerTime = battleMoveResultInfo.turnSeconds;
             if (_battleModel.TryGetCreatureByID(battleMoveResultInfo.activeCreatureStackBattleObjectId, out _attakerBattleCreature))
             {
                 BattleFieldCoordinates coords = battleMoveResultInfo.targetCreatureStack.battleFieldCoordinates;

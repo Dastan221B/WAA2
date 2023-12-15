@@ -109,15 +109,19 @@ namespace Assets.Scripts.MVC.Game.Views
                     _castleIconsInCastle[i].SetCastle(_gameModel.CastlesTurn[i]);
 
             //_gameModel.SetSelectedHero(_gameModel.HeroModelObjectsTurn[0]);
-            if (TryGetHeroModelObject(_gameModel.SelectedHero.MapObjectID, out HeroModelObjectIcon heroModelObject))
+            if(_gameModel.SelectedHero != null)
             {
-                _heroPanelController.SelectPlayer(heroModelObject);
-                Debug.Log("Robit");
+                if (TryGetHeroModelObject(_gameModel.SelectedHero.MapObjectID, out HeroModelObjectIcon heroModelObject))
+                {
+                    _heroPanelController.SelectPlayer(heroModelObject);
+                    Debug.Log("Robit");
+                }
             }
 
-
-            _gameController.SelectHero(_gameModel.SelectedHero);
-
+            if (_gameModel.SelectedHero != null)
+            {
+                _gameController.SelectHero(_gameModel.SelectedHero);
+            }
             //for (int i = 0; i < _gameModel.HeroModelObjectsTurn.Count; i++)
             //{
             //    if (i < _heroModelObjectIcons.Count && !_gameModel.HeroModelObjectsTurn[i].InCastle)
@@ -131,10 +135,11 @@ namespace Assets.Scripts.MVC.Game.Views
 
         public bool TryGetHeroModelObject(string id, out HeroModelObjectIcon heroModelObject)
         {
-            bool check = _heroModelObjectIcons.All(p => p.HeroModelObject.MapObjectID == id);
+            Debug.Log("_heroModelObjectIcons " + _heroModelObjectIcons);
+            bool check = _heroModelObjectIcons.All(p => p.HeroModelObject != null && p.HeroModelObject.MapObjectID == id);
             if (check)
             {
-                heroModelObject = _heroModelObjectIcons.FirstOrDefault(item => item.HeroModelObject.MapObjectID == id);
+                heroModelObject = _heroModelObjectIcons.FirstOrDefault(item => item.HeroModelObject != null && item.HeroModelObject.MapObjectID == id);
                 return true;
             }
             else

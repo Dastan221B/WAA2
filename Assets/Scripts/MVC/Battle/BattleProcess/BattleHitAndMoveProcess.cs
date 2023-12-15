@@ -9,6 +9,7 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         private CreaturePathMover _creaturePathMover;
         private BattleModel _battleModel;
 
+        private BattleTimer _battleTimer;
 
         private CreatureModelObject _attakerBattleCreature;
         private CreatureModelObject _targetToAttackBattleCreature;
@@ -16,15 +17,17 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
         private int _attakDamage;
         private int _amount;
 
-        public BattleHitAndMoveProcess(CreaturePathMover creaturePathMover , BattleModel battleModel)
+        public BattleHitAndMoveProcess(CreaturePathMover creaturePathMover , BattleModel battleModel, BattleTimer battleTimer)
         {
             _creaturePathMover = creaturePathMover;
             _battleModel = battleModel;
+            _battleTimer = battleTimer;
         }
 
         public void StartBattleHitAndMoveProcess(MessageInput message)
         {
             BattleMoveAndHitResultInfo battleMoveAndHitResultInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BattleMoveAndHitResultInfo>(message.body);
+            _battleTimer.TimerTime = battleMoveAndHitResultInfo.turnSeconds;
             ResizeArray(ref battleMoveAndHitResultInfo);
             if(_battleModel.TryGetCreatureByID(battleMoveAndHitResultInfo.activeCreatureStackBattleObjectId, out _attakerBattleCreature))
             {

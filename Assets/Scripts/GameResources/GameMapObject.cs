@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameMapObject : MonoBehaviour
 {
-    public string MapObjectID { get; private set; }
+    [field: SerializeField] public string MapObjectID { get; private set; }
     public Cell CellPlace { get; private set; }
     
     public void SetCellPlace(Cell cell)

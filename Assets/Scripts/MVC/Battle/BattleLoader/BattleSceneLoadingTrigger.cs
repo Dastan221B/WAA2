@@ -11,7 +11,6 @@ namespace Assets.Scripts.MVC.Battle.BattleLoader
 {
     public class BattleSceneLoadingTrigger : MonoBehaviour
     {
-
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private CreatureStatsPanel _creatureStatsPanel;
         [SerializeField] private TMP_Text _resultText;

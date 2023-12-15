@@ -9,13 +9,8 @@ public class DicCastleDTO
     public string name { get; set; }
     public long mapObjectId { get; set; }
     public List<int> creatureSet { get; set; }
-    public List<int> _buildingSet;
-    [field: SerializeField] public List<int> buildingSet { get {
-            return _buildingSet;
-        } set {
-            _buildingSet = value;
-        }
-    }
+    public List<int> buildingSet { get; set; } 
+
     public List<int> heroSet { get; set; }
 
     public DicCastleDTO Clone()

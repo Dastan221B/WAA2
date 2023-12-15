@@ -53,9 +53,9 @@ public class BattleCompositeRoot : CompositeRoot
         _creaturePathMover.Init(_battleModel, 3);
         _battleWaitActivatedProcess = new BattleWaitActivatedProcess(_battleModel);
         _battleBlockActivetedProcess = new BattleBlockActivetedProcess(_battleModel);
-        _battleMoveProcess = new BattleMoveProcess(_battleModel, _creaturePathMover);
-        _battleHitResultInfoProcess = new BattleHitResultInfoProcess(_battleModel);
-        _battleHitAndMoveProcess = new BattleHitAndMoveProcess(_creaturePathMover, _battleModel);
+        _battleMoveProcess = new BattleMoveProcess(_battleModel, _creaturePathMover, _gameCompositeRoot.BattleTimer);
+        _battleHitResultInfoProcess = new BattleHitResultInfoProcess(_battleModel, _gameCompositeRoot.BattleTimer);
+        _battleHitAndMoveProcess = new BattleHitAndMoveProcess(_creaturePathMover, _battleModel, _gameCompositeRoot.BattleTimer);
         _gameCompositeRoot.GameAndBattleCommands.Init(_battleModel);
         _battleView.Init(_modelCreatures, _gameCompositeRoot.GameAndBattleCommands);
         _battleTurnOrderProcess.Init(_battleView, _battleModel);

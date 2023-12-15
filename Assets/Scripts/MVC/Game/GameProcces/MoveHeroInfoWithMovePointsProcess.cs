@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.MVC.Game.Path;
+﻿using Assets.Scripts.GameResources;
+using Assets.Scripts.MVC.Game.Path;
 using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace Assets.Scripts.MVC.Game.GameProcces
         private PathFinder _pathFinder;
         private PathDrawer _pathDrawer;
         private GameTurnView _gameTurnView;
+        private SystemColors _systemColors;
 
-        public MoveHeroInfoWithMovePointsProcess(GameTurnView gameTurnView,GameModel gameModel, HeroPathMover heroPathMover , PathFinder pathFinder, PathDrawer pathDrawer)
+        public MoveHeroInfoWithMovePointsProcess(SystemColors systemColors,GameTurnView gameTurnView,GameModel gameModel, HeroPathMover heroPathMover , PathFinder pathFinder, PathDrawer pathDrawer)
         {
+            _systemColors = systemColors;
             _gameTurnView = gameTurnView;
             _gameModel = gameModel;
             _heroPathMover = heroPathMover;
@@ -44,6 +47,7 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                             if (cell.Castle != null)
                             {
                                 _gameModel.RemoveCasle(cell.Castle);
+                                cell.Castle.SetupColorCube(_systemColors.GetColorByOrdinal(heroModelObject.Ordinal));
                             }
                         }
                     }

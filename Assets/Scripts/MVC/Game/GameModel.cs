@@ -49,6 +49,7 @@ public class GameModel : IGameDataHandler
     private SystemColors _systemColors;
     public GameMapObject CreatureModelObject => _creatureModelObject;
     public Castle AttackedCastle { get; private set; }
+    public Castle SelfAttackedCastle { get; private set; }
     public bool IsLasFightWin { get; private set; }
     public bool IsAttacked { get; private set; }
     public bool IsAttackedOnHero { get; private set; }
@@ -306,6 +307,11 @@ public class GameModel : IGameDataHandler
         AttackedCastle = castle;
     }
 
+    public void SetSelfAttackedCastle(Castle castle)
+    {
+        SelfAttackedCastle = castle;
+    }
+
     public void EnterInGameFromBattleScene()
     {
         SceneObjectsParent.gameObject.SetActive(true);
@@ -330,19 +336,30 @@ public class GameModel : IGameDataHandler
             HeroOpponent.EnterInCastle();
             HeroOpponent.gameObject.SetActive(false);
         }
+        
+        HeroModelObject winneHeroModel = null;
+
         if (HeroSelf != null && !IsLasFightWin)
         {
             HeroSelf.CellPlace.ResetInteractiveMapObject();
             _heroModelObjects.Remove(HeroSelf);
             _heroModelObjectsTurn.Remove(HeroSelf);
-
+            if (SelfAttackedCastle != null)
+            {
+                if(!_castlesTurn.Contains(SelfAttackedCastle))
+                    _castlesTurn.Add(SelfAttackedCastle);
+                SelfAttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroOpponent.Ordinal));
+                SelfAttackedCastle = null;
+            }
             if (HeroSelf.gameObject != null)
             {
                 MonoBehaviour.Destroy(HeroSelf.gameObject);
             }
             OnUpdatedTurn?.Invoke();
             _gameTurnView.ResetDisplayHeroes();
-        }else if(HeroOpponent != null && IsLasFightWin)
+            winneHeroModel = HeroOpponent;
+        }
+        else if(HeroOpponent != null && IsLasFightWin)
         {
             if(AttackedCastle != null)
             {
@@ -357,8 +374,10 @@ public class GameModel : IGameDataHandler
                 MonoBehaviour.Destroy(HeroOpponent.gameObject);
             OnUpdatedTurn?.Invoke();
             _gameTurnView.ResetDisplayHeroes();
+            winneHeroModel = HeroSelf;
+
         }
-        
+
         ResetHeroInFight();
         ExitFromFight();
         ExitFromFightHero();
