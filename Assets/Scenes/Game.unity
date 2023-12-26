@@ -315,6 +315,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 343673885}
   _icon: {fileID: 812415665}
+  _sprite: {fileID: 0}
 --- !u!65 &4151333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1516,6 +1517,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 855243827}
   _icon: {fileID: 245098978}
+  _sprite: {fileID: 0}
 --- !u!114 &24475934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3755,6 +3757,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1353088883}
   _icon: {fileID: 962236899}
+  _sprite: {fileID: 0}
 --- !u!114 &62117022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4424,6 +4427,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1649168703}
   _icon: {fileID: 644989424}
+  _sprite: {fileID: 0}
 --- !u!114 &71600366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4856,6 +4860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tradeButton: {fileID: 1567558920}
+  _divideButton: {fileID: 2121771687}
   _heroGarrisonSlot: {fileID: 230084215}
   _heroCasstleSlot: {fileID: 2062014228}
   _gameDateUI: {fileID: 1225046134}
@@ -6558,6 +6563,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 1263375086}
   _icon: {fileID: 1135284001}
+  _sprite: {fileID: 130769447}
 --- !u!114 &130769447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6814,6 +6820,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1493892328}
   _icon: {fileID: 1473701146}
+  _sprite: {fileID: 0}
 --- !u!65 &142367931
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7090,6 +7097,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1390524005}
   _icon: {fileID: 1383491065}
+  _sprite: {fileID: 0}
 --- !u!114 &150050369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7471,6 +7479,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 51481076}
   _icon: {fileID: 1430963740}
+  _sprite: {fileID: 0}
 --- !u!114 &156146204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11450,6 +11459,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 929714580}
   _icon: {fileID: 953178254}
+  _sprite: {fileID: 0}
 --- !u!65 &244178462
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12623,6 +12633,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 198444462}
   _icon: {fileID: 881627215}
+  _sprite: {fileID: 273964320}
 --- !u!114 &273964320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13888,6 +13899,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1936289784}
   _icon: {fileID: 1377765051}
+  _sprite: {fileID: 0}
 --- !u!114 &325142109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14671,6 +14683,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 127887879}
   _icon: {fileID: 940952764}
+  _sprite: {fileID: 0}
 --- !u!114 &345344422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15803,6 +15816,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 246952596}
   _icon: {fileID: 822636369}
+  _sprite: {fileID: 370827792}
 --- !u!114 &370827792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16435,6 +16449,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1922385618}
   _icon: {fileID: 479267166}
+  _sprite: {fileID: 0}
 --- !u!65 &392703073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18108,6 +18123,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 1990520601}
+  _sprite: {fileID: 0}
 --- !u!1 &426271054
 GameObject:
   m_ObjectHideFlags: 0
@@ -18863,6 +18879,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 2126282297}
   _icon: {fileID: 632094445}
+  _sprite: {fileID: 0}
 --- !u!114 &448747801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20955,6 +20972,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 785775727}
   _icon: {fileID: 545748623}
+  _sprite: {fileID: 0}
 --- !u!114 &520703472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22320,6 +22338,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1070147671}
   _icon: {fileID: 578624475}
+  _sprite: {fileID: 576292626}
 --- !u!114 &576292626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24777,6 +24796,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 486253531}
   _icon: {fileID: 182924836}
+  _sprite: {fileID: 0}
 --- !u!114 &635589624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25576,6 +25596,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 873789270}
+  _sprite: {fileID: 0}
 --- !u!1 &652084959
 GameObject:
   m_ObjectHideFlags: 0
@@ -26645,6 +26666,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 636137345}
   _icon: {fileID: 55755521}
+  _sprite: {fileID: 0}
 --- !u!65 &668432996
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28611,6 +28633,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 202665105}
   _icon: {fileID: 1806142771}
+  _sprite: {fileID: 719242871}
 --- !u!114 &719242871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28908,6 +28931,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 218084070}
   _icon: {fileID: 1211229888}
+  _sprite: {fileID: 0}
 --- !u!114 &732858975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30076,6 +30100,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 317481481}
   _icon: {fileID: 599988132}
+  _sprite: {fileID: 0}
 --- !u!114 &780704210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31527,6 +31552,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1892989054}
   _icon: {fileID: 1192635095}
+  _sprite: {fileID: 0}
 --- !u!114 &810861921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35386,6 +35412,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 2000834849}
   _icon: {fileID: 587520962}
+  _sprite: {fileID: 0}
 --- !u!114 &940243951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36111,6 +36138,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1473720297}
   _icon: {fileID: 737318848}
+  _sprite: {fileID: 0}
 --- !u!114 &971749097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36242,6 +36270,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 76121822}
+  _sprite: {fileID: 0}
 --- !u!1 &978968844
 GameObject:
   m_ObjectHideFlags: 0
@@ -37334,6 +37363,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 795080722}
   _icon: {fileID: 1638931376}
+  _sprite: {fileID: 993068894}
 --- !u!114 &993068894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39701,6 +39731,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 504417033}
   _icon: {fileID: 1433391660}
+  _sprite: {fileID: 1046072638}
 --- !u!114 &1046072638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40915,6 +40946,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 552501784}
   _icon: {fileID: 2003191570}
+  _sprite: {fileID: 0}
 --- !u!114 &1077112540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41969,6 +42001,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 599033488}
   _icon: {fileID: 224319563}
+  _sprite: {fileID: 0}
 --- !u!114 &1111406346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42572,6 +42605,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 299425210}
   _icon: {fileID: 209396176}
+  _sprite: {fileID: 1132032432}
 --- !u!114 &1132032432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42768,6 +42802,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1570925315}
   _icon: {fileID: 185710227}
+  _sprite: {fileID: 0}
 --- !u!114 &1141238407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45309,6 +45344,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 358847309}
   _icon: {fileID: 169751800}
+  _sprite: {fileID: 0}
 --- !u!114 &1229319384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45727,6 +45763,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 1693455312}
+  _sprite: {fileID: 0}
 --- !u!1 &1236639118
 GameObject:
   m_ObjectHideFlags: 0
@@ -45783,6 +45820,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 803796928}
   _icon: {fileID: 2004386749}
+  _sprite: {fileID: 0}
 --- !u!114 &1236639121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46412,6 +46450,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1393806439}
   _icon: {fileID: 1299856563}
+  _sprite: {fileID: 1275825737}
 --- !u!114 &1275825737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46510,6 +46549,7 @@ RectTransform:
   - {fileID: 37137726}
   - {fileID: 1473150518}
   - {fileID: 1567558919}
+  - {fileID: 2121771686}
   m_Father: {fileID: 1345454407}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47283,6 +47323,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 1034298222}
+  _sprite: {fileID: 0}
 --- !u!1 &1304675491
 GameObject:
   m_ObjectHideFlags: 0
@@ -47696,6 +47737,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 59051105}
   _icon: {fileID: 1462718301}
+  _sprite: {fileID: 1319253216}
 --- !u!114 &1319253216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51438,6 +51480,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1258321324}
   _icon: {fileID: 1394581162}
+  _sprite: {fileID: 0}
 --- !u!114 &1404369181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55320,6 +55363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025d86f1eacf85e4582453f2d6020da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <MapObjectID>k__BackingField: 
   _minesCube: {fileID: 0}
   _meshRenderer: {fileID: 0}
   _color: {fileID: 0}
@@ -57471,7 +57515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -93.9, y: 6.3}
+  m_AnchoredPosition: {x: -93.9, y: 29.7}
   m_SizeDelta: {x: 32, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1567558920
@@ -57826,6 +57870,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 1968111840}
+  _sprite: {fileID: 0}
 --- !u!1 &1568660827
 GameObject:
   m_ObjectHideFlags: 0
@@ -58057,6 +58102,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 854001269}
   _icon: {fileID: 42312014}
+  _sprite: {fileID: 0}
 --- !u!65 &1569935132
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61244,6 +61290,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1770648774}
   _icon: {fileID: 1740820832}
+  _sprite: {fileID: 0}
 --- !u!114 &1644759232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61874,6 +61921,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1909744133}
   _icon: {fileID: 933319296}
+  _sprite: {fileID: 1666566798}
 --- !u!114 &1666566798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62205,6 +62253,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1371497863}
   _icon: {fileID: 448486631}
+  _sprite: {fileID: 0}
 --- !u!114 &1669597512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63288,6 +63337,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1093328665}
   _icon: {fileID: 698018546}
+  _sprite: {fileID: 0}
 --- !u!114 &1686863874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64038,6 +64088,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 473710429}
+  _sprite: {fileID: 0}
 --- !u!1 &1694985988
 GameObject:
   m_ObjectHideFlags: 0
@@ -64626,6 +64677,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1583472055}
   _icon: {fileID: 103195191}
+  _sprite: {fileID: 0}
 --- !u!114 &1716271762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65786,6 +65838,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 556992371}
+  _sprite: {fileID: 0}
 --- !u!1 &1743461494
 GameObject:
   m_ObjectHideFlags: 0
@@ -69966,6 +70019,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1750952533}
   _icon: {fileID: 793009562}
+  _sprite: {fileID: 0}
 --- !u!114 &1874755201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72447,6 +72501,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1857083056}
   _icon: {fileID: 153718905}
+  _sprite: {fileID: 0}
 --- !u!114 &1918099986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73697,6 +73752,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1953007536}
   _icon: {fileID: 1231345508}
+  _sprite: {fileID: 0}
 --- !u!114 &1931686777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74635,6 +74691,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1673362015}
   _icon: {fileID: 657158872}
+  _sprite: {fileID: 0}
 --- !u!114 &1955460054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75603,6 +75660,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 1410919710}
   _icon: {fileID: 125847990}
+  _sprite: {fileID: 1996349512}
 --- !u!114 &1996349512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76258,6 +76316,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 0}
   _icon: {fileID: 5587420}
+  _sprite: {fileID: 0}
 --- !u!1 &2017899689
 GameObject:
   m_ObjectHideFlags: 0
@@ -78046,7 +78105,7 @@ RectTransform:
   m_Father: {fileID: 2126580249}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5893334}
+  m_AnchorMin: {x: 0, y: 0.58933336}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -5.1797037, y: 67.00502}
   m_SizeDelta: {x: 5.2856, y: 39.8424}
@@ -79035,6 +79094,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 1000391525}
   _icon: {fileID: 1598626205}
+  _sprite: {fileID: 0}
 --- !u!114 &2069248634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79482,6 +79542,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 1394733497}
   _icon: {fileID: 2102135597}
+  _sprite: {fileID: 2084898839}
 --- !u!114 &2084898839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79602,6 +79663,7 @@ MonoBehaviour:
   _slotTypes: 0
   _count: {fileID: 652246940}
   _icon: {fileID: 1101690256}
+  _sprite: {fileID: 0}
 --- !u!114 &2089621560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79697,6 +79759,7 @@ MonoBehaviour:
   _slotTypes: 1
   _count: {fileID: 1061500127}
   _icon: {fileID: 119293990}
+  _sprite: {fileID: 2091430065}
 --- !u!114 &2091430065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80398,6 +80461,127 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121496450}
+  m_CullTransparentMesh: 1
+--- !u!1 &2121771685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2121771686}
+  - component: {fileID: 2121771689}
+  - component: {fileID: 2121771688}
+  - component: {fileID: 2121771687}
+  m_Layer: 5
+  m_Name: DivideButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2121771686
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121771685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1276047606}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -93.9, y: -15.3}
+  m_SizeDelta: {x: 32, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2121771687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121771685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2121771688}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2121771688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121771685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 35fa4f49920d0da4b8cd24777d095bf3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2121771689
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121771685}
   m_CullTransparentMesh: 1
 --- !u!1 &2125836233
 GameObject:

@@ -21,6 +21,7 @@ using UnityEngine.SceneManagement;
 public class GameSceneLoaderTrigger : MonoBehaviour
 {
     [SerializeField] private Button _tradeButton;
+    [SerializeField] private Button _divideButton;
     [SerializeField] private HeroSlot _heroGarrisonSlot;
     [SerializeField] private HeroSlot _heroCasstleSlot;
     [SerializeField] private GameDateUI _gameDateUI;
@@ -115,7 +116,7 @@ public class GameSceneLoaderTrigger : MonoBehaviour
         groundController.SetTerrainGenerator(_terrainGenerator);
         heroPanelView.InitSlots(_inGameBarHeroPanelStatsWindow,_heroPanelStatsWindow, _heroPanel, _heroPanelCreaturesSlots, _heroPanelCloseButton);
 
-        FindObjectOfType<SlotsController>().Init(_tradeButton, _heroSlotInGarisson, _heroSlotInCasstle);
+        FindObjectOfType<SlotsController>().Init(_divideButton, _tradeButton, _heroSlotInGarisson, _heroSlotInCasstle);
         FindObjectOfType<GameDateView>().SetGameDataUI(_gameDateUI);
         turnTimer.SetTimerText(_timerText);
 

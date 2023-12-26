@@ -11,6 +11,7 @@ namespace Assets.Scripts.MVC.CastleSlots
         [SerializeField] private SlotTypes _slotTypes;
         [SerializeField] private TMP_Text _count;
         [SerializeField] private Image _icon;
+        [SerializeField] private Image _sprite;
 
         public int SlotID { get; private set; }
         public ArmySlotInfo ArmySlotInfo { get; private set; }
@@ -32,7 +33,6 @@ namespace Assets.Scripts.MVC.CastleSlots
 
         public void ResetSlot()
         {
-            Debug.Log("reseted");
             _icon.color = new Color(0, 0, 0, 0);
             if (_count != null)
                 _count.text = "";
@@ -49,6 +49,13 @@ namespace Assets.Scripts.MVC.CastleSlots
                 _count.text = "";
             ArmySlotInfo = null;
         }
-
+        public void PickSlot()
+        {
+            _sprite.color = Color.red;   
+        }
+        public void UnPickSlot()
+        {
+            _sprite.color = Color.white;
+        }
     }
 }

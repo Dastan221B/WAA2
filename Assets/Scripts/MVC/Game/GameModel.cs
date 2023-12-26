@@ -14,6 +14,7 @@ public class GameModel : IGameDataHandler
 {
     public event Action<Player> OnEnteredInTurn;
     public event Action OnUpdatedTurn;
+    public event Action NewDayStarted;
     public event Action OnExitFromTurn;
     public event Action<int> OnTickTimer;
     public event Action OnStatedTurn;
@@ -68,6 +69,7 @@ public class GameModel : IGameDataHandler
                                     _mineSturctures.Select(item => item.MapObjectID).ToList()
                                 };
 
+    public bool UpdatetedTurn = true;
     public bool IsCurrentTurn { get; private set; }
     public bool IsHeroMove { get; private set; }
     public Transform SceneObjectsParent { get; private set; }
@@ -383,7 +385,10 @@ public class GameModel : IGameDataHandler
         ExitFromFightHero();
         OnEnterInGameFromBattleScene?.Invoke();
     }
-
+    public void StartNewDay()
+    {
+        NewDayStarted?.Invoke();
+    }
     public void RemoveCasle(Castle castle)
     {
         _castlesTurn.Remove(castle);
@@ -460,10 +465,13 @@ public class GameModel : IGameDataHandler
             IsCurrentTurn = true;
             OnUpdatedTurn?.Invoke();
             OnEnteredInTurn?.Invoke(player);
-            
+            UpdateTurn(true);
         }
     }
-
+    public void UpdateTurn(bool state)
+    {
+        UpdatetedTurn = state;
+    }
     public void SetFightedCreatureSettings(GameMapObject creatureModelObject, Cell cell)
     {
         _creatureModelObject = creatureModelObject;

@@ -28,6 +28,8 @@ namespace Assets.Scripts.MVC.CastleSlots
         private Heroes _heroes;
         private TradeStartedResultProcess _tradeStartedResultProcess;
         private Button _tradeButton;
+        private Button _divideButton;
+        private CreatureSlot _lastPickSlot;
 
         public void Init(TradeStartedResultProcess tradeStartedResultProcess,GameAndBattleCommandsSender gameAndBattleCommandsSender,CastleCommandsSender castleCommandsSender,ModelCreatures modelCreatures ,CommonData commonData ,ProgramState programState, SlotPicker slotPicker, SlotsModel slotsModel,
             Heroes heroes , CastleModel castleModel)
@@ -44,12 +46,14 @@ namespace Assets.Scripts.MVC.CastleSlots
             _slotsModel = slotsModel;
         }
 
-        public void Init(Button tradeButton,HeroSlot heroSlotInGarisson , HeroSlot heroSlotInCastle)
+        public void Init(Button divideButton, Button tradeButton,HeroSlot heroSlotInGarisson , HeroSlot heroSlotInCastle)
         {
             _tradeButton = tradeButton;
+            _divideButton = divideButton;
             _heroSlotCastle = heroSlotInCastle;
             _heroSlotInGarnison = heroSlotInGarisson;
             _tradeButton.onClick.AddListener(Trade);
+            _divideButton.onClick.AddListener(Divide);
         }
 
         public void SetCreatureStatsInfoWindow(CreatureStatsInfoWindow creatureStatsInfoWindow)
@@ -79,7 +83,10 @@ namespace Assets.Scripts.MVC.CastleSlots
         {
             _tradeStartedResultProcess.OpenTrade(_heroSlotCastle.HeroModelObject, _heroSlotInGarnison.HeroModelObject);
         }
-
+        public void Divide()
+        {
+            _slotsModel.Divide(_currentCreatureSlot);
+        }
         private void PickHeroInGarrisonSlot()
         {
             if (Input.GetMouseButtonDown(0) && _slotPicker.TryPickSlot(out HeroSlot heroSlot))
@@ -131,10 +138,12 @@ namespace Assets.Scripts.MVC.CastleSlots
                     if (creatureSlot.ArmySlotInfo != null)
                     {
                         _currentCreatureSlot = creatureSlot;
+                        _currentCreatureSlot.PickSlot();
                     }
                 }
                 else
                 {
+                    _currentCreatureSlot.UnPickSlot();
                     if (creatureSlot == _currentCreatureSlot)
                     {
                         if (_commonData.TryGetDicCreatureDTOByID((int)creatureSlot.ArmySlotInfo.dicCreatureId, out DicCreatureDTO dicCreatureDTO))
@@ -148,7 +157,7 @@ namespace Assets.Scripts.MVC.CastleSlots
                     if (creatureSlot.SlotTypes == SlotTypes.Castle && _slotsModel.GarrisonArmyCount - 1 <= 0)
                         return;
 
-                    if (creatureSlot.ArmySlotInfo != null)
+                    if (creatureSlot.ArmySlotInfo != null && _currentCreatureSlot.ArmySlotInfo.dicCreatureId != creatureSlot.ArmySlotInfo.dicCreatureId)
                         return;
 
                     if (creatureSlot.SlotTypes == SlotTypes.Castle)

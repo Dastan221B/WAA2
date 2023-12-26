@@ -250,7 +250,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                 break;
             case InputGameHeaders.RELEASE_CREATURE_STACK_RESULT:
                 break;
-            case InputGameHeaders.LEAVE_CASTLE_RESULT:
+            case InputGameHeaders.MERGE_CASTLE_ARMY_RESULT:
                 _gameCastleObjectsChangeService.EnterGame();
                 _leaveCastleProcess.LeaveCastle(messageInput);
                 break;
@@ -338,6 +338,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                 break;
             case InputGameHeaders.NEW_DAY_STARTED_INFO:
                 _newDayStartedInfoProcess.InitProcess(messageInput);
+                _gameModel.StartNewDay();
                 break;
             case InputGameHeaders.FLAGGED_MINE_RESULT:
                 _flaggedMineResultProcess.FlaggedMineResultHandler(messageInput);

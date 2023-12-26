@@ -4,6 +4,7 @@ using Assets.Scripts.MVC.CastleSlots;
 using Assets.Scripts.MVC.Game;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace Assets.Scripts.MVC.CastleMVC
 
         public CastleObjectFullInfo CurrentCastleFullOjbectInfo { get; private set; }
         public string CurrentCastleID { get; private set; }
+        public List<string> CanBuyBuildingCastles { get; private set; } = new List<string>();
         public string GarrisonID { get; private set; }
         public HeroObjectFullInfo HeroInGarrison { get; private set; }
         public HeroObjectFullInfo HeroInCastle { get; private set; }
@@ -36,6 +38,7 @@ namespace Assets.Scripts.MVC.CastleMVC
         public int LevelLastHiredCreature { get; private set; }
         public int AmountHiredCreature { get; private set; }
         public bool TurnUpdated = true;
+        
 
 
         public CastleModel(CastleView castleView,CommonData commonData, GameModel gameModel , SlotsController slotsController, Heroes heroes)
@@ -206,7 +209,7 @@ namespace Assets.Scripts.MVC.CastleMVC
                 creaturesAmount.amount -= count;
             }
         }
-
+        
         public void InitBuildingsIDS()
         {
             int curBuidlingIndex = 0;
@@ -234,6 +237,20 @@ namespace Assets.Scripts.MVC.CastleMVC
                 return true;
             return false;
         }
-
+        public void SetCantBuyedBuildingCastle(string CastleID)
+        {
+            CanBuyBuildingCastles.Add(CastleID);
+        }
+        public void UpdateCanBuyBuildingCastleList()
+        {
+            if (CanBuyBuildingCastles.Count > 0)
+            {
+                CanBuyBuildingCastles.Clear();
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }

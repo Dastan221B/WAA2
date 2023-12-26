@@ -35,14 +35,14 @@ namespace Assets.Scripts.MVC.Battle
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjectsSelf => _battleCreatures.Where(item => item.CreatureSide == CreatureSide.Self).ToList();
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjects => _battleCreatures;
 
-        public void Init(ModelCreatures modelCreatures, CommonData commonData , IClearHexagonFrameList clearHexagonFrameList)
+        public void Init(ModelCreatures modelCreatures, CommonData commonData, IClearHexagonFrameList clearHexagonFrameList)
         {
             _modelCreatures = modelCreatures;
             _commonData = commonData;
             _clearHexagonFrameList = clearHexagonFrameList;
         }
 
-        public bool TryGetHexagonByCoordinates(int x ,int y , out Hexagon hexagon)
+        public bool TryGetHexagonByCoordinates(int x, int y, out Hexagon hexagon)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Assets.Scripts.MVC.Battle
             var leftBorder = new BattleFieldCoordinates(creatureCoordinates.x - creatureDTO.speed, creatureCoordinates.y);
             var topBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y + creatureDTO.speed);
             var bottomBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y - creatureDTO.speed);
-
+            int speed = creatureDTO.speed;
             Debug.Log(creatureDTO.name + " left " + leftBorder.x + " right " + rightBorder.x + " top " + topBorder.y + " bottom " + bottomBorder.y);
             for (int x = 0; x < HexagonGenerator.HEXAGON_WIDTH; x++)
             {
@@ -126,8 +126,32 @@ namespace Assets.Scripts.MVC.Battle
                         hexagon1.DisableToMove();
                 }
             }
+            //var radius = creatureDTO.speed;
+            //for (int x = 0; x < HexagonGenerator.HEXAGON_WIDTH; x++)
+            //{
+            //    for (int y = 0; y < HexagonGenerator.HEXAGON_LENGTH; y++)
+            //    {
+            //        // Вычисляем расстояние от текущей позиции (x, y) до центра существа
+            //        int distanceX = Mathf.Abs(x - creatureCoordinates.x);
+            //        int distanceY = Mathf.Abs(y - creatureCoordinates.y);
 
-            foreach(var item in _hexagons)
+            //        // Используем формулу окружности (x-a)^2 + (y-b)^2 <= r^2 для проверки, находится ли точка внутри круга
+            //        if (distanceX * distanceX + distanceY * distanceY <= radius * radius)
+            //        {
+            //            // Рисуем круг
+            //            if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon))
+            //                hexagon.AvalableToMove();
+            //            continue;
+            //        }
+            //        else
+            //        {
+            //            // Вне круга - отключаем возможность перемещения
+            //            if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon))
+            //                hexagon.DisableToMove();
+            //        }
+            //    }
+            //}
+            foreach (var item in _hexagons)
                 item.PaintHexagonInCreatureSide();
 
             if (TryGetHexagonByCoordinates(_creatureStackBattleObjectFullInfo.battleFieldCoordinates.x, _creatureStackBattleObjectFullInfo.battleFieldCoordinates.y, out Hexagon hexagon2))
@@ -155,16 +179,16 @@ namespace Assets.Scripts.MVC.Battle
             return _hexagons[x, y];
         }
 
-        public bool TryGetCreatureByID(int id , out CreatureModelObject creature)
+        public bool TryGetCreatureByID(int id, out CreatureModelObject creature)
         {
-            if(_battleCreatures == null)
+            if (_battleCreatures == null)
             {
                 creature = null;
                 return false;
             }
-            foreach(var item in _battleCreatures)
+            foreach (var item in _battleCreatures)
             {
-                if(id == item.CreatureID)
+                if (id == item.CreatureID)
                 {
                     creature = item;
                     return true;
@@ -223,7 +247,7 @@ namespace Assets.Scripts.MVC.Battle
                 MonoBehaviour.Destroy(item.gameObject);
             foreach (var item in _battleCreatures)
             {
-                if(item != null && item.gameObject != null)
+                if (item != null && item.gameObject != null)
                     MonoBehaviour.Destroy(item.gameObject);
             }
 
@@ -282,7 +306,7 @@ namespace Assets.Scripts.MVC.Battle
         private void HandleCreatureDeath(CreatureModelObject battleCreature)
         {
             battleCreature.OnCreatureDeath -= HandleCreatureDeath;
-            if (TryGetHexagonByCoordinates((int)battleCreature.transform.position.x ,
+            if (TryGetHexagonByCoordinates((int)battleCreature.transform.position.x,
                 (int)battleCreature.transform.position.x, out Hexagon hexagon))
             {
                 hexagon.SetCreature(null);

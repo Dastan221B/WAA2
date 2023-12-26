@@ -58,6 +58,7 @@ namespace Assets.Scripts.MVC.CastleMVC.View
 
         public void Buy()
         {
+            _castleModel.SetCantBuyedBuildingCastle(_castleModel.CurrentCastleID);
             _castleCommandsSender.SendAddCastleBuildingRequest(_castleModel.CurrentCastleID, _buidldingID);
             Close();
             OnBuyed?.Invoke();

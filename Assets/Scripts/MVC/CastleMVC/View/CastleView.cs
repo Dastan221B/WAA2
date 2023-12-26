@@ -130,6 +130,10 @@ namespace Assets.Scripts.MVC.CastleMVC.View
                 _leaveCastleProcess.ExitCasle();
             }
         }
+        public void ResetCanBuyedBuildingList()
+        {
+            _castleModel.UpdateCanBuyBuildingCastleList();
+        }
 
     }
 }

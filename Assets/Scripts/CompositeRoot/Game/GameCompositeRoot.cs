@@ -134,6 +134,7 @@ public class GameCompositeRoot : CompositeRoot
         _gameLoaderModel.OnGameLoaded += _gameController.LoadedObjectsData;
         _gameLoaderModel.OnGameLoaded += _programState.GameStartHandler;
         _gameModel.OnUpdatedTurn += _gameTurnView.UpdateTurnView;
+        _gameModel.NewDayStarted += _castleView.ResetCanBuyedBuildingList;
         _gameModel.OnEnteredInTurn += _gameTurnView.EnteredInTurn;
         _gameModel.OnExitFromTurn += _gameTurnView.ExitFromTurn;
         _gameModel.OnExitFromTurn += _gameTimer.StopTimer;

@@ -61,7 +61,7 @@ public class LoadScreen : MonoBehaviour
             yield return new WaitForSeconds(0.005f);
         }
         IsLoaded = true;
-        _enterText.text = "Нажмите на любую клавишу...";
+        _enterText.text = "Press any key...";
     }
 
 

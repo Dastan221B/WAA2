@@ -122,6 +122,16 @@ namespace Assets.Scripts.MVC.CastleMVC.View
 
         public bool CanAddBuilding(List<int> buildingDependencies, List<ObjectPrice> price)
         {
+            if (_castleModel.CanBuyBuildingCastles.Count > 0)
+            {
+                foreach (var Id in _castleModel.CanBuyBuildingCastles)
+                {
+                    if (Id == _castleModel.CurrentCastleID)
+                    {
+                        return false;
+                    }
+                }
+            }
             List<int> buildingsInCastle = _castleModel.CurrentCastleFullOjbectInfo.buildings;
             var notBuiltBuildings = buildingDependencies.Except(buildingsInCastle);
             var similarBuilings = notBuiltBuildings.Intersect(_commonData.BuildingDictianory.Values.Select(b => (int)b.id));

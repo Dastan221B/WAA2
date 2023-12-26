@@ -59,7 +59,7 @@ namespace Assets.Scripts.MVC.CastleMVC
                 List<ArmySlotInfo> armyInGarrison)
         {
             LeaveCastleRequest request = new LeaveCastleRequest(_gameModel.GameSessionID, objectId, castleCreatures, heroObjectId, armyInGarrison);
-            _gameMessageSender.SendMessage(OutputGameHeaders.LEAVE_CASTLE_REQUEST, Newtonsoft.Json.JsonConvert.SerializeObject(request));
+            _gameMessageSender.SendMessage(OutputGameHeaders.MERGE_CASTLE_ARMY_REQUEST, Newtonsoft.Json.JsonConvert.SerializeObject(request));
         }
 
     }

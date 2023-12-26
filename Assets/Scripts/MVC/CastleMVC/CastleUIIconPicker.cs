@@ -58,6 +58,7 @@ namespace Assets.Scripts.MVC.CastleMVC
                 if (_clicked > 1 && Time.time - _clicktime < _clickdelay)
                 {
                     _castleIDSelected = castleIcon.Castle.MapObjectID;
+                    _castleView.ExitFromCastle();
                     _castleCommandsSender.SendCastleFullInfoRequest(castleIcon.Castle.MapObjectID);
                 }
                 else if (_clicked > 2 || Time.time - _clicktime > 1) _clicked = 0;
