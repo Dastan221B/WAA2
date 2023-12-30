@@ -48,6 +48,8 @@ namespace Assets.Scripts.MVC.Battle.BattleLoader
                         DicCreatureDTO dicCreatureDTOClone = dicCreatureDTO.Clone();
                         creatureFullObject.Init(_battleModel,creature.Value, dicCreatureDTOClone, (int)creature.Key, creatureSide, quaternion , (int)creature.Value.dicCreatureId);
                     }
+                    creatureFullObject.SetCurrentHexagon(hexagon);
+
                     hexagon.SetCreature(creatureFullObject);
                     battleCreatures.Add(creatureFullObject);
                 }

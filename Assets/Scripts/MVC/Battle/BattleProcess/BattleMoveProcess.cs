@@ -23,6 +23,8 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             _battleTimer.TimerTime = battleMoveResultInfo.turnSeconds;
             if(battleMoveResultInfo.result == true && _battleModel.TryGetCreatureByID(battleMoveResultInfo.activeCreatureStackBattleObjectId, out CreatureModelObject battleCreature))
             {
+                if(battleCreature.CurrentHexagon != null)
+                    battleCreature.CurrentHexagon.SetCreature(null);
                 _creaturePathMover.StartMove(battleCreature, battleMoveResultInfo.path);
             }
             else

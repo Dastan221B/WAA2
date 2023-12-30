@@ -102,7 +102,6 @@ namespace Assets.Scripts.MVC.Battle
 
         public void AvalableToMove()
         {
-            Debug.Log("AvalableHexagon");
             if (_meshRenderer == null)
                 return;
             IsAvalableToMove = true;
@@ -139,7 +138,6 @@ namespace Assets.Scripts.MVC.Battle
 
         public void PaintHexagonInCreatureSide()
         {
-            Debug.Log("PaintHexagon");
             if (_battleCreature == null)
                 return;
             _isSelectedToTargetPoint = false;

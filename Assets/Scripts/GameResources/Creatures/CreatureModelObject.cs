@@ -23,7 +23,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         private Coroutine _animationCoroutine;
         [SerializeField] private Animator _animator;
-        public Hexagon CurrentHexagon { get; private set; }
+        public Hexagon CurrentHexagon;
         [field: SerializeField] public int CreatureID { get; private set; }
         public int DicCreatureId { get; private set; }
         public int Amount { get; private set; }

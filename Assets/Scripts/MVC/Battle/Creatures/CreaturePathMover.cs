@@ -23,8 +23,7 @@ namespace Assets.Scripts.MVC.Battle
         }
 
         private IEnumerator MoveCreature(CreatureModelObject creature, List<BattleFieldCoordinates> path)
-        {
-           
+        {   
             int i = 0;
             Hexagon hexagon;
             Vector3 targetPosition = Vector3.zero;
@@ -33,9 +32,14 @@ namespace Assets.Scripts.MVC.Battle
                 hexagon.PaintToTargetMovePoint();
                 hexagon.SetCreature(creature);
             }
+            if(creature != null && creature.CurrentHexagon != null)
+            {
+                creature.CurrentHexagon.DisableToMove();
+            }
             if (_battleModel.TryGetHexagonByCoordinates(path[i].x, path[i].y, out hexagon))
                 targetPosition = hexagon.transform.position + new Vector3(0, 0.152f, 0);
             creature.EnterInMoveState();
+
             while (true)
             {
                 if (creature == null)
@@ -62,6 +66,7 @@ namespace Assets.Scripts.MVC.Battle
                 if (_battleModel.TryGetHexagonByCoordinates(path[path.Count - 1].x, path[path.Count - 1].y, out hexagon))
                 {
                     hexagon.SetCreature(creature);
+                    creature.SetCurrentHexagon(hexagon);
                     hexagon.PaintHexagonInCreatureSide();
                 }
                 hexagon.SetCreature(creature);

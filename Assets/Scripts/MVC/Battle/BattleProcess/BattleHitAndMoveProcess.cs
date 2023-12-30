@@ -39,6 +39,8 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
                     _amount = battleMoveAndHitResultInfo.targetCreatureStack.amount;
                     _attakDamage = battleMoveAndHitResultInfo.targetCreatureStack.currentHealthPoint;
                     _attakerBattleCreature.SetHealthPoints(battleMoveAndHitResultInfo.attackerCreatureStack.currentHealthPoint);
+                    if(_attakerBattleCreature.CurrentHexagon != null)
+                        _attakerBattleCreature.CurrentHexagon.SetCreature(null);
                     _creaturePathMover.OnEndedMove += HitCreature;
                     _creaturePathMover.StartMove(_attakerBattleCreature, battleMoveAndHitResultInfo.path);
                 }

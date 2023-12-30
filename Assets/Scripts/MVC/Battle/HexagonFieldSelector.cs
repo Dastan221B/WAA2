@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.MVC.Battle.Views;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -56,7 +57,19 @@ namespace Assets.Scripts.MVC.Battle
         {
             Hexagon hexagon = new Hexagon();
             float _min = float.MaxValue;
-            foreach (Hexagon hex in GetNeighbours())
+            var hexagons = new List<Hexagon>();
+
+            foreach (Hexagon hex in _battleModel._hexagons)
+            {
+                float distance = Vector3.Distance(hex.transform.position, SelectedHexagon.transform.position); // Расстояние между точкой и шестиугольником
+
+                if (distance >= _battleModel.RadiusHexagonsSelecting)
+                {
+                    hexagons.Add(hex);
+                }
+            }
+
+            foreach (Hexagon hex in hexagons)
             {
                 if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, _hexagonLayerMask))
                 {

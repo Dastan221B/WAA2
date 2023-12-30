@@ -4,15 +4,18 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Interfaces.Battle;
+using System.Drawing;
 
 namespace Assets.Scripts.MVC.Battle
 {
     public class BattleModel : MonoBehaviour
     {
+        [SerializeField] private float _radiusHexagonsSelecting;
+
         public event Action<List<CreatureModelObject>> OnInitedCreatures;
         public event Action<CreatureModelObject, Sprite> OnSelectedCurrentActiveCreature;
 
-        private Hexagon[,] _hexagons;
+        public Hexagon[,] _hexagons;
         private List<CreatureModelObject> _battleCreatures;
         private CreatureStackBattleObjectFullInfo _creatureStackBattleObjectFullInfo;
         public CreatureStackBattleObjectFullInfo ActiveCreatureStackBattleObjectFullInfo => _creatureStackBattleObjectFullInfo;
@@ -34,6 +37,8 @@ namespace Assets.Scripts.MVC.Battle
         public IEnumerable<CreatureModelObject> DeathCreatures => _deathCreatures;
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjectsSelf => _battleCreatures.Where(item => item.CreatureSide == CreatureSide.Self).ToList();
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjects => _battleCreatures;
+
+        public float RadiusHexagonsSelecting => _radiusHexagonsSelecting;
 
         public void Init(ModelCreatures modelCreatures, CommonData commonData, IClearHexagonFrameList clearHexagonFrameList)
         {
@@ -97,60 +102,32 @@ namespace Assets.Scripts.MVC.Battle
             ResetHexagons();
             DicCreatureDTO creatureDTO = dicCreatureDTO;
             BattleFieldCoordinates creatureCoordinates = _creatureStackBattleObjectFullInfo.battleFieldCoordinates;
-
-            Debug.Log(creatureDTO.id + "speed" + creatureDTO.name + " " + creatureDTO.speed);
-
+ 
             var rightBorder = new BattleFieldCoordinates(creatureCoordinates.x + creatureDTO.speed, creatureCoordinates.y);
             var leftBorder = new BattleFieldCoordinates(creatureCoordinates.x - creatureDTO.speed, creatureCoordinates.y);
             var topBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y + creatureDTO.speed);
             var bottomBorder = new BattleFieldCoordinates(creatureCoordinates.x, creatureCoordinates.y - creatureDTO.speed);
-            int speed = creatureDTO.speed;
-            Debug.Log(creatureDTO.name + " left " + leftBorder.x + " right " + rightBorder.x + " top " + topBorder.y + " bottom " + bottomBorder.y);
-            for (int x = 0; x < HexagonGenerator.HEXAGON_WIDTH; x++)
+
+            foreach (Hexagon hex in _hexagons)
             {
-                for (int y = 0; y < HexagonGenerator.HEXAGON_LENGTH; y++)
+                // Проверяем расстояние от точки до центра каждого шестиугольника
+                float distance = Vector3.Distance(new Vector2
+                    (hex.BattleFieldCoordinates.x ,hex.BattleFieldCoordinates.y)
+                    , new Vector2
+                    (creatureCoordinates.x, creatureCoordinates.y));
+
+                // Если расстояние меньше или равно половине длины стороны шестиугольника (радиусу), выделяем шестиугольник
+                if (distance < creatureDTO.speed)
                 {
-                    if (x >= leftBorder.x + 1 && x <= rightBorder.x - 1)
-                    {
-                        if (y >= bottomBorder.y + 1 && y <= topBorder.y - 1)
-                        {
-                            if (new BattleFieldCoordinates(x, y) != creatureCoordinates)
-                            {
-                                if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon))
-                                    hexagon.AvalableToMove();
-                                continue;
-                            }
-                        }
-                    }
-                    if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon1))
-                        hexagon1.DisableToMove();
+                    hex.AvalableToMove();
+                }
+                else
+                {
+                    hex.DisableToMove();
                 }
             }
-            //var radius = creatureDTO.speed;
-            //for (int x = 0; x < HexagonGenerator.HEXAGON_WIDTH; x++)
-            //{
-            //    for (int y = 0; y < HexagonGenerator.HEXAGON_LENGTH; y++)
-            //    {
-            //        // Вычисляем расстояние от текущей позиции (x, y) до центра существа
-            //        int distanceX = Mathf.Abs(x - creatureCoordinates.x);
-            //        int distanceY = Mathf.Abs(y - creatureCoordinates.y);
 
-            //        // Используем формулу окружности (x-a)^2 + (y-b)^2 <= r^2 для проверки, находится ли точка внутри круга
-            //        if (distanceX * distanceX + distanceY * distanceY <= radius * radius)
-            //        {
-            //            // Рисуем круг
-            //            if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon))
-            //                hexagon.AvalableToMove();
-            //            continue;
-            //        }
-            //        else
-            //        {
-            //            // Вне круга - отключаем возможность перемещения
-            //            if (TryGetHexagonByCoordinates(x, y, out Hexagon hexagon))
-            //                hexagon.DisableToMove();
-            //        }
-            //    }
-            //}
+
             foreach (var item in _hexagons)
                 item.PaintHexagonInCreatureSide();
 

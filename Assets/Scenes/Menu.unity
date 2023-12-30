@@ -1754,6 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cfcfa7e44970844a98af604ef9440ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radiusHexagonsSelecting: 0.5
   _endedGameInProcess: 0
 --- !u!1 &194668054
 GameObject:
