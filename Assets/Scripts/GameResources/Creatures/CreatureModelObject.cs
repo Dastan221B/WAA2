@@ -37,6 +37,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
         [field: SerializeField] public bool IsBlock { get; private set; }
         private BattleModel _battleModel;
         public bool IsInModeState { get; private set; }
+        [field: SerializeField] public bool IsIdle { get; private set; } = true;
 
         public void Init(BattleModel battleModel,CreatureStackObjectFullInfo creatureStackObjectFullInfo,DicCreatureDTO dicCreatureDTO,
             int creatureID, CreatureSide creatureSide, Quaternion lookDirection, int spriteID)
@@ -77,6 +78,8 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         public virtual void EnterInIdleState()
         {
+            Debug.Log("EnterInIdleState " + gameObject.name);
+            IsIdle = true;
             IsBlock = false;
             transform.localRotation = _lookDirection;
             IsInModeState = false;
@@ -87,13 +90,17 @@ namespace Assets.Scripts.GameResources.MapCreatures
         public virtual void EnterInMoveState()
         {
             IsInModeState = true;
+            IsIdle = false;
             _animator.CrossFade(_run, 0);
         }
 
         public void Loose()
         {
+            IsIdle = true;
+            Debug.Log("Loose " + gameObject.name);
             if (_animator == null)
             {
+                OnCreatureDeath?.Invoke(this);
                 Destroy(gameObject);
             }
             else
@@ -107,6 +114,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
         private IEnumerator HitCoroutineState()
         {
             IsInModeState = false;
+            IsIdle = false;
             _animator.CrossFade(_hit, 0);
             yield return new WaitForSeconds(0.4f);
             EnterInIdleState();
@@ -122,6 +130,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
         {
             OnStartCreatureDeath?.Invoke(this);
             IsInModeState = false;
+            IsIdle = true;
             _animator.CrossFade(_loose, 0);
             yield return new WaitForSeconds(_deathAnimationClip.length);
             _animationCoroutine = StartCoroutine(DeathAnimation());
@@ -146,14 +155,19 @@ namespace Assets.Scripts.GameResources.MapCreatures
             else
             {
                 if (_animationCoroutine != null)
+                {
+                    IsIdle = true;
                     StopCoroutine(_animationCoroutine);
-                if(creatureToKill != null)
+                }
+                if (creatureToKill != null)
                     _animationCoroutine = StartCoroutine(AttackCoroutrine(creatureToKill, isKilled, attakDamage));
             }
         }
 
         private IEnumerator DeathAnimation()
         {
+            IsIdle = true;
+
             Vector3 target = new Vector3(transform.position.x, transform.position.y - 3, transform.position.z);
             while (true)
             {
@@ -163,20 +177,23 @@ namespace Assets.Scripts.GameResources.MapCreatures
                     break;
                 yield return null;
             }
-            Destroy(gameObject);
+            IsIdle = true;
             OnCreatureDeath?.Invoke(this);
+            Destroy(gameObject);
         }
 
         public void EnterInBlockByTrigger()
         {
             IsInModeState = false;
             _animator.CrossFade(_hit, 0);
+            IsIdle = true;
         }
 
         public void EnterInAttackByTrigger()
         {
             IsInModeState = false;
             _animator.CrossFade(_atack,0);
+            IsIdle = true;
         }
 
         public void Block()
@@ -193,6 +210,7 @@ namespace Assets.Scripts.GameResources.MapCreatures
 
         private IEnumerator BlockCoroutine()
         {
+            IsIdle = false;
             yield return new WaitForSeconds(0.4f);
             EnterInBlockByTrigger();
             yield return new WaitForSeconds(0.3f);
@@ -217,12 +235,19 @@ namespace Assets.Scripts.GameResources.MapCreatures
         {
             transform.LookAt(creatureToKill.transform);
             HandleAttack(creatureToKill);
+            IsIdle = false;
             yield return new WaitForSeconds(_attackAnimationClip.length);
             creatureToKill.SetHealthPoints(attakDamage);
+
             if (isKilled)
-                creatureToKill.Loose();
-            else
+            {
                 EnterInIdleState();
+                creatureToKill.Loose();
+            }
+            else
+            {
+                EnterInIdleState();
+            }
         }
 
     }

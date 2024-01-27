@@ -119,7 +119,21 @@ namespace Assets.Scripts.MVC.CastleMVC.View
         {
             if (_gameModel.IsCurrentTurn)
             {
-                var garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
+                List <ArmySlotInfo> garrison = new List<ArmySlotInfo>();
+                //if (_castleModel.HeroInGarrison != null)
+                //{
+                //    garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
+                //}
+                //else
+                //{
+                //    garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
+                //    foreach(var item in garrison)
+                //        _slotsModel.AddCreatureToCastleSlots(item);
+                //    garrison = new List<ArmySlotInfo>();
+                //}
+
+                garrison = new List<ArmySlotInfo>(_slotsModel.GarrisonArmy).ExcludeNull();
+
                 _castleCommandsSender.SendLeaveCastleRequest(_castleModel.CurrentCastleID, _castleModel.GarrisonID,
                     new List<ArmySlotInfo>(_slotsModel.CastleArmy).ExcludeNull(), garrison);
             }

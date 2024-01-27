@@ -20,7 +20,7 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             BattleFieldCoordinates cordinates = battleCreatureBlockActivationResult.creatureStack.battleFieldCoordinates;
             if (_battleModel.TryGetHexagonByCoordinates(cordinates.x, cordinates.y, out Hexagon hexagon))
             {
-                _battleModel.EnterCreatureInAction();
+                //_battleModel.EnterCreatureInAction();
                 //hexagon.BattleCreature.Block();
             }
         }

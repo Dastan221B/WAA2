@@ -13,7 +13,7 @@ public class HeroModelObject : GameMapObject
     public int Knowledge { get; private set; }
     public int Power { get; private set; }
     public int Level { get; private set; }
-    public int Ordinal { get; private set; }
+    [field: SerializeField] public int Ordinal { get; private set; }
     public int MovePointsLeft { get; private set; }
     public Cell LastCellStayed { get; private set; }
     public HeroObjectFullInfo HeroObjectFullInfo { get; private set; }

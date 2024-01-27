@@ -24,7 +24,6 @@ namespace Assets.Scripts.MVC.CastleSlots
         public void AddCreaturesToGarrisonSlot(List<ArmySlotInfo> armySlotInfos)
         {
             _garrisonArmy = new ArmySlotInfo[7];
-
             if (armySlotInfos != null)
             {
                 //for (int i = 0; i < armySlotInfos.Count; i++)
@@ -37,14 +36,27 @@ namespace Assets.Scripts.MVC.CastleSlots
                 //            armySlotInfos.RemoveAt(j);
                 //        }
                 //    }
-                //}
+                //}  
                 for (int i = 0; i < armySlotInfos.Count; i++)
                 {
-                    _garrisonArmy[i] = armySlotInfos.FirstOrDefault(p => p.stackSlot == i); ;
+                    _garrisonArmy[armySlotInfos[i].stackSlot] = armySlotInfos[i];
                 }
             }
             OnUpdatedGarrisonArmy?.Invoke();
+        }
 
+        public void AddCreatureToCastleSlots(ArmySlotInfo armySlotInfo)
+        {
+            for (int i = 0; i < _castleArmy.Length; i++)
+            {
+                if (_castleArmy[i] == null)
+                {
+                    _castleArmy[i] = armySlotInfo;
+                    return;
+                }
+            }
+
+            OnUpdatedCastleArmy?.Invoke();
         }
 
         public void AddCreaturesToCastleSlot(List<ArmySlotInfo> armySlotInfos)
@@ -62,9 +74,12 @@ namespace Assets.Scripts.MVC.CastleSlots
             //        }
             //    }
             //}
-            for (int i = 0; i < armySlotInfos.Count; i++)
+            if (armySlotInfos != null)
             {
-                _castleArmy[i] = armySlotInfos.FirstOrDefault(p => p.stackSlot == i);
+                for (int i = 0; i < armySlotInfos.Count; i++)
+                {
+                    _castleArmy[armySlotInfos[i].stackSlot] = armySlotInfos[i];
+                }
             }
 
             OnUpdatedCastleArmy?.Invoke();
@@ -118,7 +133,6 @@ namespace Assets.Scripts.MVC.CastleSlots
             }
             else
             {
-                Debug.Log("21check");
                 if (armySlotInfo.dicCreatureId == _castleArmy[indexInQueue].dicCreatureId)
                 {
                     if (previousSlotTypes == SlotTypes.Castle)

@@ -44,7 +44,7 @@ public class BattleCompositeRoot : CompositeRoot
 
     public override void Composite()
     {
-        _battleModel.Init(_modelCreatures, _commonData, _hexagonGenerator);
+        _battleModel.Init(_hexagonPicker,_modelCreatures, _commonData, _hexagonGenerator);
         _endGameProcess = new EndGameProcess(_gameTimer,_battleModel, _loadScreen, _gameCompositeRoot.GameModel);
         _resultPanel.Init( _battleModel ,_endGameProcess, _resultPanelCreatureItemPrefab, _modelCreatures);
         _hexagonGenerator.Init(_hexagonPrefab, _hexagonFramePrefab);

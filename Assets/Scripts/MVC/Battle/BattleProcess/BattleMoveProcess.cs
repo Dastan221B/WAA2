@@ -29,6 +29,7 @@ namespace Assets.Scripts.MVC.Battle.BattleProcess
             }
             else
             {
+                Debug.LogError("InitBattleMove");
             }
         }
     }

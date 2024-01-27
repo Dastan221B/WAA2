@@ -6,6 +6,7 @@ using Assets.Scripts.MVC.CastleMVC;
 using Assets.Scripts.MVC.Game;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -52,10 +53,32 @@ public class BattleController : MonoBehaviour
         if (!_loadScreen.IsLoaded)
             _hexagonFieldSelecter.TrySelectCreature();
 
-        Debug.Log("_battleModel.IsCreatureInAction " + _battleModel.IsCreatureInAction);
-        if (!_battleModel.InitedHexagonsForCreature && CheckToUI() || _programState.StatesOfProgram != StatesOfProgram.Battle || _battleModel.IsCreatureInAction || _loadScreen.IsLoaded)
-            return;
-        BattleGameProcess();
+        //Debug.Log("_battleModel.IsCreatureInAction " + _battleModel.IsCreatureInAction);
+        //Debug.Log("CheckToUI() " + CheckToUI());
+        //Debug.Log("_programState.StatesOfProgram " + _programState.StatesOfProgram);
+        //Debug.Log("_battleModel.IsCreatureInAction " + _battleModel.IsCreatureInAction);
+        //Debug.Log("_loadScreen.IsLoaded " + _loadScreen.IsLoaded);
+
+        try
+        {
+            int isCreatureInIDLE = _battleModel.CreatureModelObjectsFull.Where(item => item.IsIdle).ToList().Count;
+            //Debug.Log("isCreatureInIDLE 1 " + isCreatureInIDLE);
+            //Debug.Log("isCreatureInIDLE 2 " + _battleModel.CreatureModelObjectsFull.Count);
+
+            foreach(var item in _battleModel.CreatureModelObjectsFull)
+            {
+                //Debug.Log("isCreatureInIDLE " + item.gameObject.name + " " + item.IsIdle);
+            }
+
+            if (isCreatureInIDLE != _battleModel.CreatureModelObjectsFull.Count || !_battleModel.InitedHexagonsForCreature && CheckToUI() || _programState.StatesOfProgram != StatesOfProgram.Battle || _battleModel.IsCreatureInAction || _loadScreen.IsLoaded)
+                return;
+
+            BattleGameProcess();
+        }
+        catch(System.Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     private bool CheckToUI()

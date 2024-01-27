@@ -23,7 +23,6 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
         public void LeaveCastle(MessageInput message)
         {
             LeaveCastleResult leaveCastleResult = Newtonsoft.Json.JsonConvert.DeserializeObject<LeaveCastleResult>(message.body);
-            Debug.Log("_gameModel.SelectedHero " + _gameModel.SelectedHero.DicHeroId);
             if(_gameModel.SelectedHero != null)
                 _gameModel.SelectedHero.SetArmySlots(leaveCastleResult.garrisonArmy);
             ExitCasle();

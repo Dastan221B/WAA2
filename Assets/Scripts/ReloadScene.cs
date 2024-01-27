@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
 {
+
     public class ReloadScene : MonoBehaviour
     {
         public void Reload()

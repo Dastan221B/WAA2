@@ -2,7 +2,9 @@
 using Assets.Scripts.MVC.Battle;
 using Assets.Scripts.MVC.Battle.BattleProcess;
 using Assets.Scripts.MVC.Battle.Views;
+using Assets.Scripts.MVC.CastleMVC;
 using Assets.Scripts.MVC.CastleMVC.CastleProcess;
+using Assets.Scripts.MVC.CastleMVC.View;
 using Assets.Scripts.MVC.CastleSlots;
 using Assets.Scripts.MVC.Game;
 using Assets.Scripts.MVC.Game.GameProcces;
@@ -63,6 +65,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
     private NewDayStartedInfoProcess _newDayStartedInfoProcess;
     private GameTurnView _gameTurnView;
     private PathFinder _pathFinder;
+    private CastleView _castleView;
 
     public bool IsStartedGameFlag
     {
@@ -106,6 +109,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
         _pickResourceProcees = new PickResourceProcees(heroPathMover,gameModel, moveHeroInfoWithMovePointsProcess, resourcesDataService, gameAndBattleCommandsSender);
         _pickResourceInfoProcess = new PickResourceInfoProcess(_gameTimer,gameModel);
         _submitTradeResultProcess = submitTradeResultProcess;
+        _gameModel.SetGameBattleProcessResponseHandler(this);
     }
 
     public void Init(BattleTurnOrderProcess battleTurnOrderProcess,BattleModel battleModel, BattleInitalProcess battleInitalProcess, 
@@ -119,29 +123,39 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
         _battleModel = battleModel;
         _battleInitalProcess = battleInitalProcess;
         _battleTurnNotificationProcess = new BattleTurnNotificationProcess(_battleModel);
+        _battleModel.InitBattleTurnNotificationProcess(_battleTurnNotificationProcess);
         _battleMoveProcess = battleMoveProcess;
         _battleHitAndMoveProcess = battleHitAndMoveProcess;
         _battleBlockActivetedProcess = battleBlockActivetedProcess;
         _battleWaitActivatedProcess = battleWaitActivatedProcess;
     }
 
-    public void Init(OpenCastleProcess openCastleProcess, AddBuildingToCastleProcess addBuildingToCastleProcess,
+    public void Init(CastleModel castleModel,OpenCastleProcess openCastleProcess, AddBuildingToCastleProcess addBuildingToCastleProcess,
         HireCreatureProcess hireCreatureProcess, HeroEnterInCastleResultProcess heroEnterInCastleResultProcess,
-        LeaveCastleProcess leaveCastleProcess , SlotsModel slotsModel)
+        LeaveCastleProcess leaveCastleProcess , SlotsModel slotsModel , CastleView castleView)
     {
+        _castleView = castleView;
         _leaveCastleProcess = leaveCastleProcess;
         _hireCreatureProcess = hireCreatureProcess;
         _addBuildingToCastleProcess = addBuildingToCastleProcess;
         _openCastleProcess = openCastleProcess;
         _heroEnterInCastleResultProcess = heroEnterInCastleResultProcess;
-        _heroMoveToCastleProcess = new HeroMoveToCastleProcess(_gameTurnView,_gameModel, slotsModel);
-        _heroMoveToGarissonProcess = new HeroMoveToGarissonProcess(_gameTurnView,_gameModel, slotsModel);
+        _heroMoveToCastleProcess = new HeroMoveToCastleProcess(castleModel,_gameTurnView,_gameModel, slotsModel);
+        _heroMoveToGarissonProcess = new HeroMoveToGarissonProcess(castleModel,_gameTurnView,_gameModel, slotsModel);
     }
 
     public void InitBeforeLoaded(GameCastleObjectsChangeService gameCastleObjectsChangeService)
     {
+        Debug.Log("InitBeforeLoaded");
         _gameCastleObjectsChangeService = gameCastleObjectsChangeService;
         StartCoroutine(WaitBeforeAllDataLoaded());
+    }
+
+    public void CallWaitBeforeAllDataLoaded()
+    {
+        if (_turnNotificationMessageInput != null && _turnNotificationInfoProcess.TryGetTurnInfo(_turnNotificationMessageInput, out TurnNotificationInfo turnNotificationInfo))
+            _gameModel.EnterInTurn(turnNotificationInfo);
+        _turnNotificationMessageInput = null;
     }
 
     private IEnumerator WaitBeforeAllDataLoaded()
@@ -156,6 +170,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
             _gameModel.EnterInTurn(turnNotificationInfo);
         _currentTurnPlayerInfoProcess.EnterPlayerInTurn(_currentTurnPlayerInfoProcessMessageInput);
         _isLoadedGame = true;
+        _turnNotificationMessageInput = null;
     }
 
     public void ProccessResponseFromServer(MessageInput messageInput)
@@ -190,13 +205,23 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
             case InputGameHeaders.GAME_CLOSED_INFO:
                 break;
             case InputGameHeaders.TURN_NOTIFICATION_INFO:
-                if (!_isLoadedGame)
+                if (_gameModel.InBattle)
                 {
                     _turnNotificationMessageInput = messageInput;
                 }
-                else if (_turnNotificationInfoProcess.TryGetTurnInfo(messageInput, out TurnNotificationInfo turnNotificationInfo))
+                else
                 {
-                    _gameModel.EnterInTurn(turnNotificationInfo);
+                    if (!_isLoadedGame)
+                    {
+                        _turnNotificationMessageInput = messageInput;
+                    }
+                    else if (_turnNotificationInfoProcess.TryGetTurnInfo(messageInput, out TurnNotificationInfo turnNotificationInfo))
+                    {
+                        if (_castleView.OpenUI)
+                            _castleView.ExitFromCastle();
+
+                        _gameModel.EnterInTurn(turnNotificationInfo);
+                    }
                 }
                 break;
             case InputGameHeaders.TURN_STARTED_RESULT:
@@ -206,6 +231,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
             case InputGameHeaders.TURN_ENDED_INFO:
                 if(_turnEndedInfoProcess.TryGetTurnEndTurnResult(messageInput, out TurnEndedInfo turnEndedInfo))
                     _gameModel.ExitFromTurn();
+                _turnNotificationMessageInput = null;
                 break;
             case InputGameHeaders.MOVE_HERO_INFO:
                 _moveHeroInfoWithMovePointsProcess.RecieveMoveHeroInfoWithMovePoints(messageInput);
@@ -219,7 +245,7 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                     _currentTurnPlayerInfoProcessMessageInput = messageInput;
                 }
                 //else
-                //    _currentTurnPlayerInfoProcess.EnterPlayerInTurn(messageInput);
+                //    _currentTurnPlayerInfoProcess.EnterPlayerInTurn(_messageInput);
                 break;
             case InputGameHeaders.HERO_ENTER_CASTLE_RESULT:
                 _heroEnterInCastleResultProcess.EnterInCastle(messageInput);
@@ -251,8 +277,12 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
             case InputGameHeaders.RELEASE_CREATURE_STACK_RESULT:
                 break;
             case InputGameHeaders.MERGE_CASTLE_ARMY_RESULT:
-                _gameCastleObjectsChangeService.EnterGame();
-                _leaveCastleProcess.LeaveCastle(messageInput);
+                if(!_gameModel.ExitFromCastleWithOutCloseUI)
+                {
+                    _gameCastleObjectsChangeService.EnterGame();
+                    _leaveCastleProcess.LeaveCastle(messageInput);
+                }
+                _gameModel.ExitFromCastleWithOutCloseUI = false;
                 break;
             case InputGameHeaders.MOVE_HERO_TO_CASTLE_RESULT:
                 _heroMoveToCastleProcess.HeroMoveToCastle(messageInput);
@@ -270,36 +300,54 @@ public class GameBattleProcessResponseHandler : MonoBehaviour, IGameProcessHandl
                         _loadScreen.OpenLoadBar(StatesOfProgram.Battle);
                         _gameModel.EnterInBattleScene();
                         _battleModel.EnterInBattle();
-                        _battleTurnTimer.StartTimer(battleInitialInfo.turnSeconds, false);
-                    });
-                if (_gameModel.IsAttacked)
-                {
-                    if(_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId , out HeroModelObject heroModelObject))
-                        _gameModel.SetHeroInFight(heroModelObject);
-                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
-                        _gameModel.SetHeroOpponent(heroModelObject1);
-                }
-                else
-                {
-                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId, out HeroModelObject heroModelObject))
-                        _gameModel.SetHeroInFight(heroModelObject);
-                    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
-                        _gameModel.SetHeroOpponent(heroModelObject1);
-
-                    var path = _pathFinder.ConvertPositionToCellPath(battleInitialInfo.movementPath);
-
-                    Cell cell = path[path.Count - 1];
-                    if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
-                    {
-                        if (!cell.CheckHero())
+                        if (battleInitialInfo.defender.dicHeroId >= 0)
                         {
-                            if (cell.Castle != null)
-                            {
-                                _gameModel.SetSelfAttackedCastle(cell.Castle);
-                            }
+                            _battleTurnTimer.SetIsBattleVSPlayer(true);
+                            _battleTurnTimer.PauseTimer();
+                            _battleTurnTimer.SetText("");
                         }
-                    }
-                }
+                        else
+                        {
+                            _battleTurnTimer.SetIsBattleVSPlayer(false);
+                            _battleTurnTimer.StartTimer(battleInitialInfo.turnSeconds, false);
+                        }
+                    });
+                Debug.Log("battleInitialInfo.assaulter.mapObjectId " + battleInitialInfo.assaulter.mapObjectId);
+                Debug.Log("battleInitialInfo.defender.mapObjectId " + battleInitialInfo.defender.mapObjectId);
+
+                if (_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId, out HeroModelObject heroModelObject))
+                    _gameModel.SetHeroAssaulter(heroModelObject);
+                if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
+                    _gameModel.SetHeroDeffender(heroModelObject1);
+
+                //if (_gameModel.IsAttacked)
+                //{
+                //    if(_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId , out HeroModelObject heroModelObject))
+                //        _gameModel.SetHeroAssaulter(heroModelObject);
+                //    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
+                //        _gameModel.SetHeroDeffender(heroModelObject1);
+                //}
+                //else
+                //{
+                //    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.assaulter.mapObjectId, out HeroModelObject heroModelObject))
+                //        _gameModel.SetHeroAssaulter(heroModelObject);
+                //    if (_gameModel.TryGetHeroModelObject(battleInitialInfo.defender.mapObjectId, out HeroModelObject heroModelObject1))
+                //        _gameModel.SetHeroDeffender(heroModelObject1);
+
+                //    //var path = _pathFinder.ConvertPositionToCellPath(battleInitialInfo.movementPath);
+
+                //    //Cell cell = path[path.Count - 1];
+                //    //if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
+                //    //{
+                //    //    if (!cell.CheckHero())
+                //    //    {
+                //    //        if (cell.Castle != null)
+                //    //        {
+                //    //            _gameModel.SetSelfAttackedCastle(cell.Castle);
+                //    //        }
+                //    //    }
+                //    //}
+                //}
                 break;
             case InputGameHeaders.BATTLE_TURN_NOTIFICATION_INFO:
                 _battleTurnNotificationProcess.InitBattleTurnNotificationProcess(messageInput);

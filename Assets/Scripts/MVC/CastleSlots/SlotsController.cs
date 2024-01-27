@@ -153,10 +153,9 @@ namespace Assets.Scripts.MVC.CastleSlots
                             return;
                         }
                     }
-
-                    if (creatureSlot.SlotTypes == SlotTypes.Castle && _slotsModel.GarrisonArmyCount - 1 <= 0)
-                        return;
-
+                    //Debug.Log("_slotsModel.GarrisonArmyCount " + _slotsModel.GarrisonArmyCount);
+                    //if (creatureSlot.SlotTypes == SlotTypes.Castle && _slotsModel.GarrisonArmyCount<= 0)
+                    //    return;
                     if (creatureSlot.ArmySlotInfo != null && _currentCreatureSlot.ArmySlotInfo.dicCreatureId != creatureSlot.ArmySlotInfo.dicCreatureId)
                         return;
 
@@ -166,7 +165,7 @@ namespace Assets.Scripts.MVC.CastleSlots
                         _currentCreatureSlot.ResetSlot();
                         _currentCreatureSlot = null;
                     }
-                    else
+                    else if(_castleModel.HeroInGarrison != null)
                     {
                         _slotsModel.TrySetArmySlotInGarissonSlotIcon(_currentCreatureSlot.ArmySlotInfo, creatureSlot.SlotID, _currentCreatureSlot.SlotID, _currentCreatureSlot.SlotTypes);
                         _currentCreatureSlot.ResetSlot();

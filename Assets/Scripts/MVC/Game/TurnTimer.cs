@@ -52,7 +52,8 @@ namespace Assets.Scripts.MVC.Game
 
         public void SetText(string text)
         {
-            _timerText.text = text;
+            if(_timerText != null)
+                _timerText.text = text;
         }
 
         public void StartTimer(int time, bool isNegativeTimerMode = false)
@@ -91,7 +92,7 @@ namespace Assets.Scripts.MVC.Game
             _timerCoroutine = StartCoroutine(Timer());
         }
 
-        private IEnumerator Timer()
+        public virtual IEnumerator Timer()
         {
             while (true)
             {

@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
                     {
                         _gameModel.StartAttackOnHero();
                     }
-                    if (cell.CheckHero())
+                    if (cell.CreatureModelObject is HeroModelObject)
                     {
                         _gameModel.StartAttack();
                     }

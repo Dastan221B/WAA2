@@ -80,7 +80,6 @@ public class LobbyModel : IUserDTO , ISessionParticipants , ISessionID
 
     public void UpdateLobbySessions(List<LobbySession> lobbySessions)
     {
-        Debug.Log(lobbySessions.Count);
         _lobbySessions = lobbySessions;
         OnUpdatedLobbySessions?.Invoke();
     }

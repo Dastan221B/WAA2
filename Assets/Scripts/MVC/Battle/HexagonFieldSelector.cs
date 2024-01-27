@@ -139,7 +139,6 @@ namespace Assets.Scripts.MVC.Battle
         {
             if (_battleModel.ActiveCreatureStackBattleObjectFullInfo == null)
                 return;
-
             if (_hexagonPicker.TryPickHexagon(out Hexagon hexagon))
             {
                 TryOpenCreatureStatsInfoPanel(SelectedHexagon);
@@ -149,6 +148,16 @@ namespace Assets.Scripts.MVC.Battle
                     if (hexagon == hex)
                     {
                         TryOpenCreatureStatsInfoPanel(hexagon);
+                        if (SelectedHexagon != null)
+                        {
+                            SelectedHexagon.Unselect();
+                            SelectedHexagon = null;
+                        }
+                        if (ClosestHexagonToAttackCreature != null)
+                        {
+                            ClosestHexagonToAttackCreature.Unselect();
+                            ClosestHexagonToAttackCreature = null;
+                        }
                         return;
                     }
                 }
@@ -162,6 +171,7 @@ namespace Assets.Scripts.MVC.Battle
                 }
                 SelectedHexagon = hexagon;
                 SelectedHexagon.Select();
+
                 if(SelectedHexagon.BattleCreature != null)
                 {
                     if (ClosestHexagonToAttackCreature != null)
@@ -169,9 +179,16 @@ namespace Assets.Scripts.MVC.Battle
                         _creatureStatsPanel.Close();
                         ClosestHexagonToAttackCreature.Unselect();
                     }
-                    ClosestHexagonToAttackCreature = GetClosestHexagon();
-                    ClosestHexagonToAttackCreature.SelectToMoveAndAttack();
-
+                    if(_battleModel.CurrentHexagon != null && _battleModel.CurrentHexagon.BattleCreature != null && 
+                        _battleModel.CurrentHexagon.BattleCreature.DicCreatureDTO.attackType == AttackType.MELEE)
+                    {
+                        ClosestHexagonToAttackCreature = GetClosestHexagon();
+                        ClosestHexagonToAttackCreature.SelectToMoveAndAttack();
+                    }
+                    else if(SelectedHexagon.BattleCreature != null)
+                    {
+                        ClosestHexagonToAttackCreature = SelectedHexagon;
+                    }
                 }
             }
             else

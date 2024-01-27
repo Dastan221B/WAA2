@@ -5,13 +5,11 @@ using System.Collections.Generic;
 public class LeaveCastleRequest : GameSessionIdBasedRequest
 {
     public string objectId;
-    //public string heroObjectId;
     public string gameMapObjectType = "CASTLE";
     public List<ArmySlotInfo> castleCreatures;
     public List<ArmySlotInfo> armyInGarrison;
 
-    public LeaveCastleRequest(string gameSessionId, string objectId, List<ArmySlotInfo> castleCreatures,
-        string heroObjectId, List<ArmySlotInfo> armyInGarrison) : base(gameSessionId)
+    public LeaveCastleRequest(string gameSessionId, string objectId, List<ArmySlotInfo> castleCreatures, List<ArmySlotInfo> armyInGarrison) : base(gameSessionId)
     {
         this.gameSessionId = gameSessionId;
         this.objectId = objectId;

@@ -60,6 +60,7 @@ public class Castle : GameMapObject
     
     public void SetupColorCube(Color color)
     {
+        Debug.Log("Setuped color " + color);
         ColorCastle = color;
         _cube.material.color = ColorCastle;
     }

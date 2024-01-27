@@ -59,7 +59,7 @@ namespace Assets.Scripts.MVC.CastleMVC.CastleProcess
                     _castleModel.DisplayBuildgins(castleFullInfo, cloneCastleDTO);
                     _castleView.HandleHeroInGarrison(castleFullInfo);
                     _castleView.Open();
-                    _gameModel.TryCaptureCastle();
+                    //_gameModel.TryCaptureCastle();
                     _turnView.UpdateTurnView();
                 }
             }

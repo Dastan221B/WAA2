@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Interfaces.Battle;
 using System.Drawing;
+using Assets.Scripts.MVC.Battle.BattleProcess;
 
 namespace Assets.Scripts.MVC.Battle
 {
@@ -15,9 +16,13 @@ namespace Assets.Scripts.MVC.Battle
         public event Action<List<CreatureModelObject>> OnInitedCreatures;
         public event Action<CreatureModelObject, Sprite> OnSelectedCurrentActiveCreature;
 
+        private BattleTurnNotificationProcess _battleTurnNotificationProcess;
         public Hexagon[,] _hexagons;
         private List<CreatureModelObject> _battleCreatures;
+        private List<CreatureModelObject> _battleCreaturesFull = new List<CreatureModelObject>();
         private CreatureStackBattleObjectFullInfo _creatureStackBattleObjectFullInfo;
+        private HexagonPicker _hexagonPicker;
+        public Hexagon CurrentHexagon { get; private set; }
         public CreatureStackBattleObjectFullInfo ActiveCreatureStackBattleObjectFullInfo => _creatureStackBattleObjectFullInfo;
         private HeroModelObject _selfHero;
         private HeroModelObject _enemyHero;
@@ -26,6 +31,8 @@ namespace Assets.Scripts.MVC.Battle
         private List<CreatureModelObject> _deathCreatures = new List<CreatureModelObject>();
         private CommonData _commonData;
         private IClearHexagonFrameList _clearHexagonFrameList;
+
+        public Action ActionBeforeMove;
 
         private bool _isEndedGame;
         private Action _endGame;
@@ -37,14 +44,21 @@ namespace Assets.Scripts.MVC.Battle
         public IEnumerable<CreatureModelObject> DeathCreatures => _deathCreatures;
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjectsSelf => _battleCreatures.Where(item => item.CreatureSide == CreatureSide.Self).ToList();
         public IReadOnlyCollection<CreatureModelObject> CreatureModelObjects => _battleCreatures;
+        public IReadOnlyCollection<CreatureModelObject> CreatureModelObjectsFull => _battleCreaturesFull;
 
         public float RadiusHexagonsSelecting => _radiusHexagonsSelecting;
 
-        public void Init(ModelCreatures modelCreatures, CommonData commonData, IClearHexagonFrameList clearHexagonFrameList)
+        public void Init(HexagonPicker hexagonPicker,ModelCreatures modelCreatures, CommonData commonData, IClearHexagonFrameList clearHexagonFrameList)
         {
+            _hexagonPicker = hexagonPicker;
             _modelCreatures = modelCreatures;
             _commonData = commonData;
             _clearHexagonFrameList = clearHexagonFrameList;
+        }
+
+        public void InitBattleTurnNotificationProcess(BattleTurnNotificationProcess battleTurnNotificationProcess)
+        {
+            _battleTurnNotificationProcess = battleTurnNotificationProcess;
         }
 
         public bool TryGetHexagonByCoordinates(int x, int y, out Hexagon hexagon)
@@ -69,9 +83,44 @@ namespace Assets.Scripts.MVC.Battle
 
         }
 
-        public void ResetHexagons()
+        private Hexagon _currentHexagon;
+
+        private void Update()
+        {
+            int isCreatureInIDLE = CreatureModelObjectsFull.Where(item => item.IsIdle).ToList().Count;
+
+            if (isCreatureInIDLE != CreatureModelObjectsFull.Count)
+            {
+                if(ActionBeforeMove != null)
+                {
+                    ActionBeforeMove?.Invoke();
+                    ActionBeforeMove -= _battleTurnNotificationProcess.InitMap;
+                }
+            }
+
+            if(Input.GetMouseButtonDown(2) && _hexagonPicker.TryPickHexagon(out Hexagon hexagon))
+            {
+                if(_currentHexagon == null)
+                {
+                    _currentHexagon = hexagon;
+                }
+                else
+                {
+                    double distance = Distance(_currentHexagon, hexagon);
+                          
+                    _currentHexagon = null;
+                    Debug.Log("Distance " + distance);
+                }
+            }
+        }
+
+        public void ResetInitedHexagonsForCreature()
         {
             InitedHexagonsForCreature = false;
+        }
+
+        public void ResetHexagons()
+        {
             foreach (var item in _hexagons)
             {
                 item.DisableToMove();
@@ -91,6 +140,14 @@ namespace Assets.Scripts.MVC.Battle
                 hexagon2.PaintToGreen();
         }
 
+        public double Distance(Hexagon hex1, Hexagon hex2)
+        {
+            double deltaX = hex2.transform.position.x - hex1.transform.position.x;
+            double deltaY = hex2.transform.position.z - hex1.transform.position.z;
+
+            return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        }
+
         public void InitHexagonsForCreature()
         {
             if (_hexagons == null)
@@ -98,6 +155,7 @@ namespace Assets.Scripts.MVC.Battle
 
             if (_creatureStackBattleObjectFullInfo == null)
                 return;
+
             _commonData.TryGetDicCreatureDTOByID((int)_creatureStackBattleObjectFullInfo.dicCreatureId, out DicCreatureDTO dicCreatureDTO);
             ResetHexagons();
             DicCreatureDTO creatureDTO = dicCreatureDTO;
@@ -110,20 +168,24 @@ namespace Assets.Scripts.MVC.Battle
 
             foreach (Hexagon hex in _hexagons)
             {
-                // Проверяем расстояние от точки до центра каждого шестиугольника
-                float distance = Vector3.Distance(new Vector2
-                    (hex.BattleFieldCoordinates.x ,hex.BattleFieldCoordinates.y)
-                    , new Vector2
-                    (creatureCoordinates.x, creatureCoordinates.y));
+                if (TryGetHexagonByCoordinates(_creatureStackBattleObjectFullInfo.battleFieldCoordinates.x, _creatureStackBattleObjectFullInfo.battleFieldCoordinates.y, out Hexagon hexagon2))
+                {
+                    // Проверяем расстояние от точки до центра каждого шестиугольника
+                    //float distance = Vector3.Distance(hex.transform.position
+                    //, hexagon2.transform.position);
 
-                // Если расстояние меньше или равно половине длины стороны шестиугольника (радиусу), выделяем шестиугольник
-                if (distance < creatureDTO.speed)
-                {
-                    hex.AvalableToMove();
-                }
-                else
-                {
-                    hex.DisableToMove();
+                    double distance = Distance(hex, hexagon2);
+
+                    // Если расстояние меньше или равно половине длины стороны шестиугольника (радиусу), выделяем шестиугольник
+                    if (distance <= creatureDTO.speed)
+                    {
+                        //Debug.Log("Distance From Move " + distance + "  Speed  " + creatureDTO.speed);
+                        hex.AvalableToMove();
+                    }
+                    else
+                    {
+                        hex.DisableToMove();
+                    }
                 }
             }
 
@@ -131,8 +193,11 @@ namespace Assets.Scripts.MVC.Battle
             foreach (var item in _hexagons)
                 item.PaintHexagonInCreatureSide();
 
-            if (TryGetHexagonByCoordinates(_creatureStackBattleObjectFullInfo.battleFieldCoordinates.x, _creatureStackBattleObjectFullInfo.battleFieldCoordinates.y, out Hexagon hexagon2))
-                hexagon2.PaintToGreen();
+            if (TryGetHexagonByCoordinates(_creatureStackBattleObjectFullInfo.battleFieldCoordinates.x, _creatureStackBattleObjectFullInfo.battleFieldCoordinates.y, out Hexagon hexagon3))
+            {
+                hexagon3.PaintToGreen();
+                CurrentHexagon = hexagon3;
+            }
             InitedHexagonsForCreature = true;
         }
 
@@ -154,6 +219,25 @@ namespace Assets.Scripts.MVC.Battle
         public Hexagon GetHexagonByCoordinates(int x, int y)
         {
             return _hexagons[x, y];
+        }
+
+        public bool TryGetCreatureByID(string id, out CreatureModelObject creature)
+        {
+            if (_battleCreatures == null)
+            {
+                creature = null;
+                return false;
+            }
+            foreach (var item in _battleCreatures)
+            {
+                if (id == item.MapObjectID)
+                {
+                    creature = item;
+                    return true;
+                }
+            }
+            creature = null;
+            return false;
         }
 
         public bool TryGetCreatureByID(int id, out CreatureModelObject creature)
@@ -181,8 +265,20 @@ namespace Assets.Scripts.MVC.Battle
 
             if (_creatureStackBattleObjectFullInfo != null && TryGetCreatureByID(_creatureStackBattleObjectFullInfo.battleFieldObjectId, out CreatureModelObject creatureModelObject))
             {
+                //CurrentHexagon = creatureModelObject;
                 OnSelectedCurrentActiveCreature?.Invoke(creatureModelObject, _modelCreatures.GetIconById((int)creatureModelObject.SpriteID - 1));
             }
+        }
+        
+        public void AddCreature(CreatureModelObject creatureModelObject)
+        {
+            _battleCreaturesFull.Add(creatureModelObject);
+        }
+
+        public void RemoveCreature(CreatureModelObject creatureModelObject)
+        {
+            _battleCreaturesFull.Remove(creatureModelObject);
+            creatureModelObject.OnCreatureDeath -= RemoveCreature;
         }
 
         public void InitBattleCreatures(List<CreatureModelObject> battleCreatures)
@@ -196,6 +292,8 @@ namespace Assets.Scripts.MVC.Battle
                 item.OnActionEnded += CreatureExitFromAction;
                 item.OnCreatureDeath += HandleCreatureDeath;
                 item.OnStartCreatureDeath += AddCreatureToDeath;
+                item.OnCreatureDeath += RemoveCreature;
+
                 if (item.CreatureSide == CreatureSide.Self)
                     creatures.Add(item);
             }

@@ -16,13 +16,13 @@ namespace Assets.Scripts.MVC.Battle
         [SerializeField] private MeshRenderer _meshRenderer;
         [field: SerializeField] public BattleFieldCoordinates BattleFieldCoordinates { get; private set; }
         private int _stayedCreatureID;
-        private CreatureModelObject _battleCreature;
+        [field: SerializeField] private CreatureModelObject _battleCreature;
 
         public int CreatureID => _stayedCreatureID;
 
-        public bool IsAvalableToMove { get; private set; }
+        [field: SerializeField] public bool IsAvalableToMove { get; private set; }
         public CreatureModelObject BattleCreature => _battleCreature;
-        private bool _isSelectedToTargetPoint;
+        [field: SerializeField] private bool _isSelectedToTargetPoint;
 
         private void Awake()
         {
@@ -31,16 +31,20 @@ namespace Assets.Scripts.MVC.Battle
 
         public void SetCreature(CreatureModelObject battleCreature)
         {
+            Debug.Log("battleCreature " + battleCreature);
             if(battleCreature == null)
             {
                 _stayedCreatureID = 0;
+                _isSelectedToTargetPoint = false;
                 _battleCreature = null;
                 return;
             }
-
-            _stayedCreatureID = battleCreature.CreatureID;
-            _battleCreature = battleCreature;
-            PaintHexagonInCreatureSide();
+            else
+            {
+                _stayedCreatureID = battleCreature.CreatureID;
+                _battleCreature = battleCreature;
+                PaintHexagonInCreatureSide();
+            }
         }
 
         public void SetBattleFieldCoordinates(BattleFieldCoordinates battleFieldCoordinates)

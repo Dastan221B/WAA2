@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.MVC.CastleSlots;
+﻿using Assets.Scripts.MVC.CastleMVC;
+using Assets.Scripts.MVC.CastleSlots;
 using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
 using UnityEngine;
@@ -10,9 +11,11 @@ namespace Assets.Scripts.MVC.Game.GameProcces
         private GameModel _gameModel;
         private SlotsModel _slotsModel;
         private GameTurnView _turnView;
+        private CastleModel _castleModel;
 
-        public HeroMoveToCastleProcess(GameTurnView gameTurnView,GameModel gameModel , SlotsModel slotsModel)
+        public HeroMoveToCastleProcess(CastleModel castleModel,GameTurnView gameTurnView,GameModel gameModel , SlotsModel slotsModel)
         {
+            _castleModel = castleModel;
             _gameModel = gameModel;
             _slotsModel = slotsModel;
             _turnView = gameTurnView;
@@ -35,6 +38,8 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                             heroModelObject.HeroObjectFullInfo.army = moveHeroToCaslteResult.heroInCastle.army;
                         }
                     }
+                    _castleModel.SetHeroInCastle(heroModelObject.HeroObjectFullInfo);
+                    _castleModel.SetHeroInGarrison(null);
                     heroModelObject.EnterInCastle();
                     _gameModel.ReplaceToLastPlaceInTurn(heroModelObject);
                     _turnView.ResetDisplayHeroes();

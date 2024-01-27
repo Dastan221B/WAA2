@@ -43,7 +43,6 @@ namespace Assets.Scripts.MVC.CastleSlots
         {
             if (ArmySlotInfo != null)
                 return;
-            Debug.Log("reseted");
             _icon.color = new Color(0, 0, 0, 0);
             if (_count != null)
                 _count.text = "";

@@ -27,6 +27,7 @@ namespace Assets.Scripts.MVC.Battle.BattleLoader
             List<CreatureModelObject> battleCreatures = new List<CreatureModelObject>();
             Quaternion quaternion = Quaternion.Euler(0, 0, 0);
             CreatureSide creatureSide;
+            int name = 0;
             foreach (var creature in mapObjects)
             {
                 if(_battleModel.TryGetHexagonByCoordinates(creature.Value.battleFieldCoordinates.x, creature.Value.battleFieldCoordinates.y, out Hexagon hexagon))
@@ -43,15 +44,18 @@ namespace Assets.Scripts.MVC.Battle.BattleLoader
                         creatureSide = CreatureSide.Enemy;
                     }
                     var creatureFullObject = Instantiate(creatureModelObject, hexagon.transform.position + new Vector3(0, 0.152f, 0), quaternion);
-                    if(_commonData.TryGetDicCreatureDTOByID((int)creature.Value.dicCreatureId, out DicCreatureDTO dicCreatureDTO))
+                    creatureFullObject.name += " " + name;
+                    _battleModel.AddCreature(creatureFullObject);
+
+                    if (_commonData.TryGetDicCreatureDTOByID((int)creature.Value.dicCreatureId, out DicCreatureDTO dicCreatureDTO))
                     {
                         DicCreatureDTO dicCreatureDTOClone = dicCreatureDTO.Clone();
                         creatureFullObject.Init(_battleModel,creature.Value, dicCreatureDTOClone, (int)creature.Key, creatureSide, quaternion , (int)creature.Value.dicCreatureId);
                     }
                     creatureFullObject.SetCurrentHexagon(hexagon);
-
                     hexagon.SetCreature(creatureFullObject);
                     battleCreatures.Add(creatureFullObject);
+                    name++;
                 }
             }
             return battleCreatures;

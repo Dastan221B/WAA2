@@ -8,6 +8,21 @@ using System.Linq;
 
 namespace Assets.Scripts.MVC.Battle.Views
 {
+
+    public class CreaturePack
+    {
+        public int Count;
+        public CreatureModelObject CreatureModelObject;
+
+
+        public CreaturePack(CreatureModelObject creatureModelObject , int count)
+        {
+            CreatureModelObject = creatureModelObject;
+            Count = count;
+        }
+
+    }
+
     public class ResultPanel : MonoBehaviour
     {
         private TMP_Text _resultText;
@@ -21,6 +36,7 @@ namespace Assets.Scripts.MVC.Battle.Views
         private List<GameObject> _creatuersIcons = new List<GameObject>();
         private EndGameProcess _endGameProcess;
         private BattleModel _battleModel;
+        private List<CreaturePack> _creaturePacks = new List<CreaturePack>();
 
         public void Init(BattleModel battleModel,EndGameProcess endGameProcess , ResultPanelCreatureItem resultPanelCreatureItemPrefab , ModelCreatures modelCreatures)
         {
@@ -60,6 +76,22 @@ namespace Assets.Scripts.MVC.Battle.Views
             SetCreatureOnPanel(creatureModelObjects, _enemyCreatures);
         }
 
+        private bool TryGetCreaturePack(CreatureModelObject creatureModelObject , out CreaturePack creaturePack)
+        {
+            creaturePack = _creaturePacks.FirstOrDefault(item => item.CreatureModelObject.DicCreatureDTO.id ==
+                                                            creatureModelObject.DicCreatureDTO.id); 
+            if(creaturePack != null)
+            {
+                creaturePack.Count += creatureModelObject.CreatureInfo.amount;
+                return true;
+            }
+            else
+            {
+                creaturePack = new CreaturePack(creatureModelObject, creatureModelObject.Amount);
+                return false;
+            }
+        }
+
         public void OpenPanel(bool isWin)
         {
             if (isWin)
@@ -71,12 +103,21 @@ namespace Assets.Scripts.MVC.Battle.Views
                 _resultText.text = "DEFEAT";
             }
 
+
             foreach (var creature in _battleModel.DeathCreatures)
             {
-                if (creature.CreatureSide == CreatureSide.Self)
-                    SetPlayerCreatures(creature);
+                if(!TryGetCreaturePack(creature , out CreaturePack creaturePack))
+                {
+                    _creaturePacks.Add(creaturePack);
+                }
+            }
+
+            foreach (var creature in _creaturePacks)
+            {
+                if (creature.CreatureModelObject.CreatureSide == CreatureSide.Self)
+                    SetPlayerCreatures(creature.CreatureModelObject);
                 else
-                    SetEnemyCreatures(creature);
+                    SetEnemyCreatures(creature.CreatureModelObject);
             }
 
             _panel.gameObject.SetActive(true);
@@ -90,7 +131,7 @@ namespace Assets.Scripts.MVC.Battle.Views
         private void SetCreatureOnPanel(CreatureModelObject creatureModelObject, Transform parent)
         {
             var creatureItem = Instantiate(_resultPanelCreatureItemPrefab, parent);
-            creatureItem.Init(_modelCreatures.GetIconById((int)creatureModelObject.SpriteID - 1), creatureModelObject.CreatureInfo.stackSlot - 1);
+            creatureItem.Init(_modelCreatures.GetIconById((int)creatureModelObject.SpriteID - 1), creatureModelObject.CreatureInfo.amount);
             _creatuersIcons.Add(creatureItem.gameObject);
         }
 

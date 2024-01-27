@@ -35,6 +35,12 @@ public class CastlesLoader
             castleObject.SetMapObjectID(castle.Key);
             castleObject.SetupColorCube(_systemColors.GetColorByOrdinal(castle.Value.castleOwner.ordinal));
             castleObject.SetSettings(castle.Value.castleOwner.id, castle.Value.castleOwner.ordinal);
+            //Debug.Log("castle.Value.castleOwner.id " + castle.Value.castleOwner.id);
+            //if(_gameModel.TryGetHeroModelObject(castle.Value.castleOwner.id , out HeroModelObject heroModelObject))
+            //{
+            //    Debug.Log("castle.Value.castleOwner.ordinal " + castle.Value.castleOwner.ordinal);
+            //    heroModelObject.SetOrdinal(castle.Value.castleOwner.ordinal);
+            //}
             castlesObjects.Add(castleObject);
             
         }

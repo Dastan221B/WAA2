@@ -32,8 +32,8 @@ public class GameModel : IGameDataHandler
     private GameAndBattleCommandsSender _gameAndBattleCommandsSender;
     public HeroModelObject SelectedHero { get; private set; }
     public HeroModelObject PreviousHero { get; private set; }
-    public HeroModelObject HeroSelf { get; private set; }
-    public HeroModelObject HeroOpponent { get; private set; }
+    public HeroModelObject HeroAssaulter { get; private set; }
+    public HeroModelObject HeroDeffender { get; private set; }
 
     private Cell[,] _cells;
     private Cell[,] _cellsIninversionSpace;
@@ -48,12 +48,14 @@ public class GameModel : IGameDataHandler
     private GameTurnView _gameTurnView;
     private TradeController _tradeController;
     private SystemColors _systemColors;
+    private GameBattleProcessResponseHandler _gameBattleProcessResponseHandler;
     public GameMapObject CreatureModelObject => _creatureModelObject;
     public Castle AttackedCastle { get; private set; }
     public Castle SelfAttackedCastle { get; private set; }
     public bool IsLasFightWin { get; private set; }
     public bool IsAttacked { get; private set; }
     public bool IsAttackedOnHero { get; private set; }
+    public bool ExitFromCastleWithOutCloseUI { get; set; }
 
     public int DaysCounter { get; private set; }
     public int WeeksCounter { get; private set; }
@@ -92,7 +94,7 @@ public class GameModel : IGameDataHandler
     public IReadOnlyCollection<Player> Players => _players;
     public IReadOnlyList<Castle> Castles => _castles;
     public Cell[,] Cells => _cells;
-
+    public bool InBattle { get; private set; }
     public int TurnCount = 0;
 
     public GameModel(GroundModel groundModel)
@@ -122,19 +124,24 @@ public class GameModel : IGameDataHandler
         _gameAndBattleCommandsSender = gameAndBattleCommandsSender;
     }
 
-    public void SetHeroInFight(HeroModelObject self)
+    public void SetGameBattleProcessResponseHandler(GameBattleProcessResponseHandler gameBattleProcessResponseHandler)
     {
-        HeroSelf = self;
+        _gameBattleProcessResponseHandler = gameBattleProcessResponseHandler;
     }
 
-    public void SetHeroOpponent(HeroModelObject opponent)
+    public void SetHeroAssaulter(HeroModelObject self)
     {
-        HeroOpponent = opponent;
+        HeroAssaulter = self;
+    }
+
+    public void SetHeroDeffender(HeroModelObject opponent)
+    {
+        HeroDeffender = opponent;
     }
 
     public void ResetHeroInFight()
     {
-        HeroSelf = null;
+        HeroAssaulter = null;
     }
 
     public void StartAttackOnHero()
@@ -222,10 +229,10 @@ public class GameModel : IGameDataHandler
             cell.SetInteractiveMapObjectId(hero.MapObjectID);
             cell.SetBaseInteractiveMapObjectId(hero.MapObjectID);
             hero.SetCellPlace(cell);
-            if(TryGetCastleByHeroID(hero.MapObjectID, out Castle castle))
-            {
-                hero.SetOrdinal(castle.Oridinal);
-            }
+            //if(TryGetCastleByHeroID(hero.MapObjectID, out Castle castle))
+            //{
+            //    hero.SetOrdinal(castle.Oridinal);
+            //}
         }
         foreach (var resource in _resourcesSturctures)
         {
@@ -300,6 +307,7 @@ public class GameModel : IGameDataHandler
 
     public void EnterInBattleScene()
     {
+        InBattle = true;
         SceneObjectsParent.gameObject.SetActive(false);
         OnEnterInBattleScene?.Invoke();
     }
@@ -314,6 +322,94 @@ public class GameModel : IGameDataHandler
         SelfAttackedCastle = castle;
     }
 
+    //public void EnterInGameFromBattleScene2()
+    //{
+    //    SceneObjectsParent.gameObject.SetActive(true);
+    //    if (_creatureModelObject is CreatureModelObject creature)
+    //        _mapCreatures.Remove(creature);
+    //    if (_creatureModelObject != null && _creatureModelObject.gameObject != null)
+    //    {
+    //        MonoBehaviour.Destroy(_creatureModelObject.gameObject);
+    //        _creatureModelObject = null;
+    //    }
+    //    if (_cellHasFightedCreature != null)
+    //        _cellHasFightedCreature.ResetInteractiveMapObject();
+
+    //    if (HeroAssaulter != null && HeroAssaulter.InCastle)
+    //    {
+    //        HeroAssaulter.EnterInCastle();
+    //        HeroAssaulter.gameObject.SetActive(false);
+    //    }
+
+    //    if (HeroDeffender != null && HeroDeffender.InCastle)
+    //    {
+    //        HeroDeffender.EnterInCastle();
+    //        HeroDeffender.gameObject.SetActive(false);
+    //    }
+    //    if (IsLasFightWin)
+    //    {
+    //        if (HeroDeffender.gameObject != null)
+    //        {
+    //            MonoBehaviour.Destroy(HeroDeffender.gameObject);
+    //        }
+    //        if (AttackedCastle != null)
+    //        {
+    //            if (IsAttacked)
+    //            {
+    //                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroAssaulter.Ordinal));
+    //            }
+    //            else
+    //            {
+    //                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+    //            }
+    //            if (!_castlesTurn.Contains(AttackedCastle))
+    //                _castlesTurn.Add(AttackedCastle);
+    //            AttackedCastle = null;
+    //        }
+
+    //        HeroDeffender.CellPlace.ResetInteractiveMapObject();
+    //        _heroModelObjects.Remove(HeroDeffender);
+    //        _heroModelObjectsTurn.Remove(HeroDeffender);
+    //        OnUpdatedTurn?.Invoke();
+    //        _gameTurnView.ResetDisplayHeroes();
+
+    //    }
+    //    else
+    //    {
+    //        if (HeroAssaulter.gameObject != null)
+    //        {
+    //            MonoBehaviour.Destroy(HeroAssaulter.gameObject);
+    //        }
+    //        if (AttackedCastle != null)
+    //        {
+    //            if (IsAttacked)
+    //            {
+    //                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+    //            }
+    //            else
+    //            {
+    //                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroAssaulter.Ordinal));
+    //            }
+    //            if (!_castlesTurn.Contains(AttackedCastle))
+    //                _castlesTurn.Add(AttackedCastle);
+    //            AttackedCastle = null;
+    //        }
+
+    //        HeroAssaulter.CellPlace.ResetInteractiveMapObject();
+    //        _heroModelObjects.Remove(HeroAssaulter);
+    //        _heroModelObjectsTurn.Remove(HeroAssaulter);
+    //        OnUpdatedTurn?.Invoke();
+    //        _gameTurnView.ResetDisplayHeroes();
+    //    }
+
+    //    ResetHeroInFight();
+    //    ExitFromFight();
+    //    ExitFromFightHero();
+    //    InBattle = false;
+    //    OnEnterInGameFromBattleScene?.Invoke();
+    //    _gameBattleProcessResponseHandler.CallWaitBeforeAllDataLoaded();
+    //}
+
     public void EnterInGameFromBattleScene()
     {
         SceneObjectsParent.gameObject.SetActive(true);
@@ -327,63 +423,166 @@ public class GameModel : IGameDataHandler
         if (_cellHasFightedCreature != null)
             _cellHasFightedCreature.ResetInteractiveMapObject();
 
-        if(HeroSelf != null && HeroSelf.InCastle)
+        if (HeroAssaulter != null && HeroAssaulter.InCastle)
         {
-            HeroSelf.EnterInCastle();
-            HeroSelf.gameObject.SetActive(false);
+            HeroAssaulter.EnterInCastle();
+            HeroAssaulter.gameObject.SetActive(false);
         }
 
-        if (HeroOpponent != null && HeroOpponent.InCastle)
+        if (HeroDeffender != null && HeroDeffender.InCastle)
         {
-            HeroOpponent.EnterInCastle();
-            HeroOpponent.gameObject.SetActive(false);
+            HeroDeffender.EnterInCastle();
+            HeroDeffender.gameObject.SetActive(false);
         }
-        
-        HeroModelObject winneHeroModel = null;
 
-        if (HeroSelf != null && !IsLasFightWin)
+        Debug.Log($"EnterInGameFromBattleScene {IsLasFightWin}");
+
+        if (IsLasFightWin)
         {
-            HeroSelf.CellPlace.ResetInteractiveMapObject();
-            _heroModelObjects.Remove(HeroSelf);
-            _heroModelObjectsTurn.Remove(HeroSelf);
-            if (SelfAttackedCastle != null)
+            if (AttackedCastle != null)
             {
-                if(!_castlesTurn.Contains(SelfAttackedCastle))
-                    _castlesTurn.Add(SelfAttackedCastle);
-                SelfAttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroOpponent.Ordinal));
-                SelfAttackedCastle = null;
+                Debug.Log($"EnterInGameFromBattleScene AttakedCastle {AttackedCastle.MapObjectID}");
+                Debug.Log($"EnterInGameFromBattleScene IsAttacked {IsAttacked}");
+                if (IsAttacked)
+                {
+                    if(HeroAssaulter != null)
+                        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroAssaulter.Ordinal));
+                }
+                else
+                {
+                    if(HeroDeffender != null)
+                        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+                }
+                if (!_castlesTurn.Contains(AttackedCastle))
+                    _castlesTurn.Add(AttackedCastle);
             }
-            if (HeroSelf.gameObject != null)
-            {
-                MonoBehaviour.Destroy(HeroSelf.gameObject);
-            }
+
+            //_heroModelObjects.Remove(HeroDeffender);
+            //_heroModelObjectsTurn.Remove(HeroDeffender);
             OnUpdatedTurn?.Invoke();
             _gameTurnView.ResetDisplayHeroes();
-            winneHeroModel = HeroOpponent;
+
         }
-        else if(HeroOpponent != null && IsLasFightWin)
+        else
         {
-            if(AttackedCastle != null)
+            if (AttackedCastle != null)
             {
-                _castlesTurn.Add(AttackedCastle);
-                AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroSelf.Ordinal));
-                AttackedCastle = null;
+                Debug.Log($"EnterInGameFromBattleScene AttakedCastle {AttackedCastle.MapObjectID}");
+                Debug.Log($"EnterInGameFromBattleScene IsAttacked {IsAttacked}");
+
+                if (IsAttacked)
+                {
+                    HeroAssaulter?.CellPlace.ResetInteractiveMapObject();
+                    _heroModelObjects.Remove(HeroAssaulter);
+                    _heroModelObjectsTurn.Remove(HeroAssaulter);
+                    if (HeroDeffender != null)
+                        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+                    if (HeroAssaulter?.gameObject != null)
+                    {
+                        MonoBehaviour.Destroy(HeroAssaulter?.gameObject);
+                    }
+                }
+                else
+                {
+                    HeroDeffender?.CellPlace.ResetInteractiveMapObject();
+                    _heroModelObjects.Remove(HeroDeffender);
+                    _heroModelObjectsTurn.Remove(HeroDeffender);
+                    if(HeroDeffender != null)
+                        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+                    if (HeroDeffender?.gameObject != null)
+                    {
+                        MonoBehaviour.Destroy(HeroAssaulter.gameObject);
+                    }
+                }
+                if (!_castlesTurn.Contains(AttackedCastle))
+                    _castlesTurn.Remove(AttackedCastle);
             }
-            HeroOpponent.CellPlace.ResetInteractiveMapObject();
-            _heroModelObjects.Remove(HeroOpponent);
-            _heroModelObjectsTurn.Remove(HeroOpponent);
-            if (HeroOpponent.gameObject != null)
-                MonoBehaviour.Destroy(HeroOpponent.gameObject);
+            AttackedCastle = null;
             OnUpdatedTurn?.Invoke();
             _gameTurnView.ResetDisplayHeroes();
-            winneHeroModel = HeroSelf;
-
         }
 
         ResetHeroInFight();
         ExitFromFight();
         ExitFromFightHero();
+        InBattle = false;
         OnEnterInGameFromBattleScene?.Invoke();
+        _gameBattleProcessResponseHandler.CallWaitBeforeAllDataLoaded();
+
+        //SceneObjectsParent.gameObject.SetActive(true);
+        //if (_creatureModelObject is CreatureModelObject creature)
+        //    _mapCreatures.Remove(creature);
+        //if (_creatureModelObject != null && _creatureModelObject.gameObject != null)
+        //{
+        //    MonoBehaviour.Destroy(_creatureModelObject.gameObject);
+        //    _creatureModelObject = null;
+        //}
+        //if (_cellHasFightedCreature != null)
+        //    _cellHasFightedCreature.ResetInteractiveMapObject();
+
+        //if(HeroAssaulter != null && HeroAssaulter.InCastle)
+        //{
+        //    HeroAssaulter.EnterInCastle();
+        //    HeroAssaulter.gameObject.SetActive(false);
+        //}
+
+        //if (HeroDeffender != null && HeroDeffender.InCastle)
+        //{
+        //    HeroDeffender.EnterInCastle();
+        //    HeroDeffender.gameObject.SetActive(false);
+        //}
+
+        //if (IsLasFightWin)
+        //{
+        //    if (AttackedCastle != null)
+        //    {
+        //        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroAssaulter.Ordinal));
+        //        if (!_castlesTurn.Contains(AttackedCastle))
+        //            _castlesTurn.Add(AttackedCastle);
+        //        AttackedCastle = null;
+        //    }
+        //}
+        //else
+        //{
+        //    if (AttackedCastle != null)
+        //    {
+        //        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(HeroDeffender.Ordinal));
+        //        if (!_castlesTurn.Contains(AttackedCastle))
+        //            _castlesTurn.Add(AttackedCastle);
+        //        AttackedCastle = null;
+        //    }
+        //}
+
+        //if (HeroAssaulter != null && !IsLasFightWin)
+        //{
+        //    HeroAssaulter.CellPlace.ResetInteractiveMapObject();
+        //    _heroModelObjects.Remove(HeroAssaulter);
+        //    _heroModelObjectsTurn.Remove(HeroAssaulter);
+
+        //    if (HeroAssaulter.gameObject != null)
+        //    {
+        //        MonoBehaviour.Destroy(HeroAssaulter.gameObject);
+        //    }
+        //    OnUpdatedTurn?.Invoke();
+        //    _gameTurnView.ResetDisplayHeroes();
+        //}
+        //else if(HeroDeffender != null && IsLasFightWin)
+        //{
+        //    HeroDeffender.CellPlace.ResetInteractiveMapObject();
+        //    _heroModelObjects.Remove(HeroDeffender);
+        //    _heroModelObjectsTurn.Remove(HeroDeffender);
+        //    if (HeroDeffender.gameObject != null)
+        //        MonoBehaviour.Destroy(HeroDeffender.gameObject);
+        //    OnUpdatedTurn?.Invoke();
+        //    _gameTurnView.ResetDisplayHeroes();
+        //}
+
+        //ResetHeroInFight();
+        //ExitFromFight();
+        //ExitFromFightHero();
+        //InBattle = false;
+        //OnEnterInGameFromBattleScene?.Invoke();
+        //_gameBattleProcessResponseHandler.CallWaitBeforeAllDataLoaded();
     }
     public void StartNewDay()
     {
@@ -392,17 +591,24 @@ public class GameModel : IGameDataHandler
     public void RemoveCasle(Castle castle)
     {
         _castlesTurn.Remove(castle);
+        OnUpdatedTurn?.Invoke();
     }
 
-    public void TryCaptureCastle()
+    public void AddCasstle(Castle castle)
     {
-        if (AttackedCastle != null && !_castlesTurn.Contains(AttackedCastle))
-        {
-            AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(SelectedHero.Ordinal));
-            _castlesTurn.Add(AttackedCastle);
-            AttackedCastle = null;
-        }
+        _castlesTurn.Add(castle);
+        OnUpdatedTurn?.Invoke();
     }
+
+    //public void TryCaptureCastle()
+    //{
+    //    if (AttackedCastle != null && !_castlesTurn.Contains(AttackedCastle))
+    //    {
+    //        AttackedCastle.SetupColorCube(_systemColors.GetColorByOrdinal(SelectedHero.Ordinal));
+    //        _castlesTurn.Add(AttackedCastle);
+    //        AttackedCastle = null;
+    //    }
+    //}
 
     public void SetGameSessionID(string sessionID)
     {
@@ -450,6 +656,7 @@ public class GameModel : IGameDataHandler
                     heroModelObject.SetMovePointsLeft(hero.Value.movePoints);
                     heroModelObject.Init(hero.Value);
                     heroModelObject.HeroInTurn = true;
+                    //heroModelObject.SetOrdinal(turnNotificationInfo.ordinal);
                     _heroModelObjectsTurn.Add(heroModelObject);
                 }
             }
@@ -596,6 +803,16 @@ public class GameModel : IGameDataHandler
     {
 
         heroModelObject = _heroModelObjects.FirstOrDefault(item => item.MapObjectID == id);
+        if (heroModelObject != null)
+            return true;
+        return false;
+
+    }
+
+    public bool TryGetHeroModelObjectByID(int id, out HeroModelObject heroModelObject)
+    {
+
+        heroModelObject = _heroModelObjects.FirstOrDefault(item => item.DicHeroId == id);
         if (heroModelObject != null)
             return true;
         return false;

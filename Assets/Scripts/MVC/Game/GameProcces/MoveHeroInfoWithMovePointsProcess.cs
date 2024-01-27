@@ -1,8 +1,10 @@
 ﻿using Assets.Scripts.GameResources;
+using Assets.Scripts.GameResources.MapCreatures;
 using Assets.Scripts.MVC.Game.Path;
 using Assets.Scripts.MVC.Game.Views;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.MVC.Game.GameProcces
@@ -40,14 +42,28 @@ namespace Assets.Scripts.MVC.Game.GameProcces
                     _gameModel.HeroStartMove();
                     _heroPathMover.MoveHeroOnPath(heroModelObject, path);
                     Cell cell = path[path.Count - 1];
-                    if(cell.GameMapObjectType == GameMapObjectType.CASTLE)
+
+                    if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
                     {
-                        if (!cell.CheckHero())
+                        if (!(cell.CreatureModelObject is HeroModelObject))
                         {
                             if (cell.Castle != null)
                             {
-                                _gameModel.RemoveCasle(cell.Castle);
-                                cell.Castle.SetupColorCube(_systemColors.GetColorByOrdinal(heroModelObject.Ordinal));
+                                if (cell.Castle.Oridinal != heroModelObject.Ordinal)
+                                {
+                                    _gameModel.RemoveCasle(cell.Castle);
+                                    cell.Castle.SetupColorCube(_systemColors.GetColorByOrdinal(heroModelObject.Ordinal));
+                                }
+                            }
+                        }
+                        else if((cell.CreatureModelObject is HeroModelObject))
+                        {
+                            if(cell.CreatureModelObject != null && cell.CreatureModelObject is HeroModelObject modelObject)
+                            {
+                                if (cell.Castle != null)
+                                {
+                                    _gameModel.SetAttakedCastle(cell.Castle);
+                                }
                             }
                         }
                     }
@@ -78,8 +94,40 @@ namespace Assets.Scripts.MVC.Game.GameProcces
             if (_gameModel.TryGetHeroModelObject(heroId, out HeroModelObject heroModelObject))
             {
                 heroModelObject.SetMovePointsLeft(movePointsLeft);
-
+                _gameTurnView.UpdateTurnView();
                 var path = _pathFinder.ConvertPositionToCellPath(movementPath);
+                Cell cell = path[path.Count - 1];
+                if (cell.GameMapObjectType == GameMapObjectType.CASTLE)
+                {
+                    if (!(cell.CreatureModelObject is HeroModelObject heroModelObject1))
+                    {
+                        if (cell.Castle != null)
+                        {
+                            if (cell.Castle.Oridinal != heroModelObject.Ordinal)
+                            {
+                                Debug.Log("added castle");
+                                _gameModel.AddCasstle(cell.Castle);
+                            }
+                            else
+                            {
+                                if(_gameModel.CastlesTurn.Contains(cell.Castle))
+                                    _gameModel.RemoveCasle(cell.Castle);
+                            }
+
+                            cell.Castle.SetupColorCube(_systemColors.GetColorByOrdinal(heroModelObject.Ordinal));
+                        }
+                    }
+                    else if ((cell.CreatureModelObject is HeroModelObject))
+                    {
+                        if (cell.CreatureModelObject != null && cell.CreatureModelObject is HeroModelObject modelObject)
+                        {
+                            if (cell.Castle != null)
+                            {
+                                _gameModel.SetAttakedCastle(cell.Castle);
+                            }
+                        }
+                    }
+                }
                 _pathDrawer.DrawPath(path);
                 _gameModel.HeroStartMove();
                 _heroPathMover.MoveHeroOnPath(heroModelObject, path, beforeMove);

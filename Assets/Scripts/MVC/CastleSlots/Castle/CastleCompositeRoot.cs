@@ -70,7 +70,7 @@ public class CastleCompositeRoot : CompositeRoot
         _gameCompositeRoot.GameController.Init(_castleCommandsSender, _castleModel);
         _castleUIIconPicker.Init(_castleView,_gameCompositeRoot.GameModel,_programState, _castleCommandsSender);
         _hireCreatureBuildingWindow.Init(_programState, _castleCommandsSender, _castleModel, _modelCreatures, _slotsModel);
-        _gameBattleProcessResponseHandler.Init(_openCastleProcess, _addBuildingToCastleProcess, _hireCreatureProcess, _heroEnterInCastleResultProcess, _leaveCastleProcess, _slotsModel);
+        _gameBattleProcessResponseHandler.Init(_castleModel,_openCastleProcess, _addBuildingToCastleProcess, _hireCreatureProcess, _heroEnterInCastleResultProcess, _leaveCastleProcess, _slotsModel, _castleView);
         _slotsModel.OnUpdatedCastleArmy += _slotsView.UpdateCastleCreaturesSlots;
         _slotsModel.OnUpdatedGarrisonArmy += _slotsView.UpdateGarrisonCreaturesSlots;
         _resourcesDataService.OnUpdatedResources += _resourcesView.UpdateResources;

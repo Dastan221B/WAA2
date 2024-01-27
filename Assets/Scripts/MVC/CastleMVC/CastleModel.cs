@@ -34,7 +34,6 @@ namespace Assets.Scripts.MVC.CastleMVC
         public DicCastleDTO CurrentDicCastleDTO { get; private set; }
         public IReadOnlyList<Building> Buildings => _buildings;
         private List<DicCreaturePack> _dicCreaturePackcs = new List<DicCreaturePack>();
-
         public int LevelLastHiredCreature { get; private set; }
         public int AmountHiredCreature { get; private set; }
         public bool TurnUpdated = true;
@@ -95,6 +94,16 @@ namespace Assets.Scripts.MVC.CastleMVC
                 }
             }
             _castleView.SetAvilableCreatures(_dicCreaturePackcs);
+        }
+
+        public void SetHeroInGarrison(HeroObjectFullInfo hero)
+        {
+            HeroInGarrison = hero;
+        }
+
+        public void SetHeroInCastle(HeroObjectFullInfo hero)
+        {
+            HeroInCastle = hero;
         }
 
         public void SetCasttleSettings(DicCastleDTO dicCastleDTO, HeroObjectFullInfo heroObjectFullInfo , HeroObjectFullInfo heroIncastle,  string garisonID,string castleID, CastleObjectFullInfo castleObjectFullInfo)

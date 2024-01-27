@@ -7945,7 +7945,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '57 : 40'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f0a16757adaab0c419b4d18fb71ae5f1, type: 2}
   m_sharedMaterial: {fileID: 414358948631469458, guid: f0a16757adaab0c419b4d18fb71ae5f1, type: 2}
@@ -8549,7 +8549,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.1459, y: -6.0418}
-  m_SizeDelta: {x: 135.8918, y: 33.8836}
+  m_SizeDelta: {x: 174.23, y: 33.8836}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1643835920
 MonoBehaviour:
@@ -8571,8 +8571,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 30, y: 30}
-  m_Spacing: {x: 5, y: 0}
+  m_CellSize: {x: 20, y: 20}
+  m_Spacing: {x: 5.5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &1690669808
@@ -8708,7 +8708,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.1459, y: -6.0418}
-  m_SizeDelta: {x: 135.8918, y: 33.8836}
+  m_SizeDelta: {x: 174.23, y: 33.8836}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1736059095
 MonoBehaviour:
@@ -8730,8 +8730,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 30, y: 30}
-  m_Spacing: {x: 5, y: 0}
+  m_CellSize: {x: 20, y: 20}
+  m_Spacing: {x: 5.5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &1809975119

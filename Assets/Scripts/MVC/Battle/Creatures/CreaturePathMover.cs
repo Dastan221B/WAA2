@@ -29,8 +29,8 @@ namespace Assets.Scripts.MVC.Battle
             Vector3 targetPosition = Vector3.zero;
             if (_battleModel.TryGetHexagonByCoordinates(path[path.Count - 1].x, path[path.Count - 1].y, out hexagon))
             {
-                hexagon.PaintToTargetMovePoint();
                 hexagon.SetCreature(creature);
+                hexagon.PaintToTargetMovePoint();
             }
             if(creature != null && creature.CurrentHexagon != null)
             {
@@ -65,20 +65,19 @@ namespace Assets.Scripts.MVC.Battle
             {
                 if (_battleModel.TryGetHexagonByCoordinates(path[path.Count - 1].x, path[path.Count - 1].y, out hexagon))
                 {
-                    hexagon.SetCreature(creature);
                     creature.SetCurrentHexagon(hexagon);
                     hexagon.PaintHexagonInCreatureSide();
                 }
-                hexagon.SetCreature(creature);
-                if (_battleModel.TryGetHexagonByCoordinates(path[0].x, path[0].y, out hexagon))
-                {
-                    hexagon.CreatureExitFromHexagon();
-                    hexagon.SetCreature(null);
-                }
+                //if (_battleModel.TryGetHexagonByCoordinates(path[0].x, path[0].y, out hexagon))
+                //{
+                //    hexagon.CreatureExitFromHexagon();
+                //    hexagon.SetCreature(null);
+                //}
                 creature.CreatureInfo.battleFieldCoordinates = path[path.Count - 1];
                 creature.EnterInIdleState();
                 OnEndedMove?.Invoke();
             }
+            _battleModel.ResetInitedHexagonsForCreature();
             //_battleModel.ResetHexagons();
         }
     }
